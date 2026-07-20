@@ -1,0 +1,45 @@
+---
+import Layout from '../layouts/Layout.astro';
+import SetupCard from '../components/SetupCard.astro';
+
+// Fetch all markdown setups
+const setupsMap = import.meta.glob('../content/setups/*.md', { eager: true });
+const setups = Object.values(setupsMap) as any[];
+---
+
+<Layout title="Rock n' Roll Setup by Tussi Guitar">
+    <!-- Galeria de Fotos -->
+    <div class="flex justify-center items-center gap-8 mb-12 flex-wrap">
+        
+        {[
+            { src: '/pipito1.jpeg', alt: 'No palco no Hard Rock Cafe' },
+            { src: '/pipito2.jpg', alt: 'Tocando guitarra Strato vermelha' },
+            { src: '/pipito3.jpeg', alt: 'Praticando com a Cort Les Paul' }
+        ].map(img => (
+            <div class="relative bg-[#1a1a1a] p-3 rounded-xl shadow-[0_10px_20px_rgba(0,0,0,0.8)] border border-black/80 transition-transform duration-300 hover:-translate-y-2 hover:shadow-[0_15px_30px_rgba(234,179,8,0.2)] group cursor-pointer">
+                <!-- Metal corner caps -->
+                <div class="absolute top-[-2px] left-[-2px] w-4 h-4 bg-gradient-to-br from-silver to-metalPanelDark rounded-tl-xl border border-black/50 shadow-[inset_1px_1px_2px_rgba(255,255,255,0.8)]"></div>
+                <div class="absolute top-[-2px] right-[-2px] w-4 h-4 bg-gradient-to-bl from-silver to-metalPanelDark rounded-tr-xl border border-black/50 shadow-[inset_-1px_1px_2px_rgba(255,255,255,0.8)]"></div>
+                <div class="absolute bottom-[-2px] left-[-2px] w-4 h-4 bg-gradient-to-tr from-silver to-metalPanelDark rounded-bl-xl border border-black/50 shadow-[inset_1px_-1px_2px_rgba(255,255,255,0.8)]"></div>
+                <div class="absolute bottom-[-2px] right-[-2px] w-4 h-4 bg-gradient-to-tl from-silver to-metalPanelDark rounded-br-xl border border-black/50 shadow-[inset_-1px_-1px_2px_rgba(255,255,255,0.8)]"></div>
+
+                <!-- Inner Metallic Matting -->
+                <div class="bg-brushed-metal p-2 rounded-lg shadow-[inset_0_5px_10px_rgba(0,0,0,0.5)] border border-black/40">
+                    <!-- The actual photo -->
+                    <img src={img.src} alt={img.alt} class="w-[280px] h-[280px] object-cover rounded border border-black/50 shadow-inner sepia-[0.3] contrast-125 group-hover:sepia-0 transition-all duration-500">
+                </div>
+            </div>
+        ))}
+        
+    </div>
+
+    <div class="text-center mb-10">
+        <a href="/tank-g-presets" class="inline-block bg-accentOrange text-bgMain py-2.5 px-5 rounded text-lg font-bold mt-2.5 no-underline transition-colors duration-200 hover:bg-[#e68a00]">
+            🎛️ Ver Lista de Presets da M-Vave TANK-G
+        </a>
+    </div>
+
+    {setups.map(setup => (
+        <SetupCard {...setup.frontmatter} />
+    ))}
+</Layout>

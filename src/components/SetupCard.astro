@@ -1,0 +1,119 @@
+---
+export interface Props {
+  title: string;
+  targetTone: string;
+  signalChain: string;
+  tabs?: { label: string; url: string }[];
+  equipment: {
+    title: string;
+    tagUso?: string;
+    list?: string[];
+    table?: { f: string; db: string }[];
+  }[];
+}
+
+const { title, targetTone, signalChain, tabs, equipment } = Astro.props;
+---
+
+<div class="relative bg-[#1a1a1a] rounded-xl shadow-[0_10px_30px_rgba(0,0,0,0.9)] border border-black mb-12">
+    <!-- Metal corner caps for the main amp head -->
+    <div class="absolute top-[-2px] left-[-2px] w-5 h-5 bg-gradient-to-br from-silver to-metalPanelDark rounded-tl-xl border border-black/50 shadow-[inset_1px_1px_2px_rgba(255,255,255,0.8)] z-20"></div>
+    <div class="absolute top-[-2px] right-[-2px] w-5 h-5 bg-gradient-to-bl from-silver to-metalPanelDark rounded-tr-xl border border-black/50 shadow-[inset_-1px_1px_2px_rgba(255,255,255,0.8)] z-20"></div>
+    <div class="absolute bottom-[-2px] left-[-2px] w-5 h-5 bg-gradient-to-tr from-silver to-metalPanelDark rounded-bl-xl border border-black/50 shadow-[inset_1px_-1px_2px_rgba(255,255,255,0.8)] z-20"></div>
+    <div class="absolute bottom-[-2px] right-[-2px] w-5 h-5 bg-gradient-to-tl from-silver to-metalPanelDark rounded-br-xl border border-black/50 shadow-[inset_-1px_-1px_2px_rgba(255,255,255,0.8)] z-20"></div>
+
+    <!-- Inner Chassis wrapper -->
+    <div class="m-2 rounded-lg border border-black/40 overflow-hidden shadow-[inset_0_5px_15px_rgba(0,0,0,0.7)] bg-tolexLight">
+        
+        <!-- TOP METAL PLATE (Title) -->
+        <div class="bg-brushed-metal p-5 sm:p-6 border-b-8 border-[#111] shadow-[inset_0_-2px_10px_rgba(0,0,0,0.4)]">
+            <h2 class="m-0 text-[#111] text-3xl sm:text-4xl lg:text-5xl font-black font-slab uppercase tracking-widest drop-shadow-sm">{title}</h2>
+            <p class="text-base sm:text-lg text-[#333] m-0 mt-2 font-bold font-mono">{targetTone}</p>
+        </div>
+
+        <!-- BOTTOM DARK PANEL -->
+        <div class="p-5 sm:p-6">
+            <div class="bg-black/60 py-3 px-5 rounded-md font-mono text-silverDark text-sm overflow-x-auto whitespace-nowrap shadow-inner border border-black/50 mb-6">
+                {signalChain}
+            </div>
+            
+            <div class="mb-8">
+                {tabs && tabs.map(tab => (
+                    <a href={tab.url} target="_blank" class="inline-block bg-mustard text-tolexDark py-2 px-4 rounded-md text-sm font-bold mt-2 mr-3 no-underline transition-all duration-200 hover:bg-mustardDark hover:shadow-lg border-b-4 border-mustardDark active:translate-y-1 active:border-b-0 uppercase tracking-wide">
+                        {tab.label}
+                    </a>
+                ))}
+            </div>
+
+    <div class="relative z-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
+        {equipment && equipment.map(item => (
+            <div class="bg-brushed-metal py-5 px-6 rounded border-2 border-black/20 shadow-[0_8px_16px_rgba(0,0,0,0.6)] relative transition-transform duration-200 hover:-translate-y-1 group">
+                <!-- Faceplate Screws -->
+                <div class="absolute top-2 left-2 w-2 h-2 rounded-full bg-black/40 shadow-inner"></div>
+                <div class="absolute top-2 right-2 w-2 h-2 rounded-full bg-black/40 shadow-inner"></div>
+                <div class="absolute bottom-2 left-2 w-2 h-2 rounded-full bg-black/40 shadow-inner"></div>
+                <div class="absolute bottom-2 right-2 w-2 h-2 rounded-full bg-black/40 shadow-inner"></div>
+
+                <h3 class="text-2xl font-black font-slab text-[#111] uppercase tracking-widest mt-0 mb-4 pb-2 border-b-2 border-black/10 text-center">{item.title}</h3>
+                
+                {item.tagUso && (
+                    <div class="text-center mb-4">
+                        <span class="inline-block bg-black/80 text-mustard py-1 px-3 rounded text-xs font-bold uppercase tracking-widest shadow-inner border border-black">
+                            {item.tagUso}
+                        </span>
+                    </div>
+                )}
+
+                {item.list && (
+                    <ul class="list-none p-0 m-0 flex flex-wrap gap-3 justify-center amp-knobs">
+                        {item.list.map(li => (
+                            <li class="flex flex-col items-center justify-center bg-black/5 p-3 rounded-lg border border-black/10 shadow-[inset_0_2px_4px_rgba(0,0,0,0.1)] min-w-[80px] text-center" set:html={li} />
+                        ))}
+                    </ul>
+                )}
+
+                {item.table && (
+                    <div class="w-full overflow-x-auto pb-2 mt-4 bg-black/5 p-2 rounded border border-black/10 shadow-inner">
+                        <table class="w-full border-collapse text-base min-w-max font-mono">
+                            {Array.from({ length: Math.ceil(item.table.length / 5) }).map((_, chunkIndex) => (
+                                <>
+                                    <tr>
+                                        <th class="border border-black/20 p-2 text-center bg-black text-mustard text-sm uppercase tracking-wider">Freq</th>
+                                        {item.table.slice(chunkIndex * 5, chunkIndex * 5 + 5).map(t => <td class="border border-black/20 p-2 text-center bg-black/80 text-silver font-bold">{t.f}</td>)}
+                                    </tr>
+                                    <tr>
+                                        <th class="border border-black/20 p-2 text-center bg-black text-mustard text-sm uppercase tracking-wider">dB</th>
+                                        {item.table.slice(chunkIndex * 5, chunkIndex * 5 + 5).map(t => <td class="border border-black/20 p-2 text-center bg-black/80 text-silver font-bold">{t.db}</td>)}
+                                    </tr>
+                                </>
+                            ))}
+                        </table>
+                    </div>
+                )}
+            </div>
+        ))}
+    </div>
+    </div> <!-- End BOTTOM DARK PANEL -->
+    </div> <!-- End Inner Chassis wrapper -->
+</div> <!-- End Main Chassis wrapper -->
+
+<style is:global>
+    /* Global styles specifically to target the markdown HTML injected in the list items */
+    .amp-knobs li {
+        font-family: var(--font-slab);
+        color: #111;
+        font-size: 1.25rem;
+        font-weight: 900;
+        line-height: 1.2;
+    }
+    .amp-knobs li strong {
+        display: block;
+        font-family: var(--font-mono);
+        font-size: 0.65rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: #444;
+        font-weight: 700;
+        margin-bottom: 4px;
+    }
+</style>

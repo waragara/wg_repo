@@ -1,0 +1,32 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Roboto+Slab:wght@400;700;900&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --color-tolexDark: #18181b;
+  --color-tolexLight: #27272a;
+  --color-silver: #e4e4e7;
+  --color-silverDark: #a1a1aa;
+  --color-mustard: #eab308;
+  --color-mustardDark: #ca8a04;
+  --color-metalPanel: #e5e5e5;
+  --color-metalPanelDark: #a3a3a3;
+  --color-panelBorder: #52525b;
+  
+  --font-slab: 'Roboto Slab', serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+@layer utilities {
+  .bg-tolex {
+    background-color: var(--color-tolexDark);
+    /* Subtle noise/texture for Tolex look */
+    background-image: radial-gradient(var(--color-tolexLight) 1px, transparent 1px);
+    background-size: 4px 4px;
+  }
+  
+  .bg-brushed-metal {
+    /* Linear gradient to simulate brushed metal */
+    background: linear-gradient(135deg, var(--color-metalPanel) 0%, var(--color-metalPanelDark) 100%);
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2);
+  }
+}

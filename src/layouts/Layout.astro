@@ -1,0 +1,25 @@
+---
+import '../styles/global.css';
+import HeaderAmp from '../components/HeaderAmp.astro';
+
+interface Props {
+  title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+  </head>
+  <body class="bg-tolex text-silver font-mono leading-relaxed m-0 p-5">
+    <div class="max-w-7xl mx-auto">
+      <HeaderAmp title={title} />
+      <slot />
+    </div>
+  </body>
+</html>

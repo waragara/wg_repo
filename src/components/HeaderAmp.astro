@@ -1,0 +1,98 @@
+---
+export interface Props {
+  title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<div class="max-w-[950px] mx-auto mb-12 mt-10 relative">
+    <!-- Amp Handle -->
+    <div class="absolute -top-5 left-1/2 -translate-x-1/2 w-40 h-6 border-[4px] border-black rounded-t-lg bg-[#111] z-0 shadow-inner"></div>
+    <div class="absolute -top-5 left-1/2 -translate-x-1/2 w-28 h-2 bg-black mt-4 z-0 rounded-full"></div>
+
+    <!-- Main Chassis -->
+    <div class="relative bg-tolexDark rounded-xl shadow-[0_15px_40px_rgba(0,0,0,0.9)] border-[5px] border-[#0a0a0a] z-10 p-2 md:p-3">
+        <!-- Metal Corners -->
+        <div class="absolute top-[-5px] left-[-5px] w-6 h-6 bg-gradient-to-br from-silver to-metalPanelDark rounded-tl-xl border border-black shadow-[inset_1px_1px_3px_rgba(255,255,255,0.8)] z-20">
+            <div class="absolute top-1.5 left-1.5 w-1.5 h-1.5 rounded-full bg-black/60 shadow-inner"></div>
+        </div>
+        <div class="absolute top-[-5px] right-[-5px] w-6 h-6 bg-gradient-to-bl from-silver to-metalPanelDark rounded-tr-xl border border-black shadow-[inset_-1px_1px_3px_rgba(255,255,255,0.8)] z-20">
+            <div class="absolute top-1.5 right-1.5 w-1.5 h-1.5 rounded-full bg-black/60 shadow-inner"></div>
+        </div>
+        <div class="absolute bottom-[-5px] left-[-5px] w-6 h-6 bg-gradient-to-tr from-silver to-metalPanelDark rounded-bl-xl border border-black shadow-[inset_1px_-1px_3px_rgba(255,255,255,0.8)] z-20">
+            <div class="absolute bottom-1.5 left-1.5 w-1.5 h-1.5 rounded-full bg-black/60 shadow-inner"></div>
+        </div>
+        <div class="absolute bottom-[-5px] right-[-5px] w-6 h-6 bg-gradient-to-tl from-silver to-metalPanelDark rounded-br-xl border border-black shadow-[inset_-1px_-1px_3px_rgba(255,255,255,0.8)] z-20">
+            <div class="absolute bottom-1.5 right-1.5 w-1.5 h-1.5 rounded-full bg-black/60 shadow-inner"></div>
+        </div>
+
+        <!-- Faceplate Outer Border -->
+        <div class="rounded-lg border-[2px] border-[#e4e4e7] p-1 bg-[#111]">
+            <!-- Faceplate Inner -->
+            <div class="bg-[#0a0a0a] rounded p-3 md:p-4 text-center shadow-[inset_0_0_15px_rgba(0,0,0,1)]">
+                
+                <!-- Title Row -->
+                <div class="border-b-[2px] border-silver/20 pb-3 mb-4">
+                    <h1 class="m-0 text-[#f5ebd0] text-2xl sm:text-3xl md:text-4xl lg:text-[2.75rem] font-black font-slab tracking-wide drop-shadow-[0_2px_2px_rgba(0,0,0,1)]">
+                        {title}
+                    </h1>
+                </div>
+
+                <!-- Knobs Row -->
+                <div class="flex justify-center items-center gap-4 sm:gap-6 md:gap-10 pb-1">
+                    
+                    <!-- Knob: Treble -->
+                    <div class="flex flex-col items-center group cursor-pointer">
+                        <div class="w-10 h-10 md:w-14 md:h-14 rounded-full bg-gradient-to-b from-[#e5e5e5] to-[#737373] border-[3px] border-black shadow-[0_5px_8px_rgba(0,0,0,0.9)] relative mb-2 transition-transform group-hover:rotate-12">
+                            <div class="absolute top-[10%] left-1/2 -translate-x-1/2 w-1 md:w-1.5 h-3 md:h-4 bg-black rounded-full"></div>
+                            <!-- Knob Base Grip Details -->
+                            <div class="absolute inset-0 rounded-full border border-dashed border-black/20 m-1 pointer-events-none"></div>
+                        </div>
+                        <span class="text-[#f5ebd0] font-mono text-[10px] sm:text-xs md:text-sm font-bold uppercase tracking-widest drop-shadow-md">Treble</span>
+                    </div>
+
+                    <!-- Knob: Middle -->
+                    <div class="flex flex-col items-center group cursor-pointer">
+                        <div class="w-10 h-10 md:w-14 md:h-14 rounded-full bg-gradient-to-b from-[#e5e5e5] to-[#737373] border-[3px] border-black shadow-[0_5px_8px_rgba(0,0,0,0.9)] relative mb-2 transition-transform group-hover:-rotate-12">
+                            <div class="absolute top-[10%] left-1/2 -translate-x-1/2 w-1 md:w-1.5 h-3 md:h-4 bg-black rounded-full transform rotate-45 origin-bottom"></div>
+                            <div class="absolute inset-0 rounded-full border border-dashed border-black/20 m-1 pointer-events-none"></div>
+                        </div>
+                        <span class="text-[#f5ebd0] font-mono text-[10px] sm:text-xs md:text-sm font-bold uppercase tracking-widest drop-shadow-md">Middle</span>
+                    </div>
+
+                    <!-- Knob: Bass -->
+                    <div class="flex flex-col items-center group cursor-pointer">
+                        <div class="w-10 h-10 md:w-14 md:h-14 rounded-full bg-gradient-to-b from-[#e5e5e5] to-[#737373] border-[3px] border-black shadow-[0_5px_8px_rgba(0,0,0,0.9)] relative mb-2 transition-transform group-hover:rotate-45">
+                            <div class="absolute top-[10%] left-1/2 -translate-x-1/2 w-1 md:w-1.5 h-3 md:h-4 bg-black rounded-full transform -rotate-12 origin-bottom"></div>
+                            <div class="absolute inset-0 rounded-full border border-dashed border-black/20 m-1 pointer-events-none"></div>
+                        </div>
+                        <span class="text-[#f5ebd0] font-mono text-[10px] sm:text-xs md:text-sm font-bold uppercase tracking-widest drop-shadow-md">Bass</span>
+                    </div>
+
+                    <!-- Knob: Gain -->
+                    <div class="flex flex-col items-center group cursor-pointer">
+                        <div class="w-10 h-10 md:w-14 md:h-14 rounded-full bg-gradient-to-b from-[#e5e5e5] to-[#737373] border-[3px] border-black shadow-[0_5px_8px_rgba(0,0,0,0.9)] relative mb-2 transition-transform group-hover:rotate-90">
+                            <div class="absolute top-[10%] left-1/2 -translate-x-1/2 w-1 md:w-1.5 h-3 md:h-4 bg-black rounded-full transform rotate-90 origin-bottom"></div>
+                            <div class="absolute inset-0 rounded-full border border-dashed border-black/20 m-1 pointer-events-none"></div>
+                        </div>
+                        <span class="text-[#f5ebd0] font-mono text-[10px] sm:text-xs md:text-sm font-bold uppercase tracking-widest drop-shadow-md">Gain</span>
+                    </div>
+
+                    <!-- Knob: Volume (Mustard Accent) -->
+                    <div class="flex flex-col items-center group cursor-pointer relative">
+                        <!-- Yellow Volume Markers -->
+                        <div class="absolute -top-2 w-16 h-16 md:w-20 md:h-20 rounded-full border-t-[4px] border-l-[4px] border-r-[4px] border-mustard border-dashed opacity-80 pointer-events-none"></div>
+                        
+                        <div class="w-10 h-10 md:w-14 md:h-14 rounded-full bg-gradient-to-b from-[#e5e5e5] to-[#737373] border-[3px] border-black shadow-[0_5px_8px_rgba(0,0,0,0.9)] relative mb-2 transition-transform group-hover:rotate-[120deg] z-10">
+                            <div class="absolute top-[10%] left-1/2 -translate-x-1/2 w-1 md:w-1.5 h-3 md:h-4 bg-black rounded-full transform rotate-45 origin-bottom"></div>
+                            <div class="absolute inset-0 rounded-full border border-dashed border-black/20 m-1 pointer-events-none"></div>
+                        </div>
+                        <span class="text-[#f5ebd0] font-mono text-[10px] sm:text-xs md:text-sm font-bold uppercase tracking-widest drop-shadow-md mt-1 z-10">Volume</span>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
