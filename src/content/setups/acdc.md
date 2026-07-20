@@ -17,31 +17,31 @@ equipment:
 - title: Guitarra Cort
   list:
   - <strong class="text-white">Captador:</strong> Ponte (Obrigatório)
-  - <strong class="text-white">Volume:</strong> 10 | <strong class="text-white">Tone:</strong>
+  - <strong class="text-white">Volume:</strong> 10  <strong class="text-white">Tone:</strong>
     10
 - title: Caline Pure Sky
   tagUso: Sempre Ligado (Ataque da Palheta)
   list:
-  - <strong class="text-white">Volume:</strong> 6 | <strong class="text-white">Gain:</strong>
+  - <strong class="text-white">Volume:</strong> 6  <strong class="text-white">Gain:</strong>
     1.5
-  - <strong class="text-white">Treble:</strong> 7 | <strong class="text-white">Bass:</strong>
+  - <strong class="text-white">Treble:</strong> 7  <strong class="text-white">Bass:</strong>
     4
 - title: Boss OD-3
   tagUso: Sempre Ligado (Crunch)
   list:
   - <strong class="text-white">Drive:</strong> 4 (Não exagere no ganho!)
-  - <strong class="text-white">Tone:</strong> 6 | <strong class="text-white">Level:</strong>
+  - <strong class="text-white">Tone:</strong> 6  <strong class="text-white">Level:</strong>
     6
 - title: M-Vave Tank-G
   list:
   - <strong class="text-white">AMP:</strong> Slot 5 (Plexi 100)
-  - <strong class="text-white">Gain:</strong> 4.5 | <strong class="text-white">Treble:</strong>
-    6 | <strong class="text-white">Middle:</strong> 7 | <strong class="text-white">Bass:</strong>
+  - <strong class="text-white">Gain:</strong> 4.5  <strong class="text-white">Treble:</strong>
+    6  <strong class="text-white">Middle:</strong> 7  <strong class="text-white">Bass:</strong>
     4
   - <strong class="text-white">CAB:</strong> Slot 7 (Marshall 1960)
   - <strong class="text-white">Efeitos:</strong> Todos Desligados
 - title: Joyo R12 EQ (10-Band)
-  tagUso: 'Bater no peito: Graves secos e médios explosivos'
+  tagUso: 'Graves secos e médios explosivos'
   table:
   - f: '31.2'
     db: '-5'
