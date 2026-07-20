@@ -7,6 +7,8 @@ import mdx from '@astrojs/mdx';
 
 // https://astro.build/config
 export default defineConfig({
+  site: 'https://waragara.github.io',
+  base: '/wg_repo',
   vite: {
     plugins: [tailwindcss()]
   },
