@@ -1,0 +1,163 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="M-Vave TANK-G Presets">
+    <div class="mb-8">
+        <a href={`${import.meta.env.BASE_URL}/`} class="inline-block bg-mustard text-tolexDark py-2 px-6 rounded-md text-sm font-bold no-underline transition-all duration-200 hover:bg-mustardDark hover:shadow-[0_0_15px_rgba(234,179,8,0.5)] border-b-4 border-mustardDark active:translate-y-1 active:border-b-0 uppercase tracking-wide">
+            ⬅ Voltar para Setups
+        </a>
+    </div>
+
+    <!-- Main Chassis Wrapper -->
+    <div class="setup-card relative bg-[#1a1a1a] rounded-xl shadow-[0_10px_30px_rgba(0,0,0,0.9)] border border-black mb-12">
+        <!-- Metal corner caps -->
+        <div class="absolute top-[-2px] left-[-2px] w-5 h-5 bg-gradient-to-br from-silver to-metalPanelDark rounded-tl-xl border border-black/50 shadow-[inset_1px_1px_2px_rgba(255,255,255,0.8)] z-20"></div>
+        <div class="absolute top-[-2px] right-[-2px] w-5 h-5 bg-gradient-to-bl from-silver to-metalPanelDark rounded-tr-xl border border-black/50 shadow-[inset_-1px_1px_2px_rgba(255,255,255,0.8)] z-20"></div>
+        <div class="absolute bottom-[-2px] left-[-2px] w-5 h-5 bg-gradient-to-tr from-silver to-metalPanelDark rounded-bl-xl border border-black/50 shadow-[inset_1px_-1px_2px_rgba(255,255,255,0.8)] z-20"></div>
+        <div class="absolute bottom-[-2px] right-[-2px] w-5 h-5 bg-gradient-to-tl from-silver to-metalPanelDark rounded-br-xl border border-black/50 shadow-[inset_-1px_-1px_2px_rgba(255,255,255,0.8)] z-20"></div>
+
+        <div class="m-2 rounded-lg border border-black/40 overflow-hidden shadow-[inset_0_5px_15px_rgba(0,0,0,0.7)] bg-tolexLight">
+            
+            <!-- TOP METAL PLATE -->
+            <div class="bg-brushed-metal p-5 sm:p-6 border-b-8 border-[#111] shadow-[inset_0_-2px_10px_rgba(0,0,0,0.4)]">
+                <h1 class="m-0 text-[#111] text-3xl sm:text-4xl lg:text-5xl font-black font-slab uppercase tracking-widest drop-shadow-sm text-center">Configurações TANK-G</h1>
+            </div>
+
+            <!-- BOTTOM DARK PANEL -->
+            <div class="p-5 sm:p-8 space-y-12">
+
+                <!-- AMPS TABLE -->
+                <div>
+                    <h2 class="m-0 mb-4 text-mustard text-2xl font-bold font-slab uppercase tracking-wider border-b border-mustard/30 pb-2">Lista de Amplificadores (AMP)</h2>
+                    <div class="w-full overflow-x-auto bg-black/40 p-1 rounded-md border border-black shadow-inner">
+                        <table class="w-full border-collapse text-sm font-mono min-w-max">
+                            <thead>
+                                <tr>
+                                    <th class="border border-black p-3 text-center bg-[#111] text-mustard uppercase tracking-wider">Slot</th>
+                                    <th class="border border-black p-3 text-left bg-[#111] text-mustard uppercase tracking-wider">AMP</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {[
+                                    { s: '1', n: 'VOX AC30HW Normal' },
+                                    { s: '2', n: 'Fender 65 Twin Reverb' },
+                                    { s: '3', n: 'Bogner Shiva' },
+                                    { s: '4', n: 'Marshall JTM45 OD' },
+                                    { s: '5', n: 'Plexi 100' },
+                                    { s: '6', n: 'Marshal JCM800' },
+                                    { s: '7', n: 'EVH 5150 LEAD' },
+                                    { s: '8', n: 'ENGL Powerball E645/2' },
+                                    { s: '9', n: 'Mesa Boogie Dual Rectifier' },
+                                ].map((row, i) => (
+                                    <tr class={i % 2 === 0 ? 'bg-black/20' : 'bg-black/5'}>
+                                        <td class="border border-black/40 p-2 text-center text-silver font-bold">{row.s}</td>
+                                        <td class="border border-black/40 p-2 text-left text-silver">{row.n}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- CABS TABLE -->
+                <div>
+                    <h2 class="m-0 mb-4 text-mustard text-2xl font-bold font-slab uppercase tracking-wider border-b border-mustard/30 pb-2">Lista de Gabinetes (IR CAB)</h2>
+                    <div class="w-full overflow-x-auto bg-black/40 p-1 rounded-md border border-black shadow-inner">
+                        <table class="w-full border-collapse text-sm font-mono min-w-max">
+                            <thead>
+                                <tr>
+                                    <th class="border border-black p-3 text-center bg-[#111] text-mustard uppercase tracking-wider">Slot</th>
+                                    <th class="border border-black p-3 text-left bg-[#111] text-mustard uppercase tracking-wider">IR CAB</th>
+                                    <th class="border border-black p-3 text-center bg-[#111] text-mustard uppercase tracking-wider">Type</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {[
+                                    { s: '0', n: 'IR CAB turn off', t: 'None' },
+                                    { s: '1', n: 'VHT Deliverance', t: '4x12' },
+                                    { s: '2', n: 'Sperimental', t: '4x12' },
+                                    { s: '3', n: 'Electrovoice', t: '2x10' },
+                                    { s: '4', n: 'Mesa Boogie', t: '4x12' },
+                                    { s: '5', n: 'Fender Champ', t: '1x8' },
+                                    { s: '6', n: 'Fender Pr Junior', t: '1x10' },
+                                    { s: '7', n: 'Marshall 1960V30', t: '4x12' },
+                                    { s: '8', n: 'Diezel V30', t: '4x12' },
+                                ].map((row, i) => (
+                                    <tr class={i % 2 === 0 ? 'bg-black/20' : 'bg-black/5'}>
+                                        <td class="border border-black/40 p-2 text-center text-silver font-bold">{row.s}</td>
+                                        <td class="border border-black/40 p-2 text-left text-silver">{row.n}</td>
+                                        <td class="border border-black/40 p-2 text-center text-[#999]">{row.t}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- PRESETS TABLE -->
+                <div>
+                    <h2 class="m-0 mb-4 text-mustard text-2xl font-bold font-slab uppercase tracking-wider border-b border-mustard/30 pb-2">Bancos e Timbres (Presets)</h2>
+                    <div class="w-full overflow-x-auto bg-black/40 p-1 rounded-md border border-black shadow-inner">
+                        <table class="w-full border-collapse text-sm font-mono min-w-max">
+                            <thead>
+                                <tr>
+                                    <th class="border border-black p-3 text-center bg-[#111] text-mustard uppercase tracking-wider">Bank</th>
+                                    <th class="border border-black p-3 text-left bg-[#111] text-mustard uppercase tracking-wider">Timbre</th>
+                                    <th class="border border-black p-3 text-center bg-[#111] text-mustard uppercase tracking-wider">Guitarra</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {[
+                                    { s: 'A1', n: 'Led Zeppelin', g: 'Tagima' },
+                                    { s: 'B1', n: 'ACDC', g: 'Tagima' },
+                                    { s: 'C1', n: 'Black Sabbath', g: 'Tagima' },
+                                    { s: 'D1', n: 'RHCP', g: 'Tagima' },
+                                    { s: 'A2', n: 'Jimi Hendrix', g: 'Tagima' },
+                                    { s: 'B2', n: 'Metallica', g: 'Tagima' },
+                                    { s: 'C2', n: 'Nirvana', g: 'Tagima' },
+                                    { s: 'D2', n: 'Nirvana (Grunge)', g: 'Tagima' },
+                                    { s: 'A3', n: 'Credence', g: 'Tagima' },
+                                    { s: 'B3', n: 'Oasis (Clean)', g: 'Tagima' },
+                                    { s: 'C3', n: 'Oasis (OD)', g: 'Tagima' },
+                                    { s: 'D3', n: 'Guns N Roses (Clean)', g: 'Tagima' },
+                                    { s: 'A4', n: 'Acustic', g: 'Tagima' },
+                                    { s: 'B4', n: 'Guns N Roses (OD)', g: 'Tagima' },
+                                    { s: 'C4', n: 'Rolling Stones (Clean)', g: 'Tagima' },
+                                    { s: 'D4', n: 'Rolling Stones (OD)', g: 'Tagima' },
+                                    { s: 'A5', n: 'Kiss', g: 'Tagima' },
+                                    { s: 'B5', n: 'U2', g: 'Tagima' },
+                                    { s: 'C5', n: 'RHCP (Black Summer)', g: 'Tagima' },
+                                    { s: 'D5', n: 'None', g: '' },
+                                    { s: 'A6', n: 'Green Day', g: 'Tagima' },
+                                    { s: 'B6', n: 'Ramones', g: 'Tagima' },
+                                    { s: 'C6', n: 'None', g: '' },
+                                    { s: 'D6', n: 'Jimi Hendrix (Hey Joe)', g: 'Tagima' },
+                                    { s: 'A7', n: 'Led Zeppelin (Jangly) Houses', g: 'Cort' },
+                                    { s: 'B7', n: 'Led Zeppelin (Physical Graffiti)', g: 'Cort' },
+                                    { s: 'C7', n: 'Led Zeppelin (No Quarter)', g: 'Cort' },
+                                    { s: 'D7', n: 'Oasis (Supersonic)', g: 'Cort' },
+                                    { s: 'A8', n: 'Oasis (Wonderwall/Live Forever)', g: 'Cort' },
+                                    { s: 'B8', n: 'Oasis (Supersonic)', g: 'Cort' },
+                                    { s: 'C8', n: 'GNR (Clean Gold)', g: 'Cort' },
+                                    { s: 'D8', n: 'GNR (High Gain)', g: 'Cort' },
+                                    { s: 'A9', n: 'Led Zeppelin IV – Definitive', g: 'Cort' },
+                                    { s: 'B9', n: 'Led Zeppelin II', g: 'Cort' },
+                                    { s: 'C9', n: 'Led Zeppelin III (Clean)', g: 'Cort' },
+                                    { s: 'D9', n: 'Led Zeppelin III (OD)', g: 'Cort' },
+                                ].map((row, i) => (
+                                    <tr class={i % 2 === 0 ? 'bg-black/20' : 'bg-black/5'}>
+                                        <td class="border border-black/40 p-2 text-center text-mustard font-bold bg-[#111]">{row.s}</td>
+                                        <td class="border border-black/40 p-2 text-left text-silver">{row.n}</td>
+                                        <td class="border border-black/40 p-2 text-center text-[#999]">{row.g}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</Layout>
