@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<despesas>
+    <despesa>
+        <dia_vencimento>1</dia_vencimento>
+        <tipo_pagamento>DA-cc</tipo_pagamento>
+        <descricao>Cartao Bradesco Visa 1</descricao>
+    </despesa>
+    <despesa>
+        <dia_vencimento>3</dia_vencimento>
+        <tipo_pagamento>DA-cc</tipo_pagamento>
+        <descricao>CEEE Terra Mater</descricao>
+    </despesa>
+    <despesa>
+        <dia_vencimento>5</dia_vencimento>
+        <tipo_pagamento>Boleto</tipo_pagamento>
+        <descricao>Cartao XP</descricao>
+    </despesa>
+    <despesa>
+        <dia_vencimento>5</dia_vencimento>
+        <tipo_pagamento>Boleto</tipo_pagamento>
+        <descricao>Mensalidade Provincia</descricao>
+    </despesa>
+    <despesa>
+        <dia_vencimento>5</dia_vencimento>
+        <tipo_pagamento>Boleto</tipo_pagamento>
+        <descricao>Cantina Provincia</descricao>
+    </despesa>
+    <despesa>
+        <dia_vencimento>8</dia_vencimento>
+        <tipo_pagamento>Boleto</tipo_pagamento>
+        <descricao>IPTU Terra Mater 5/10</descricao>
+    </despesa>
+    <despesa>
+        <dia_vencimento>10</dia_vencimento>
+        <tipo_pagamento>Boleto</tipo_pagamento>
+        <descricao>Atividades Extra Provincia</descricao>
+    </despesa>
+    <despesa>
+        <dia_vencimento>10</dia_vencimento>
+        <tipo_pagamento>DA-cc</tipo_pagamento>
+        <descricao>Claro Terra Mater</descricao>
+    </despesa>
+    <despesa>
+        <dia_vencimento>10</dia_vencimento>
+        <tipo_pagamento>Boleto</tipo_pagamento>
+        <descricao>Condominio Terra Mater</descricao>
+    </despesa>
+    <despesa>
+        <dia_vencimento>10</dia_vencimento>
+        <tipo_pagamento>Pix</tipo_pagamento>
+        <descricao>Guto Personal</descricao>
+    </despesa>
+    <despesa>
+        <dia_vencimento>10</dia_vencimento>
+        <tipo_pagamento>DA-cc</tipo_pagamento>
+        <descricao>Cartao Bradesco Visa 2</descricao>
+    </despesa>
+    <despesa>
+        <dia_vencimento>10</dia_vencimento>
+        <tipo_pagamento>DA-cc</tipo_pagamento>
+        <descricao>Claro New Life</descricao>
+    </despesa>
+    <despesa>
+        <dia_vencimento>11</dia_vencimento>
+        <tipo_pagamento>DA-cc</tipo_pagamento>
+        <descricao>Prestacao Bradesco</descricao>
+    </despesa>
+    <despesa>
+        <dia_vencimento>24</dia_vencimento>
+        <tipo_pagamento>Boleto</tipo_pagamento>
+        <descricao>CEEE New Life</descricao>
+    </despesa>
+    <despesa>
+        <dia_vencimento>28</dia_vencimento>
+        <tipo_pagamento>Boleto</tipo_pagamento>
+        <descricao>IPTU New Life 5/10</descricao>
+    </despesa>
+</despesas>
