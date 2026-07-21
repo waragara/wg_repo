@@ -1,0 +1,147 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Boss Katana:GO - Presets">
+    <div class="mb-8">
+        <a href={`${import.meta.env.BASE_URL}/`} class="inline-block bg-mustard text-tolexDark py-2 px-6 rounded-md text-sm font-bold no-underline transition-all duration-200 hover:bg-mustardDark hover:shadow-[0_0_15px_rgba(234,179,8,0.5)] border-b-4 border-mustardDark active:translate-y-1 active:border-b-0 uppercase tracking-wide">
+            ⬅ Voltar para Setups
+        </a>
+    </div>
+
+    <!-- Main Chassis Wrapper -->
+    <div class="setup-card relative bg-[#1a1a1a] rounded-xl shadow-[0_10px_30px_rgba(0,0,0,0.9)] border border-black mb-12">
+        <!-- Metal corner caps -->
+        <div class="absolute top-[-2px] left-[-2px] w-5 h-5 bg-gradient-to-br from-silver to-metalPanelDark rounded-tl-xl border border-black/50 shadow-[inset_1px_1px_2px_rgba(255,255,255,0.8)] z-20"></div>
+        <div class="absolute top-[-2px] right-[-2px] w-5 h-5 bg-gradient-to-bl from-silver to-metalPanelDark rounded-tr-xl border border-black/50 shadow-[inset_-1px_1px_2px_rgba(255,255,255,0.8)] z-20"></div>
+        <div class="absolute bottom-[-2px] left-[-2px] w-5 h-5 bg-gradient-to-tr from-silver to-metalPanelDark rounded-bl-xl border border-black/50 shadow-[inset_1px_-1px_2px_rgba(255,255,255,0.8)] z-20"></div>
+        <div class="absolute bottom-[-2px] right-[-2px] w-5 h-5 bg-gradient-to-tl from-silver to-metalPanelDark rounded-br-xl border border-black/50 shadow-[inset_-1px_-1px_2px_rgba(255,255,255,0.8)] z-20"></div>
+
+        <div class="m-2 rounded-lg border border-black/40 overflow-hidden shadow-[inset_0_5px_15px_rgba(0,0,0,0.7)] bg-tolexLight">
+            
+            <!-- TOP METAL PLATE -->
+            <div class="bg-brushed-metal p-5 sm:p-6 border-b-8 border-[#111] shadow-[inset_0_-2px_10px_rgba(0,0,0,0.4)]">
+                <h1 class="m-0 text-[#111] text-3xl sm:text-4xl lg:text-5xl font-black font-slab uppercase tracking-widest drop-shadow-sm text-center">Presets Boss Katana:GO</h1>
+            </div>
+
+            <!-- BOTTOM DARK PANEL -->
+            <div class="p-5 sm:p-8 space-y-12">
+
+                <!-- Channel A -->
+                <div>
+                    <h2 class="m-0 mb-1 text-mustard text-2xl font-bold font-slab uppercase tracking-wider">Canal A: High-Gain e Leads</h2>
+                    <p class="text-silver mb-4 font-mono text-sm">Focados em distorções modernas, riffs de metal e opções para solos com bastante ganho.</p>
+                    <div class="w-full overflow-x-auto bg-black/40 p-1 rounded-md border border-black shadow-inner">
+                        <table class="w-full border-collapse text-sm font-mono min-w-max">
+                            <thead>
+                                <tr>
+                                    <th class="border border-black p-3 text-center bg-[#111] text-mustard uppercase tracking-wider">Slot</th>
+                                    <th class="border border-black p-3 text-left bg-[#111] text-mustard uppercase tracking-wider">Timbre</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {[
+                                    { s: '1-A', n: 'BROWN LEAD' },
+                                    { s: '2-A', n: 'MODERN BROWN' },
+                                    { s: '3-A', n: 'METAL RIFF' },
+                                    { s: '4-A', n: 'STADIUM SOLO' },
+                                    { s: '5-A', n: '80s ROCK LEAD' },
+                                    { s: '6-A', n: 'PUNK RIFF' },
+                                    { s: '7-A', n: 'Major HARMONY' },
+                                    { s: '8-A', n: 'PHASER LEAD' },
+                                    { s: '9-A', n: 'RING DRIVE' },
+                                    { s: '10-A', n: 'FIXED WAH LEAD' },
+                                ].map((row, i) => (
+                                    <tr class={i % 2 === 0 ? 'bg-black/20' : 'bg-black/5'}>
+                                        <td class="border border-black/40 p-2 text-center text-silver font-bold w-24">{row.s}</td>
+                                        <td class="border border-black/40 p-2 text-left text-silver">{row.n}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Channel B -->
+                <div>
+                    <h2 class="m-0 mb-1 text-mustard text-2xl font-bold font-slab uppercase tracking-wider">Canal B: Crunch e Clássicos</h2>
+                    <p class="text-silver mb-4 font-mono text-sm">Focados em classic rock, blues, drives naturais e ritmos mais "sujos".</p>
+                    <div class="w-full overflow-x-auto bg-black/40 p-1 rounded-md border border-black shadow-inner">
+                        <table class="w-full border-collapse text-sm font-mono min-w-max">
+                            <thead>
+                                <tr>
+                                    <th class="border border-black p-3 text-center bg-[#111] text-mustard uppercase tracking-wider">Slot</th>
+                                    <th class="border border-black p-3 text-left bg-[#111] text-mustard uppercase tracking-wider">Timbre</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {[
+                                    { s: '1-B', n: 'NATURAL DRIVE' },
+                                    { s: '2-B', n: 'WARM TONE' },
+                                    { s: '3-B', n: 'STACK CRUNCH' },
+                                    { s: '4-B', n: 'CRUNCH TREMOLO' },
+                                    { s: '5-B', n: 'MIDSCOOP LEAD' },
+                                    { s: '6-B', n: 'UK CRUNCH' },
+                                    { s: '7-B', n: 'AMERICAN CRUNCH' },
+                                    { s: '8-B', n: 'BASIC BLUES' },
+                                    { s: '9-B', n: 'ROTARY OCTAVE' },
+                                    { s: '10-B', n: 'FUZZ LEAD' },
+                                ].map((row, i) => (
+                                    <tr class={i % 2 === 0 ? 'bg-black/20' : 'bg-black/5'}>
+                                        <td class="border border-black/40 p-2 text-center text-silver font-bold w-24">{row.s}</td>
+                                        <td class="border border-black/40 p-2 text-left text-silver">{row.n}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Channel C -->
+                <div>
+                    <h2 class="m-0 mb-1 text-mustard text-2xl font-bold font-slab uppercase tracking-wider">Canal C: Cleans e Modulações</h2>
+                    <p class="text-silver mb-4 font-mono text-sm">Dedicados a timbres limpos, texturas espaciais com modulações, delays, reverbs e violão.</p>
+                    <div class="w-full overflow-x-auto bg-black/40 p-1 rounded-md border border-black shadow-inner">
+                        <table class="w-full border-collapse text-sm font-mono min-w-max">
+                            <thead>
+                                <tr>
+                                    <th class="border border-black p-3 text-center bg-[#111] text-mustard uppercase tracking-wider">Slot</th>
+                                    <th class="border border-black p-3 text-left bg-[#111] text-mustard uppercase tracking-wider">Timbre</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {[
+                                    { s: '1-C', n: 'CLEAN CHORUS' },
+                                    { s: '2-C', n: 'FAT CLEAN' },
+                                    { s: '3-C', n: 'AMB CLEAN' },
+                                    { s: '4-C', n: 'RETRO PHASE' },
+                                    { s: '5-C', n: 'NEO CLEAN' },
+                                    { s: '6-C', n: 'UK CLEAN' },
+                                    { s: '7-C', n: 'SLAPBACK ECHO' },
+                                    { s: '8-C', n: 'CHILL TREM' },
+                                    { s: '9-C', n: 'T-WAH CLEAN' },
+                                    { s: '10-C', n: 'FOR ACOUSTIC' },
+                                ].map((row, i) => (
+                                    <tr class={i % 2 === 0 ? 'bg-black/20' : 'bg-black/5'}>
+                                        <td class="border border-black/40 p-2 text-center text-silver font-bold w-24">{row.s}</td>
+                                        <td class="border border-black/40 p-2 text-left text-silver">{row.n}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Dicas -->
+                <div class="bg-black/60 py-4 px-6 rounded-md font-mono text-silverDark text-sm shadow-inner border border-black/50">
+                    <h3 class="text-mustard uppercase font-bold mb-2 text-base">📌 Dicas Úteis</h3>
+                    <ul class="list-disc ml-5 space-y-2">
+                        <li><strong>Como acessar o Modo Baixo:</strong> O Katana:GO inicia no Modo Guitarra por padrão. Para acessar os presets de baixo, coloque a chave POWER na posição "OFF", segure o botão do Bluetooth e mova a chave para "ON". Use o botão multi-função (+/–) para alternar entre os modos.</li>
+                        <li><strong>Como restaurar os presets:</strong> Se você já sobrescreveu os presets originais e quiser recuperá-los, o pacote original "Default Backup" pode ser baixado e restaurado facilmente através da aba do <strong>BOSS Tone Exchange</strong> dentro do aplicativo <strong>BOSS Tone Studio</strong>.</li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</Layout>
