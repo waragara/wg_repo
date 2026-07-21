@@ -1,6 +1,6 @@
 ---
-title: Led Zeppelin
-targetTone: Led Zeppelin IV Definitive (Black Dog, Rock and Roll)
+title: Led Zeppelin IV
+targetTone: Definitive (Black Dog, Rock and Roll)
 signalChain: 🎸 Guitarra -> Pure Sky -> OD-3 -> Tank-G -> Joyo EQ -> Mini Universe
   -> Lost Tempo -> MR4 🔊
 tabs:
@@ -30,8 +30,8 @@ equipment:
 - title: M-Vave Tank-G
   list:
   - <strong class="text-white">AMP:</strong> Slot 5 (Plexi 100)
-  - <strong class="text-white">Gain:</strong> 5.5 | <strong class="text-white">Treble:</strong>
-    5.5 | <strong class="text-white">Middle:</strong> 6.5 | <strong class="text-white">Bass:</strong>
+  - <strong class="text-white">Gain:</strong> 5.5  <strong class="text-white">Treble:</strong>
+    5.5  <strong class="text-white">Middle:</strong> 6.5  <strong class="text-white">Bass:</strong>
     5
   - <strong class="text-white">CAB:</strong> Slot 7 (Marshall 1960)
   - <strong class="text-white">Efeitos Internos:</strong> Desligados

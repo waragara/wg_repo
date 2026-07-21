@@ -1,5 +1,5 @@
 ---
-title: Led Zeppelin III (Clean)
+title: Led Zeppelin III
 targetTone: Limpo Cristalino (Since I've Been Loving You, Tangerine)
 signalChain: 🎸 Guitarra -> Pure Sky -> OD-3 -> Tank-G -> Joyo EQ -> Mini Universe
   -> Lost Tempo -> MR4 🔊
@@ -12,20 +12,20 @@ equipment:
 - title: Caline Pure Sky
   tagUso: Sempre Ligado (Textura Clean)
   list:
-  - <strong class="text-white">Volume:</strong> 5 | <strong class="text-white">Gain:</strong>
+  - <strong class="text-white">Volume:</strong> 5  <strong class="text-white">Gain:</strong>
     1
-  - <strong class="text-white">Treble:</strong> 6 | <strong class="text-white">Bass:</strong>
+  - <strong class="text-white">Treble:</strong> 6  <strong class="text-white">Bass:</strong>
     5
 - title: Boss OD-3
   tagUso: Desligado (Só ligue no solo rasgado)
   list:
-  - <strong class="text-white">Drive:</strong> 5 | <strong class="text-white">Tone:</strong>
-    6 | <strong class="text-white">Level:</strong> 7
+  - <strong class="text-white">Drive:</strong> 5  <strong class="text-white">Tone:</strong>
+    6  <strong class="text-white">Level:</strong> 7
 - title: M-Vave Tank-G
   list:
   - <strong class="text-white">AMP:</strong> Slot 1 (Fender 65 Twin)
   - <strong class="text-white">Gain:</strong> 3 | <strong class="text-white">Treble:</strong>
-    7 | <strong class="text-white">Middle:</strong> 5 | <strong class="text-white">Bass:</strong>
+    7  <strong class="text-white">Middle:</strong> 5  <strong class="text-white">Bass:</strong>
     5
   - <strong class="text-white">CAB:</strong> Slot 1 (Fender 2x12)
   - <strong class="text-white">Efeitos:</strong> Desligados

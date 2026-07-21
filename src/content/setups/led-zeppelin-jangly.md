@@ -18,25 +18,25 @@ equipment:
 - title: Guitarra Cort
   list:
   - <strong class="text-white">Captador:</strong> Meio (Ponte + Braço)
-  - <strong class="text-white">Volume:</strong> 10 | <strong class="text-white">Tone:</strong>
+  - <strong class="text-white">Volume:</strong> 10  <strong class="text-white">Tone:</strong>
     10
 - title: Caline Pure Sky
   tagUso: Boost de Brilho Cristalino
   list:
-  - <strong class="text-white">Volume:</strong> 6 | <strong class="text-white">Gain:</strong>
+  - <strong class="text-white">Volume:</strong> 6  <strong class="text-white">Gain:</strong>
     1
-  - <strong class="text-white">Treble:</strong> 8 | <strong class="text-white">Bass:</strong>
+  - <strong class="text-white">Treble:</strong> 8  <strong class="text-white">Bass:</strong>
     4
 - title: Boss OD-3
   tagUso: Desligado (Apenas solos)
   list:
-  - <strong class="text-white">Drive:</strong> 3 | <strong class="text-white">Tone:</strong>
-    6 | <strong class="text-white">Level:</strong> 7
+  - <strong class="text-white">Drive:</strong> 3  <strong class="text-white">Tone:</strong>
+    6  <strong class="text-white">Level:</strong> 7
 - title: M-Vave Tank-G
   list:
   - <strong class="text-white">AMP:</strong> Slot 4 (JTM45 OD)
-  - <strong class="text-white">Gain:</strong> 2.5 | <strong class="text-white">Treble:</strong>
-    7 | <strong class="text-white">Middle:</strong> 5 | <strong class="text-white">Bass:</strong>
+  - <strong class="text-white">Gain:</strong> 2.5  <strong class="text-white">Treble:</strong>
+    7  <strong class="text-white">Middle:</strong> 5  <strong class="text-white">Bass:</strong>
     5
   - <strong class="text-white">CAB:</strong> Slot 7 (Marshall 1960)
   - <strong class="text-white">Modulação:</strong> CHORUS (Velocidade baixa, Profundidade

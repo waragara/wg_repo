@@ -31,8 +31,8 @@ equipment:
 - title: M-Vave Tank-G
   list:
   - <strong class="text-white">AMP:</strong> Slot 5 (Plexi 100)
-  - <strong class="text-white">Gain:</strong> 6 | <strong class="text-white">Treble:</strong>
-    6 | <strong class="text-white">Middle:</strong> 6 | <strong class="text-white">Bass:</strong>
+  - <strong class="text-white">Gain:</strong> 6  <strong class="text-white">Treble:</strong>
+    6  <strong class="text-white">Middle:</strong> 6  <strong class="text-white">Bass:</strong>
     5
   - <strong class="text-white">CAB:</strong> Slot 7 (Marshall 1960)
   - <strong class="text-white">Modulação:</strong> PHASER (Simulando Univibe - Speed
