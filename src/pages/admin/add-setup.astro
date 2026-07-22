@@ -89,9 +89,24 @@ amp: "Seu Amp"
                 const contentInput = document.getElementById('content') as HTMLTextAreaElement;
                 
                 const filename = filenameInput.value.trim();
-                const content = contentInput.value.trim();
+                let content = contentInput.value.trim();
 
                 if (!filename || !content) return;
+
+                // Força o título do YAML a ser o nome do arquivo formatado
+                const formattedTitle = filename
+                    .replace(/-/g, ' ')
+                    .split(' ')
+                    .map(w => w.charAt(0).toUpperCase() + w.slice(1))
+                    .join(' ');
+
+                if (/^title:\s*".*?"/m.test(content)) {
+                    content = content.replace(/^title:\s*".*?"/m, `title: "${formattedTitle}"`);
+                } else if (/^title:\s*.*/m.test(content)) {
+                    content = content.replace(/^title:\s*.*/m, `title: "${formattedTitle}"`);
+                } else {
+                    content = content.replace(/^---\n/, `---\ntitle: "${formattedTitle}"\n`);
+                }
 
                 // UI Loading state
                 if (submitBtn) {
