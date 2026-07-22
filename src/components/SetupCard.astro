@@ -12,6 +12,8 @@ export interface Props {
   }[];
 }
 
+import SignalChain from './SignalChain.astro';
+
 const { title, targetTone, signalChain, tabs, equipment } = Astro.props;
 ---
 
@@ -39,11 +41,9 @@ const { title, targetTone, signalChain, tabs, equipment } = Astro.props;
 
         <!-- BOTTOM DARK PANEL -->
         <div class="p-5 sm:p-6">
-            <div class="bg-black/60 py-3 px-5 rounded-md font-mono text-silverDark text-sm overflow-x-auto whitespace-nowrap shadow-inner border border-black/50 mb-6">
-                {signalChain}
-            </div>
+            <SignalChain chainString={signalChain} />
             
-            <div class="mb-8">
+            <div class="mb-8 mt-2">
                 {tabs && tabs.map(tab => (
                     <a href={tab.url} target="_blank" class="inline-block bg-mustard text-tolexDark py-2 px-4 rounded-md text-sm font-bold mt-2 mr-3 no-underline transition-all duration-200 hover:bg-mustardDark hover:shadow-lg border-b-4 border-mustardDark active:translate-y-1 active:border-b-0 uppercase tracking-wide">
                         {tab.label}

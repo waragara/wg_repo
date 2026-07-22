@@ -1,0 +1,83 @@
+---
+export interface Props {
+    chainString: string;
+}
+
+const { chainString } = Astro.props;
+
+// Parse the raw string "🎸 Guitarra -> Pure Sky -> OD-3 -> ... -> MR4 🔊"
+// 1. Remove emojis and clean up whitespace
+let cleanString = chainString
+    .replace(/[🎸🔊]/g, '')
+    .trim();
+
+// 2. Split by '->'
+const rawItems = cleanString.split('->').map(item => item.trim()).filter(i => i.length > 0);
+
+// 3. Extract items
+const guitar = rawItems.length > 0 ? rawItems[0] : "Guitarra";
+const amp = rawItems.length > 1 ? rawItems[rawItems.length - 1] : "Amp";
+const pedals = rawItems.length > 2 ? rawItems.slice(1, rawItems.length - 1) : [];
+
+---
+
+<div class="signal-chain-wrapper py-6">
+    <div class="flex flex-col md:flex-row flex-wrap justify-center items-center gap-2 md:gap-4 lg:gap-6">
+        
+        <!-- GUITAR BLOCK -->
+        <div class="relative bg-tolexDark border-4 border-silver rounded-lg shadow-lg flex flex-col items-center justify-center p-4 w-40 min-h-[100px]">
+            <!-- Screws -->
+            <div class="absolute top-1 left-1 w-1.5 h-1.5 rounded-full bg-black/60 shadow-inner"></div>
+            <div class="absolute top-1 right-1 w-1.5 h-1.5 rounded-full bg-black/60 shadow-inner"></div>
+            <div class="absolute bottom-1 left-1 w-1.5 h-1.5 rounded-full bg-black/60 shadow-inner"></div>
+            <div class="absolute bottom-1 right-1 w-1.5 h-1.5 rounded-full bg-black/60 shadow-inner"></div>
+            
+            <span class="text-silver text-xs font-mono mb-2 uppercase tracking-widest opacity-60">Input</span>
+            <span class="text-white font-slab font-black text-center leading-tight drop-shadow-md">{guitar}</span>
+        </div>
+
+        <!-- CONNECT ARROW -->
+        {pedals.length > 0 && (
+            <div class="text-mustard text-2xl rotate-90 md:rotate-0 font-black drop-shadow-md">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+            </div>
+        )}
+
+        <!-- PEDALS -->
+        {pedals.map((pedal, index) => (
+            <>
+                <div class="relative bg-mustard rounded-lg shadow-[0_8px_15px_rgba(0,0,0,0.6)] border border-black flex flex-col items-center justify-center p-4 w-36 min-h-[100px] transition-transform hover:-translate-y-1">
+                    <span class="text-tolexDark text-[10px] font-mono mb-1 uppercase tracking-widest opacity-80 border-b border-black/20 w-full text-center pb-1">Stomp</span>
+                    <span class="text-[#111] font-black font-slab text-center leading-tight drop-shadow-sm z-10">{pedal}</span>
+                    
+                    <!-- Fake Footswitch -->
+                    <div class="mt-3 w-4 h-4 rounded-full bg-silver shadow-[0_2px_4px_rgba(0,0,0,0.5),inset_0_-2px_4px_rgba(0,0,0,0.4)] border border-black/40 flex items-center justify-center relative">
+                        <div class="w-1.5 h-1.5 rounded-full bg-black/20 shadow-inner"></div>
+                        <div class="absolute -top-3 w-1.5 h-1.5 rounded-full bg-red-600 shadow-[0_0_5px_red]"></div>
+                    </div>
+                </div>
+
+                <!-- CONNECT ARROW -->
+                <div class="text-mustard text-2xl rotate-90 md:rotate-0 font-black drop-shadow-md">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+                </div>
+            </>
+        ))}
+
+        <!-- AMP BLOCK -->
+        <div class="relative bg-tolexDark border-4 border-silver rounded-lg shadow-lg flex flex-col items-center justify-center p-4 w-40 min-h-[100px]">
+            <!-- Screws -->
+            <div class="absolute top-1 left-1 w-1.5 h-1.5 rounded-full bg-black/60 shadow-inner"></div>
+            <div class="absolute top-1 right-1 w-1.5 h-1.5 rounded-full bg-black/60 shadow-inner"></div>
+            <div class="absolute bottom-1 left-1 w-1.5 h-1.5 rounded-full bg-black/60 shadow-inner"></div>
+            <div class="absolute bottom-1 right-1 w-1.5 h-1.5 rounded-full bg-black/60 shadow-inner"></div>
+            
+            <span class="text-silver text-xs font-mono mb-2 uppercase tracking-widest opacity-60">Output</span>
+            <span class="text-white font-slab font-black text-center leading-tight drop-shadow-md">{amp}</span>
+            <div class="mt-2 text-silver text-[10px] border border-silver/40 p-1 bg-black/40 rounded">
+                HEAD + CAB
+            </div>
+        </div>
+
+    </div>
+</div>
