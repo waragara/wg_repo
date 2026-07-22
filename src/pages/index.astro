@@ -2,21 +2,41 @@
 import Layout from '../layouts/Layout.astro';
 import SetupCard from '../components/SetupCard.astro';
 import GearBadge from '../components/GearBadge.astro';
+import BandBadge from '../components/BandBadge.astro';
 
 // Fetch all markdown setups
 const setupsMap = import.meta.glob('../content/setups/*.md', { eager: true });
 const setups = Object.values(setupsMap) as any[];
 
-// Extract all unique gear for the global filter
+const extractBand = (title: string) => {
+    if (!title) return '';
+    return title
+        .replace(/\(.*?\)/g, '') // Remove parenthesis like (Jangly)
+        .replace(/\s+(I|II|III|IV|V|VI|VII|VIII|IX|X)$/i, '') // Remove roman numerals
+        .trim();
+};
+
+// Extract unique gear and bands for the global filters
 const uniqueGear = new Set<string>();
+const uniqueBands = new Set<string>();
+
 setups.forEach((setup: any) => {
-    if (setup.frontmatter && setup.frontmatter.signalChain) {
-        const rawChain = setup.frontmatter.signalChain.replace(/[🎸🔊]/g, '').trim();
-        const items = rawChain.split('->').map((item: string) => item.trim()).filter((i: string) => i.length > 0);
-        items.forEach((item: string) => uniqueGear.add(item));
+    if (setup.frontmatter) {
+        // Gear
+        if (setup.frontmatter.signalChain) {
+            const rawChain = setup.frontmatter.signalChain.replace(/[🎸🔊]/g, '').trim();
+            const items = rawChain.split('->').map((item: string) => item.trim()).filter((i: string) => i.length > 0);
+            items.forEach((item: string) => uniqueGear.add(item));
+        }
+        // Band
+        if (setup.frontmatter.title) {
+            const band = extractBand(setup.frontmatter.title);
+            if (band) uniqueBands.add(band);
+        }
     }
 });
 const allGearTags = Array.from(uniqueGear).sort();
+const allBandTags = Array.from(uniqueBands).sort();
 ---
 
 <Layout title="Rock n' Roll Setup by Tussi Guitar">
@@ -54,15 +74,28 @@ const allGearTags = Array.from(uniqueGear).sort();
         </a>
     </div>
 
-    <!-- GLOBAL GEAR FILTER -->
-    {allGearTags.length > 0 && (
-        <div class="bg-black/60 p-6 rounded-xl shadow-[inset_0_2px_10px_rgba(0,0,0,0.8)] border border-black/50 mb-12 max-w-4xl mx-auto">
-            <h3 class="text-mustard font-mono text-center font-bold uppercase mb-4 tracking-widest text-lg">🏷️ Filtrar Setups por Equipamento</h3>
-            <div class="flex flex-wrap justify-center items-center gap-1">
-                {allGearTags.map((tag: string) => <GearBadge gearName={tag} />)}
+    <!-- GLOBAL FILTERS -->
+    <div class="bg-black/60 p-6 rounded-xl shadow-[inset_0_2px_10px_rgba(0,0,0,0.8)] border border-black/50 mb-12 max-w-4xl mx-auto flex flex-col gap-6">
+        
+        {allBandTags.length > 0 && (
+            <div>
+                <h3 class="text-[#e0e0e0] font-mono text-center font-bold uppercase mb-3 tracking-widest text-lg border-b-2 border-white/10 pb-2">🎵 Filtrar por Artista / Banda</h3>
+                <div class="flex flex-wrap justify-center items-center gap-2">
+                    {allBandTags.map((tag: string) => <BandBadge bandName={tag} />)}
+                </div>
             </div>
-        </div>
-    )}
+        )}
+
+        {allGearTags.length > 0 && (
+            <div>
+                <h3 class="text-mustard font-mono text-center font-bold uppercase mb-3 tracking-widest text-lg border-b-2 border-mustard/10 pb-2">🏷️ Filtrar por Equipamento</h3>
+                <div class="flex flex-wrap justify-center items-center gap-1">
+                    {allGearTags.map((tag: string) => <GearBadge gearName={tag} />)}
+                </div>
+            </div>
+        )}
+        
+    </div>
 
     {setups.map(setup => (
         <SetupCard {...setup.frontmatter} />

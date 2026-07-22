@@ -1,0 +1,17 @@
+---
+export interface Props {
+    bandName: string;
+}
+
+const { bandName } = Astro.props;
+
+// Convert "Led Zeppelin" to "led-zeppelin" for the URL
+const formattedUrl = bandName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+---
+
+<a 
+    href={`${import.meta.env.BASE_URL}/band/${formattedUrl}`} 
+    class="inline-block bg-[#e0e0e0] text-[#111] px-3 py-1 m-1 font-mono text-xs font-bold uppercase tracking-widest border-t border-l border-white border-b-2 border-r-2 border-black/40 shadow-[2px_2px_4px_rgba(0,0,0,0.5)] transition-all duration-200 hover:bg-mustard hover:text-black hover:border-mustardDark hover:translate-y-[1px] hover:shadow-[1px_1px_2px_rgba(0,0,0,0.8)]"
+>
+    🎵 {bandName}
+</a>
