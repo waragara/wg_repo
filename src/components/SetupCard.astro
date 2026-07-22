@@ -22,7 +22,7 @@ const rawChain = signalChain ? signalChain.replace(/[🎸🔊]/g, '').trim() : '
 const gearTags = rawChain ? rawChain.split('->').map((item: string) => item.trim()).filter((i: string) => i.length > 0) : [];
 ---
 
-<div class="setup-card relative bg-[#1a1a1a] rounded-xl shadow-[0_10px_30px_rgba(0,0,0,0.9)] border border-black mb-12 transition-all duration-300">
+<div id={title.replace(/\s+/g, '-').toLowerCase()} class="setup-card relative bg-[#1a1a1a] rounded-xl shadow-[0_10px_30px_rgba(0,0,0,0.9)] border border-black mb-12 transition-all duration-300">
     <!-- Metal corner caps for the main amp head -->
     <div class="absolute top-[-2px] left-[-2px] w-5 h-5 bg-gradient-to-br from-silver to-metalPanelDark rounded-tl-xl border border-black/50 shadow-[inset_1px_1px_2px_rgba(255,255,255,0.8)] z-20"></div>
     <div class="absolute top-[-2px] right-[-2px] w-5 h-5 bg-gradient-to-bl from-silver to-metalPanelDark rounded-tr-xl border border-black/50 shadow-[inset_-1px_1px_2px_rgba(255,255,255,0.8)] z-20"></div>
@@ -182,6 +182,20 @@ const gearTags = rawChain ? rawChain.split('->').map((item: string) => item.trim
                     localStorage.setItem('activeSetup', setupId);
                 }
                 updateActiveSetup();
+
+                // Navigation logic
+                const baseUrl = window.location.pathname.includes('/wg_repo') ? '/wg_repo' : '';
+                const isMainPage = window.location.pathname === baseUrl + '/' || window.location.pathname === baseUrl;
+                
+                if (!isMainPage) {
+                    window.location.href = baseUrl + '/#' + setupId;
+                } else {
+                    const el = document.getElementById(setupId);
+                    if (el) {
+                        // Small delay to allow the glowing effect to apply before scrolling
+                        setTimeout(() => el.scrollIntoView({ behavior: 'smooth', block: 'center' }), 50);
+                    }
+                }
             });
         });
 
