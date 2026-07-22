@@ -1,8 +1,16 @@
 ---
 title: AC/DC
+artist: AC/DC
 targetTone: Punch e Crunch Seco (Back in Black, Highway to Hell)
-signalChain: 🎸 Guitarra -> Pure Sky -> OD-3 -> Tank-G -> Joyo EQ -> Mini Universe
-  -> Lost Tempo -> MR4 🔊
+guitar: Guitarra
+pedals:
+  - "Pure Sky"
+  - "OD-3"
+  - "Tank-G"
+  - "Joyo EQ"
+  - "Mini Universe"
+  - "Lost Tempo"
+amp: "MR4"
 tabs:
 - label: '📖 Tablatura: Back in Black (Songsterr)'
   url: https://www.songsterr.com/a/wsa/ac-dc-back-in-black-tab-s1024

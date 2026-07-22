@@ -1,24 +1,11 @@
 ---
 export interface Props {
-    chainString: string;
+    guitar: string;
+    pedals: string[];
+    amp: string;
 }
 
-const { chainString } = Astro.props;
-
-// Parse the raw string "🎸 Guitarra -> Pure Sky -> OD-3 -> ... -> MR4 🔊"
-// 1. Remove emojis and clean up whitespace
-let cleanString = chainString
-    .replace(/[🎸🔊]/g, '')
-    .trim();
-
-// 2. Split by '->'
-const rawItems = cleanString.split('->').map(item => item.trim()).filter(i => i.length > 0);
-
-// 3. Extract items
-const guitar = rawItems.length > 0 ? rawItems[0] : "Guitarra";
-const amp = rawItems.length > 1 ? rawItems[rawItems.length - 1] : "Amp";
-const pedals = rawItems.length > 2 ? rawItems.slice(1, rawItems.length - 1) : [];
-
+const { guitar, pedals, amp } = Astro.props;
 ---
 
 <div class="signal-chain-wrapper py-6">

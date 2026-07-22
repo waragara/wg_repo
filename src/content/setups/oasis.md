@@ -1,7 +1,16 @@
 ---
 title: "Oasis"
+artist: "Oasis"
 targetTone: "Wall of Sound / Britpop (Supersonic, Acquiesce, Wonderwall)"
-signalChain: "🎸 Guitarra -> Pure Sky -> OD-3 -> Tank-G -> Joyo EQ -> Mini Universe -> Lost Tempo -> MR4 🔊"
+guitar: "Guitarra"
+pedals:
+  - "Pure Sky"
+  - "OD-3"
+  - "Tank-G"
+  - "Joyo EQ"
+  - "Mini Universe"
+  - "Lost Tempo"
+amp: "MR4"
 tabs:
   - label: "📖 Tablatura: Cigarettes & Alcohol (Songsterr)"
     url: "https://www.songsterr.com/a/wsa/oasis-cigarettes-alcohol-tab-s15190t4"

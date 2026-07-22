@@ -1,8 +1,16 @@
 ---
 title: Led Zeppelin (No Quarter)
+artist: Led Zeppelin
 targetTone: No Quarter (Phaser / Submerso / Psicodélico)
-signalChain: 🎸 Guitarra -> Pure Sky -> OD-3 -> Tank-G -> Joyo EQ -> Mini Universe
-  -> Lost Tempo -> MR4 🔊
+guitar: Guitarra
+pedals:
+  - "Pure Sky"
+  - "OD-3"
+  - "Tank-G"
+  - "Joyo EQ"
+  - "Mini Universe"
+  - "Lost Tempo"
+amp: "MR4"
 tabs:
 - label: '📖 Tablatura: No Quarter (Songsterr)'
   url: https://www.songsterr.com/a/wsa/led-zeppelin-no-quarter-tab-s22701t9

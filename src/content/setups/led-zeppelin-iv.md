@@ -1,8 +1,16 @@
 ---
 title: Led Zeppelin IV
+artist: Led Zeppelin
 targetTone: Definitive (Black Dog, Rock and Roll)
-signalChain: 🎸 Guitarra -> Pure Sky -> OD-3 -> Tank-G -> Joyo EQ -> Mini Universe
-  -> Lost Tempo -> MR4 🔊
+guitar: Guitarra
+pedals:
+  - "Pure Sky"
+  - "OD-3"
+  - "Tank-G"
+  - "Joyo EQ"
+  - "Mini Universe"
+  - "Lost Tempo"
+amp: "MR4"
 tabs:
 - label: '📖 Tablatura: Black Dog (Songsterr)'
   url: https://www.songsterr.com/a/wsa/led-zeppelin-black-dog-tab-s363t2

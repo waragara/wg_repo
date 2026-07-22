@@ -1,8 +1,16 @@
 ---
 title: Pink Floyd
+artist: Pink Floyd
 targetTone: Comfortably Numb (Solos Épicos / Big Muff + Delay Vibe)
-signalChain: 🎸 Tagima Sixmart -> Pure Sky -> OD-3 -> Tank-G -> Joyo EQ -> Mini Universe
-  -> Lost Tempo -> MR4 🔊
+guitar: Tagima Sixmart
+pedals:
+  - "Pure Sky"
+  - "OD-3"
+  - "Tank-G"
+  - "Joyo EQ"
+  - "Mini Universe"
+  - "Lost Tempo"
+amp: "MR4"
 tabs:
 - label: '📖 Tablatura: Comfortably Numb (Pulse 1994) (Songsterr)'
   url: https://www.songsterr.com/a/wsa/pink-floyd-comfortably-numb-pulse-1994-tab-s563552

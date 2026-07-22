@@ -1,8 +1,16 @@
 ---
 title: Led Zeppelin II
+artist: Led Zeppelin
 targetTone: Saturação Quente / Fuzz-like (Whole Lotta Love, Heartbreaker)
-signalChain: 🎸 Guitarra -> Pure Sky -> OD-3 -> Tank-G -> Joyo EQ -> Mini Universe
-  -> Lost Tempo -> MR4 🔊
+guitar: Guitarra
+pedals:
+  - "Pure Sky"
+  - "OD-3"
+  - "Tank-G"
+  - "Joyo EQ"
+  - "Mini Universe"
+  - "Lost Tempo"
+amp: "MR4"
 tabs:
 - label: '📖 Tablatura: Whole Lotta Love (Songsterr)'
   url: https://www.songsterr.com/a/wsa/led-zeppelin-whole-lotta-love-tab-s449t2

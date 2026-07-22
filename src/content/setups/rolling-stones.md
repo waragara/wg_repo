@@ -1,7 +1,16 @@
 ---
 title: The Rolling Stones
+artist: The Rolling Stones
 targetTone: Sujo, Orgânico e Seco (Can't You Hear Me Knocking, Brown Sugar)
-signalChain: 🎸 Cort -> Pure Sky -> OD-3 -> Tank-G -> Joyo EQ -> Mini Universe -> Lost Tempo -> MR4 🔊
+guitar: Cort
+pedals:
+  - "Pure Sky"
+  - "OD-3"
+  - "Tank-G"
+  - "Joyo EQ"
+  - "Mini Universe"
+  - "Lost Tempo"
+amp: "MR4"
 tabs:
 - label: '📖 Tablatura: Can''t You Hear Me Knocking (Songsterr)'
   url: https://www.songsterr.com/a/wsa/rolling-stones-cant-you-hear-me-knocking-tab-s16374

@@ -1,8 +1,16 @@
 ---
 title: Led Zeppelin III
+artist: Led Zeppelin
 targetTone: Limpo Cristalino (Since I've Been Loving You, Tangerine)
-signalChain: 🎸 Guitarra -> Pure Sky -> OD-3 -> Tank-G -> Joyo EQ -> Mini Universe
-  -> Lost Tempo -> MR4 🔊
+guitar: Guitarra
+pedals:
+  - "Pure Sky"
+  - "OD-3"
+  - "Tank-G"
+  - "Joyo EQ"
+  - "Mini Universe"
+  - "Lost Tempo"
+amp: "MR4"
 equipment:
 - title: Guitarra Cort
   list:

@@ -1,8 +1,16 @@
 ---
 title: Jimi Hendrix
+artist: Jimi Hendrix
 targetTone: Stratocaster Mágica / Fuzz & Vibe (Voodoo Child, Little Wing, Purple Haze)
-signalChain: 🎸 Tagima Sixmart -> Pure Sky -> OD-3 -> Tank-G -> Joyo EQ -> Mini Universe
-  -> Lost Tempo -> MR4 🔊
+guitar: Tagima Sixmart
+pedals:
+  - "Pure Sky"
+  - "OD-3"
+  - "Tank-G"
+  - "Joyo EQ"
+  - "Mini Universe"
+  - "Lost Tempo"
+amp: "MR4"
 tabs:
 - label: '📖 Tablatura: Hey Joe (Songsterr)'
   url: https://www.songsterr.com/a/wsa/jimi-hendrix-hey-joe-tab-s22556

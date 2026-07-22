@@ -1,26 +1,17 @@
 ---
+import { getCollection } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
 import SetupCard from '../../components/SetupCard.astro';
 
 export async function getStaticPaths() {
-    const allSetups = Object.values(import.meta.glob('../../content/setups/*.md', { eager: true }));
+    const allSetups = await getCollection('setups');
     
-    // Function to extract the base band name from titles like "Led Zeppelin II" or "Led Zeppelin (Jangly)"
-    const extractBand = (title: string) => {
-        if (!title) return '';
-        return title
-            .replace(/\(.*?\)/g, '') // Remove parenthesis like (Jangly)
-            .replace(/\s+(I|II|III|IV|V|VI|VII|VIII|IX|X)$/i, '') // Remove roman numerals
-            .trim();
-    };
-
     // Create a Set to hold unique band names
     const uniqueBands = new Set<string>();
     
     allSetups.forEach((setup: any) => {
-        if (setup.frontmatter && setup.frontmatter.title) {
-            const band = extractBand(setup.frontmatter.title);
-            if (band) uniqueBands.add(band);
+        if (setup.data.artist) {
+            uniqueBands.add(setup.data.artist);
         }
     });
 
@@ -29,8 +20,7 @@ export async function getStaticPaths() {
         
         // Find all setups that belong to this band
         const filteredSetups = allSetups.filter((setup: any) => {
-            const currentBand = extractBand(setup.frontmatter?.title || '');
-            return currentBand === bandName;
+            return setup.data.artist === bandName;
         });
 
         return {
@@ -73,13 +63,7 @@ const { bandName, setups } = Astro.props;
     <!-- Grid -->
     <div class="grid grid-cols-1 xl:grid-cols-2 gap-8">
         {setups.map((setup: any) => (
-            <SetupCard 
-                title={setup.frontmatter.title}
-                targetTone={setup.frontmatter.targetTone}
-                signalChain={setup.frontmatter.signalChain}
-                tabs={setup.frontmatter.tabs}
-                equipment={setup.frontmatter.equipment}
-            />
+            <SetupCard {...setup.data} />
         ))}
     </div>
 </Layout>

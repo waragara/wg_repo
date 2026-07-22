@@ -1,25 +1,24 @@
 ---
 export interface Props {
   title: string;
+  artist: string;
   targetTone: string;
-  signalChain: string;
+  guitar: string;
+  pedals: string[];
+  amp: string;
   tabs?: { label: string; url: string }[];
-  equipment: {
+  equipment?: {
     title: string;
     tagUso?: string;
     list?: string[];
-    table?: { f: string; db: string }[];
+    table?: { f: string | number; db: string | number }[];
   }[];
 }
 
 import SignalChain from './SignalChain.astro';
 import GearBadge from './GearBadge.astro';
 
-const { title, targetTone, signalChain, tabs, equipment } = Astro.props;
-
-// Parse the raw string "🎸 Guitarra -> Pure Sky -> OD-3 -> ... -> MR4 🔊" to extract tags
-const rawChain = signalChain ? signalChain.replace(/[🎸🔊]/g, '').trim() : '';
-const gearTags = rawChain ? rawChain.split('->').map((item: string) => item.trim()).filter((i: string) => i.length > 0) : [];
+const { title, artist, targetTone, guitar, pedals, amp, tabs, equipment } = Astro.props;
 ---
 
 <div id={title.replace(/\s+/g, '-').toLowerCase()} class="setup-card relative bg-[#1a1a1a] rounded-xl shadow-[0_10px_30px_rgba(0,0,0,0.9)] border border-black mb-12 transition-all duration-300">
@@ -46,7 +45,7 @@ const gearTags = rawChain ? rawChain.split('->').map((item: string) => item.trim
 
         <!-- BOTTOM DARK PANEL -->
         <div class="p-5 sm:p-6">
-            <SignalChain chainString={signalChain} />
+            <SignalChain guitar={guitar} pedals={pedals} amp={amp} />
             
             <div class="mb-8 mt-2">
                 {tabs && tabs.map(tab => (

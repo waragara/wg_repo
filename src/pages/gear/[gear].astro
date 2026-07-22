@@ -1,18 +1,19 @@
 ---
+import { getCollection } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
 import SetupCard from '../../components/SetupCard.astro';
 
 export async function getStaticPaths() {
-    const allSetups = Object.values(import.meta.glob('../../content/setups/*.md', { eager: true }));
+    const allSetups = await getCollection('setups');
     
     // Create a Set to hold unique gear names
     const uniqueGear = new Set<string>();
     
     allSetups.forEach((setup: any) => {
-        if (setup.frontmatter && setup.frontmatter.signalChain) {
-            const rawChain = setup.frontmatter.signalChain.replace(/[🎸🔊]/g, '').trim();
-            const items = rawChain.split('->').map((item: string) => item.trim()).filter((i: string) => i.length > 0);
-            items.forEach((item: string) => uniqueGear.add(item));
+        if (setup.data.guitar) uniqueGear.add(setup.data.guitar);
+        if (setup.data.amp) uniqueGear.add(setup.data.amp);
+        if (setup.data.pedals) {
+            setup.data.pedals.forEach((pedal: string) => uniqueGear.add(pedal));
         }
     });
 
@@ -21,9 +22,9 @@ export async function getStaticPaths() {
         
         // Find all setups that use this gear
         const filteredSetups = allSetups.filter((setup: any) => {
-             const rawChain = setup.frontmatter.signalChain.replace(/[🎸🔊]/g, '').trim();
-             const items = rawChain.split('->').map((item: string) => item.trim());
-             return items.includes(gearName);
+             return setup.data.guitar === gearName || 
+                    setup.data.amp === gearName || 
+                    (setup.data.pedals && setup.data.pedals.includes(gearName));
         });
 
         return {
@@ -66,13 +67,7 @@ const { gearName, setups } = Astro.props;
     <!-- Grid -->
     <div class="grid grid-cols-1 xl:grid-cols-2 gap-8">
         {setups.map((setup: any) => (
-            <SetupCard 
-                title={setup.frontmatter.title}
-                targetTone={setup.frontmatter.targetTone}
-                signalChain={setup.frontmatter.signalChain}
-                tabs={setup.frontmatter.tabs}
-                equipment={setup.frontmatter.equipment}
-            />
+            <SetupCard {...setup.data} />
         ))}
     </div>
 </Layout>

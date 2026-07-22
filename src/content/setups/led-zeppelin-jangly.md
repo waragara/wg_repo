@@ -1,8 +1,16 @@
 ---
 title: Led Zeppelin (Jangly)
+artist: Led Zeppelin
 targetTone: Houses of the Holy (The Song Remains The Same, Over the Hills, The Ocean)
-signalChain: 🎸 Guitarra -> Pure Sky -> OD-3 -> Tank-G -> Joyo EQ -> Mini Universe
-  -> Lost Tempo -> MR4 🔊
+guitar: Guitarra
+pedals:
+  - "Pure Sky"
+  - "OD-3"
+  - "Tank-G"
+  - "Joyo EQ"
+  - "Mini Universe"
+  - "Lost Tempo"
+amp: "MR4"
 tabs:
 - label: '📖 Tablatura: Houses of the Holy (Songsterr)'
   url: https://www.songsterr.com/a/wsa/led-zeppelin-houses-of-the-holy-tab-s22697
