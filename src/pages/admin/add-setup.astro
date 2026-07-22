@@ -1,0 +1,148 @@
+---
+import Layout from '../../layouts/Layout.astro';
+---
+
+<Layout title="Admin: Add Setup">
+    <div class="max-w-3xl mx-auto">
+        <div class="mb-8">
+            <a href={`${import.meta.env.BASE_URL}/`} class="inline-block bg-mustard text-tolexDark py-2 px-6 rounded-md text-sm font-bold no-underline transition-all duration-200 hover:bg-mustardDark hover:shadow-[0_0_15px_rgba(234,179,8,0.5)] border-b-4 border-mustardDark active:translate-y-1 active:border-b-0 uppercase tracking-wide">
+                ⬅ Voltar para Setups
+            </a>
+        </div>
+
+        <div class="bg-brushed-metal p-6 md:p-10 border-4 border-[#111] shadow-[0_10px_30px_rgba(0,0,0,0.9)] rounded-xl relative">
+            <!-- Screws -->
+            <div class="absolute top-3 left-3 w-3 h-3 rounded-full bg-black/60 shadow-inner border border-black/80"></div>
+            <div class="absolute top-3 right-3 w-3 h-3 rounded-full bg-black/60 shadow-inner border border-black/80"></div>
+            <div class="absolute bottom-3 left-3 w-3 h-3 rounded-full bg-black/60 shadow-inner border border-black/80"></div>
+            <div class="absolute bottom-3 right-3 w-3 h-3 rounded-full bg-black/60 shadow-inner border border-black/80"></div>
+
+            <h1 class="text-3xl md:text-4xl font-black font-slab uppercase tracking-widest text-[#111] drop-shadow-md text-center mb-8 border-b-2 border-[#111]/20 pb-4">
+                Adicionar Novo Setup
+            </h1>
+
+            <form id="addSetupForm" class="flex flex-col gap-6">
+                
+                <div class="flex flex-col gap-2">
+                    <label for="filename" class="font-mono font-bold text-[#333] uppercase tracking-wider text-sm">
+                        Nome do Arquivo (sem .md)
+                    </label>
+                    <input 
+                        type="text" 
+                        id="filename" 
+                        name="filename" 
+                        placeholder="ex: acdc-back-in-black"
+                        required
+                        class="bg-black/80 text-silver font-mono p-3 rounded shadow-inner border-2 border-black/50 focus:border-mustard focus:outline-none transition-colors"
+                    />
+                    <p class="text-xs font-mono text-[#555]">Use letras minúsculas e hífens. O arquivo será salvo em src/content/setups/</p>
+                </div>
+
+                <div class="flex flex-col gap-2">
+                    <label for="content" class="font-mono font-bold text-[#333] uppercase tracking-wider text-sm">
+                        Conteúdo do Setup (YAML + Markdown)
+                    </label>
+                    <textarea 
+                        id="content" 
+                        name="content" 
+                        rows="15"
+                        required
+                        placeholder={`---
+title: "Nome da Música"
+artist: "Banda"
+targetTone: "Descrição do Timbre"
+guitar: "Sua Guitarra"
+pedals:
+  - "Pedal 1"
+  - "Pedal 2"
+amp: "Seu Amp"
+---`}
+                        class="bg-black/80 text-mustard font-mono p-4 rounded shadow-inner border-2 border-black/50 focus:border-mustard focus:outline-none transition-colors resize-y"
+                    ></textarea>
+                </div>
+
+                <div id="statusMessage" class="hidden p-4 rounded-md font-mono font-bold text-center tracking-wide shadow-inner"></div>
+
+                <button 
+                    type="submit" 
+                    id="submitBtn"
+                    class="mt-4 bg-tolexDark text-mustard py-4 px-6 rounded border-4 border-[#111] shadow-[0_5px_15px_rgba(0,0,0,0.5)] font-slab font-black text-xl uppercase tracking-widest hover:bg-[#1a1a1a] hover:text-white transition-all active:translate-y-1"
+                >
+                    Salvar Setup 💾
+                </button>
+            </form>
+        </div>
+    </div>
+</Layout>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const form = document.getElementById('addSetupForm') as HTMLFormElement;
+        const statusMsg = document.getElementById('statusMessage');
+        const submitBtn = document.getElementById('submitBtn');
+
+        if (form) {
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                
+                const filenameInput = document.getElementById('filename') as HTMLInputElement;
+                const contentInput = document.getElementById('content') as HTMLTextAreaElement;
+                
+                const filename = filenameInput.value.trim();
+                const content = contentInput.value.trim();
+
+                if (!filename || !content) return;
+
+                // UI Loading state
+                if (submitBtn) {
+                    submitBtn.textContent = 'Salvando...';
+                    submitBtn.setAttribute('disabled', 'true');
+                    submitBtn.classList.add('opacity-50');
+                }
+                
+                try {
+                    const response = await fetch(`${import.meta.env.BASE_URL}/api/save-file`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ filename, content })
+                    });
+
+                    const result = await response.json();
+
+                    if (statusMsg) {
+                        statusMsg.classList.remove('hidden', 'bg-red-900', 'text-red-300');
+                        statusMsg.classList.add('bg-green-900', 'text-green-300', 'border', 'border-green-500');
+                        statusMsg.textContent = result.message || 'Setup salvo com sucesso!';
+                    }
+                    
+                    // Clear form
+                    form.reset();
+
+                } catch (error) {
+                    console.error('Error saving file:', error);
+                    if (statusMsg) {
+                        statusMsg.classList.remove('hidden', 'bg-green-900', 'text-green-300');
+                        statusMsg.classList.add('bg-red-900', 'text-red-300', 'border', 'border-red-500');
+                        statusMsg.textContent = 'Erro de conexão ao salvar o arquivo.';
+                    }
+                } finally {
+                    // Restore UI
+                    if (submitBtn) {
+                        submitBtn.textContent = 'Salvar Setup 💾';
+                        submitBtn.removeAttribute('disabled');
+                        submitBtn.classList.remove('opacity-50');
+                    }
+                    
+                    // Hide success message after 4 seconds
+                    setTimeout(() => {
+                        if (statusMsg && statusMsg.classList.contains('bg-green-900')) {
+                            statusMsg.classList.add('hidden');
+                        }
+                    }, 4000);
+                }
+            });
+        }
+    });
+</script>
