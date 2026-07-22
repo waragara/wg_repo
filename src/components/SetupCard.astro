@@ -13,8 +13,13 @@ export interface Props {
 }
 
 import SignalChain from './SignalChain.astro';
+import GearBadge from './GearBadge.astro';
 
 const { title, targetTone, signalChain, tabs, equipment } = Astro.props;
+
+// Parse the raw string "🎸 Guitarra -> Pure Sky -> OD-3 -> ... -> MR4 🔊" to extract tags
+const rawChain = signalChain ? signalChain.replace(/[🎸🔊]/g, '').trim() : '';
+const gearTags = rawChain ? rawChain.split('->').map((item: string) => item.trim()).filter((i: string) => i.length > 0) : [];
 ---
 
 <div class="setup-card relative bg-[#1a1a1a] rounded-xl shadow-[0_10px_30px_rgba(0,0,0,0.9)] border border-black mb-12 transition-all duration-300">
@@ -99,6 +104,17 @@ const { title, targetTone, signalChain, tabs, equipment } = Astro.props;
             </div>
         ))}
     </div>
+    
+    <!-- TAGS ROW -->
+    {gearTags.length > 0 && (
+        <div class="mt-8 pt-6 border-t-2 border-black/30">
+            <p class="text-mustard font-mono text-sm font-bold uppercase mb-3">🏷️ Filter by Gear:</p>
+            <div class="flex flex-wrap items-center">
+                {gearTags.map((tag: string) => <GearBadge gearName={tag} />)}
+            </div>
+        </div>
+    )}
+    
     </div> <!-- End BOTTOM DARK PANEL -->
     </div> <!-- End Inner Chassis wrapper -->
 </div> <!-- End Main Chassis wrapper -->
