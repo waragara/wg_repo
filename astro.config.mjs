@@ -12,7 +12,7 @@ function localAdminPlugin() {
   return {
     name: 'local-admin-api',
     configureServer(server) {
-      server.middlewares.use('/wg_repo/api/save-file', (req, res, next) => {
+      server.middlewares.use('/api/save-file', (req, res, next) => {
         if (req.method === 'POST') {
           let body = '';
           req.on('data', chunk => body += chunk.toString());
