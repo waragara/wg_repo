@@ -1,10 +1,22 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import SetupCard from '../components/SetupCard.astro';
+import GearBadge from '../components/GearBadge.astro';
 
 // Fetch all markdown setups
 const setupsMap = import.meta.glob('../content/setups/*.md', { eager: true });
 const setups = Object.values(setupsMap) as any[];
+
+// Extract all unique gear for the global filter
+const uniqueGear = new Set<string>();
+setups.forEach((setup: any) => {
+    if (setup.frontmatter && setup.frontmatter.signalChain) {
+        const rawChain = setup.frontmatter.signalChain.replace(/[🎸🔊]/g, '').trim();
+        const items = rawChain.split('->').map((item: string) => item.trim()).filter((i: string) => i.length > 0);
+        items.forEach((item: string) => uniqueGear.add(item));
+    }
+});
+const allGearTags = Array.from(uniqueGear).sort();
 ---
 
 <Layout title="Rock n' Roll Setup by Tussi Guitar">
@@ -41,6 +53,16 @@ const setups = Object.values(setupsMap) as any[];
             🎛️ Ver Lista de Presets Boss Katana:GO
         </a>
     </div>
+
+    <!-- GLOBAL GEAR FILTER -->
+    {allGearTags.length > 0 && (
+        <div class="bg-black/60 p-6 rounded-xl shadow-[inset_0_2px_10px_rgba(0,0,0,0.8)] border border-black/50 mb-12 max-w-4xl mx-auto">
+            <h3 class="text-mustard font-mono text-center font-bold uppercase mb-4 tracking-widest text-lg">🏷️ Filtrar Setups por Equipamento</h3>
+            <div class="flex flex-wrap justify-center items-center gap-1">
+                {allGearTags.map((tag: string) => <GearBadge gearName={tag} />)}
+            </div>
+        </div>
+    )}
 
     {setups.map(setup => (
         <SetupCard {...setup.frontmatter} />
