@@ -38,24 +38,25 @@ const allBandTags = Array.from(uniqueBands).sort();
 
 <Layout title="Tussi RigCraft Labs">
 
-    <div class="flex flex-col items-center gap-4 mb-12 text-center w-full px-4">
-        
-        <!-- Linha 1: Presets lado a lado -->
-        <div class="flex flex-col sm:flex-row gap-4 w-full justify-center">
-            <a href={`${import.meta.env.BASE_URL}/tank-g-presets`} class="inline-block w-full sm:w-auto sm:flex-1 max-w-md mx-auto bg-accentOrange text-bgMain py-2.5 px-5 rounded text-lg font-bold no-underline transition-colors duration-200 hover:bg-[#e68a00]">
+    <!-- NAVEGAÇÃO PRINCIPAL -->
+    <div class="bg-black/60 p-6 sm:p-8 rounded-xl shadow-[inset_0_2px_10px_rgba(0,0,0,0.8)] border border-black/50 mb-12 max-w-4xl mx-auto">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-center">
+            <!-- Linha 1 -->
+            <a href={`${import.meta.env.BASE_URL}/tank-g-presets`} class="w-full inline-block bg-accentOrange text-bgMain py-3 px-4 rounded text-lg font-bold no-underline transition-transform duration-200 hover:-translate-y-1 hover:bg-[#e68a00] hover:shadow-[0_5px_15px_rgba(234,179,8,0.4)]">
                 🎛️ Lista Presets M-Vave TANK-G
             </a>
-            <a href={`${import.meta.env.BASE_URL}/boss-katana-go-presets`} class="inline-block w-full sm:w-auto sm:flex-1 max-w-md mx-auto bg-accentOrange text-bgMain py-2.5 px-5 rounded text-lg font-bold no-underline transition-colors duration-200 hover:bg-[#e68a00]">
+            <a href={`${import.meta.env.BASE_URL}/boss-katana-go-presets`} class="w-full inline-block bg-accentOrange text-bgMain py-3 px-4 rounded text-lg font-bold no-underline transition-transform duration-200 hover:-translate-y-1 hover:bg-[#e68a00] hover:shadow-[0_5px_15px_rgba(234,179,8,0.4)]">
                 🎛️ Lista Presets Boss Katana GO
             </a>
+            
+            <!-- Linha 2 -->
+            <a href={`${import.meta.env.BASE_URL}/admin/add-setup`} class="w-full inline-block bg-silver text-tolexDark py-3 px-4 rounded text-lg font-bold no-underline transition-transform duration-200 hover:-translate-y-1 hover:bg-white border-2 border-[#111] shadow-[0_4px_10px_rgba(0,0,0,0.5)]">
+                ⚙️ Adicionar Setup (Admin)
+            </a>
+            <a href={`${import.meta.env.BASE_URL}/mural`} class="w-full inline-block bg-brushed-metal text-[#111] py-3 px-4 rounded text-lg font-bold no-underline transition-transform duration-200 hover:-translate-y-1 hover:bg-white border-2 border-black shadow-[0_4px_10px_rgba(0,0,0,0.5)]">
+                📸 Hall of Fame
+            </a>
         </div>
-
-        <a href={`${import.meta.env.BASE_URL}/admin/add-setup`} class="inline-block w-full max-w-md bg-silver text-tolexDark py-2.5 px-5 rounded text-lg font-bold no-underline transition-colors duration-200 hover:bg-white border-2 border-[#111] shadow-[0_4px_10px_rgba(0,0,0,0.5)]">
-            ⚙️ Adicionar Setup (Admin)
-        </a>
-        <a href={`${import.meta.env.BASE_URL}/mural`} class="inline-block w-full max-w-md bg-brushed-metal text-[#111] py-2.5 px-8 rounded text-lg font-bold no-underline transition-colors duration-200 hover:bg-white border-2 border-black shadow-[0_4px_10px_rgba(0,0,0,0.5)]">
-            📸 Ver Hall of Fame
-        </a>
     </div>
 
     <!-- GLOBAL FILTERS -->
