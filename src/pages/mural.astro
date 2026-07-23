@@ -1,0 +1,45 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Mural de Recordações | Tussi RigCraft Labs">
+    
+    <div class="mb-10 text-center">
+        <h1 class="text-4xl md:text-5xl font-black font-slab uppercase tracking-widest text-[#111] bg-brushed-metal inline-block px-8 py-4 rounded-xl border-4 border-[#111] shadow-[0_10px_20px_rgba(0,0,0,0.8)]">
+            Mural de Recordações
+        </h1>
+        <p class="text-silver mt-4 font-mono">Algumas lembranças épicas nos palcos e estúdios.</p>
+    </div>
+
+    <!-- Galeria de Fotos -->
+    <div class="flex justify-center items-center gap-8 mb-12 flex-wrap">
+        
+        {[
+            { src: `${import.meta.env.BASE_URL}/pipito1.jpeg`, alt: 'No palco no Hard Rock Cafe', pos: 'object-center' },
+            { src: `${import.meta.env.BASE_URL}/pipito2.jpg`, alt: 'Tocando guitarra Strato vermelha', pos: 'object-top' },
+            { src: `${import.meta.env.BASE_URL}/pipito3.jpeg`, alt: 'Praticando com a Cort Les Paul', pos: 'object-center' }
+        ].map(img => (
+            <div class="relative bg-[#1a1a1a] p-3 rounded-xl shadow-[0_10px_20px_rgba(0,0,0,0.8)] border border-black/80 transition-transform duration-300 hover:-translate-y-2 hover:shadow-[0_15px_30px_rgba(234,179,8,0.2)] group cursor-pointer">
+                <!-- Metal corner caps -->
+                <div class="absolute top-[-2px] left-[-2px] w-4 h-4 bg-gradient-to-br from-silver to-metalPanelDark rounded-tl-xl border border-black/50 shadow-[inset_1px_1px_2px_rgba(255,255,255,0.8)]"></div>
+                <div class="absolute top-[-2px] right-[-2px] w-4 h-4 bg-gradient-to-bl from-silver to-metalPanelDark rounded-tr-xl border border-black/50 shadow-[inset_-1px_1px_2px_rgba(255,255,255,0.8)]"></div>
+                <div class="absolute bottom-[-2px] left-[-2px] w-4 h-4 bg-gradient-to-tr from-silver to-metalPanelDark rounded-bl-xl border border-black/50 shadow-[inset_1px_-1px_2px_rgba(255,255,255,0.8)]"></div>
+                <div class="absolute bottom-[-2px] right-[-2px] w-4 h-4 bg-gradient-to-tl from-silver to-metalPanelDark rounded-br-xl border border-black/50 shadow-[inset_-1px_-1px_2px_rgba(255,255,255,0.8)]"></div>
+
+                <!-- Inner Metallic Matting -->
+                <div class="bg-brushed-metal p-2 rounded-lg shadow-[inset_0_5px_10px_rgba(0,0,0,0.5)] border border-black/40">
+                    <!-- The actual photo -->
+                    <img src={img.src} alt={img.alt} class={`w-[280px] h-[280px] sm:w-[320px] sm:h-[320px] object-cover ${img.pos} rounded border border-black/50 shadow-inner sepia-[0.3] contrast-125 group-hover:sepia-0 transition-all duration-500`}>
+                </div>
+            </div>
+        ))}
+        
+    </div>
+
+    <div class="text-center mt-12 mb-8">
+        <a href={`${import.meta.env.BASE_URL}/`} class="inline-block bg-silver text-tolexDark py-2.5 px-8 rounded text-lg font-bold no-underline transition-colors duration-200 hover:bg-white border-2 border-[#111] shadow-[0_4px_10px_rgba(0,0,0,0.5)]">
+            ⬅️ Voltar para a Home
+        </a>
+    </div>
+
+</Layout>

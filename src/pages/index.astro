@@ -36,31 +36,7 @@ const allGearTags = Array.from(uniqueGear).sort();
 const allBandTags = Array.from(uniqueBands).sort();
 ---
 
-<Layout title="Rock n' Roll Setup by Tussi Guitar">
-    <!-- Galeria de Fotos -->
-    <div class="flex justify-center items-center gap-8 mb-12 flex-wrap">
-        
-        {[
-            { src: `${import.meta.env.BASE_URL}/pipito1.jpeg`, alt: 'No palco no Hard Rock Cafe', pos: 'object-center' },
-            { src: `${import.meta.env.BASE_URL}/pipito2.jpg`, alt: 'Tocando guitarra Strato vermelha', pos: 'object-top' },
-            { src: `${import.meta.env.BASE_URL}/pipito3.jpeg`, alt: 'Praticando com a Cort Les Paul', pos: 'object-center' }
-        ].map(img => (
-            <div class="relative bg-[#1a1a1a] p-3 rounded-xl shadow-[0_10px_20px_rgba(0,0,0,0.8)] border border-black/80 transition-transform duration-300 hover:-translate-y-2 hover:shadow-[0_15px_30px_rgba(234,179,8,0.2)] group cursor-pointer">
-                <!-- Metal corner caps -->
-                <div class="absolute top-[-2px] left-[-2px] w-4 h-4 bg-gradient-to-br from-silver to-metalPanelDark rounded-tl-xl border border-black/50 shadow-[inset_1px_1px_2px_rgba(255,255,255,0.8)]"></div>
-                <div class="absolute top-[-2px] right-[-2px] w-4 h-4 bg-gradient-to-bl from-silver to-metalPanelDark rounded-tr-xl border border-black/50 shadow-[inset_-1px_1px_2px_rgba(255,255,255,0.8)]"></div>
-                <div class="absolute bottom-[-2px] left-[-2px] w-4 h-4 bg-gradient-to-tr from-silver to-metalPanelDark rounded-bl-xl border border-black/50 shadow-[inset_1px_-1px_2px_rgba(255,255,255,0.8)]"></div>
-                <div class="absolute bottom-[-2px] right-[-2px] w-4 h-4 bg-gradient-to-tl from-silver to-metalPanelDark rounded-br-xl border border-black/50 shadow-[inset_-1px_-1px_2px_rgba(255,255,255,0.8)]"></div>
-
-                <!-- Inner Metallic Matting -->
-                <div class="bg-brushed-metal p-2 rounded-lg shadow-[inset_0_5px_10px_rgba(0,0,0,0.5)] border border-black/40">
-                    <!-- The actual photo -->
-                    <img src={img.src} alt={img.alt} class={`w-[280px] h-[280px] object-cover ${img.pos} rounded border border-black/50 shadow-inner sepia-[0.3] contrast-125 group-hover:sepia-0 transition-all duration-500`}>
-                </div>
-            </div>
-        ))}
-        
-    </div>
+<Layout title="Tussi RigCraft Labs">
 
     <div class="flex flex-col sm:flex-row justify-center gap-4 mb-10 text-center flex-wrap">
         <a href={`${import.meta.env.BASE_URL}/tank-g-presets`} class="inline-block bg-accentOrange text-bgMain py-2.5 px-5 rounded text-lg font-bold no-underline transition-colors duration-200 hover:bg-[#e68a00]">
@@ -71,6 +47,13 @@ const allBandTags = Array.from(uniqueBands).sort();
         </a>
         <a href={`${import.meta.env.BASE_URL}/admin/add-setup`} class="inline-block bg-silver text-tolexDark py-2.5 px-5 rounded text-lg font-bold no-underline transition-colors duration-200 hover:bg-white border-2 border-[#111] shadow-[0_4px_10px_rgba(0,0,0,0.5)]">
             ⚙️ Adicionar Setup (Admin)
+        </a>
+    </div>
+
+    <!-- Link para o Mural -->
+    <div class="flex justify-center mb-10">
+        <a href={`${import.meta.env.BASE_URL}/mural`} class="inline-block bg-brushed-metal text-[#111] py-2.5 px-8 rounded text-lg font-bold no-underline transition-colors duration-200 hover:bg-white border-2 border-black shadow-[0_4px_10px_rgba(0,0,0,0.5)]">
+            📸 Ver Mural de Recordações
         </a>
     </div>
 
