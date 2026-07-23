@@ -38,13 +38,18 @@ const allBandTags = Array.from(uniqueBands).sort();
 
 <Layout title="Tussi RigCraft Labs">
 
-    <div class="flex flex-col items-center gap-4 mb-12 text-center">
-        <a href={`${import.meta.env.BASE_URL}/tank-g-presets`} class="inline-block w-full max-w-md bg-accentOrange text-bgMain py-2.5 px-5 rounded text-lg font-bold no-underline transition-colors duration-200 hover:bg-[#e68a00]">
-            🎛️ Ver Lista de Presets da M-Vave TANK-G
-        </a>
-        <a href={`${import.meta.env.BASE_URL}/boss-katana-go-presets`} class="inline-block w-full max-w-md bg-accentOrange text-bgMain py-2.5 px-5 rounded text-lg font-bold no-underline transition-colors duration-200 hover:bg-[#e68a00]">
-            🎛️ Ver Lista de Presets Boss Katana:GO
-        </a>
+    <div class="flex flex-col items-center gap-4 mb-12 text-center w-full px-4">
+        
+        <!-- Linha 1: Presets lado a lado -->
+        <div class="flex flex-col sm:flex-row gap-4 w-full justify-center">
+            <a href={`${import.meta.env.BASE_URL}/tank-g-presets`} class="inline-block w-full sm:w-auto sm:flex-1 max-w-md mx-auto bg-accentOrange text-bgMain py-2.5 px-5 rounded text-lg font-bold no-underline transition-colors duration-200 hover:bg-[#e68a00]">
+                🎛️ Lista Presets M-Vave TANK-G
+            </a>
+            <a href={`${import.meta.env.BASE_URL}/boss-katana-go-presets`} class="inline-block w-full sm:w-auto sm:flex-1 max-w-md mx-auto bg-accentOrange text-bgMain py-2.5 px-5 rounded text-lg font-bold no-underline transition-colors duration-200 hover:bg-[#e68a00]">
+                🎛️ Lista Presets Boss Katana GO
+            </a>
+        </div>
+
         <a href={`${import.meta.env.BASE_URL}/admin/add-setup`} class="inline-block w-full max-w-md bg-silver text-tolexDark py-2.5 px-5 rounded text-lg font-bold no-underline transition-colors duration-200 hover:bg-white border-2 border-[#111] shadow-[0_4px_10px_rgba(0,0,0,0.5)]">
             ⚙️ Adicionar Setup (Admin)
         </a>
