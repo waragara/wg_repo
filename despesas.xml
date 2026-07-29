@@ -3,76 +3,106 @@
     <despesa>
         <dia_vencimento>1</dia_vencimento>
         <tipo_pagamento>DA-cc</tipo_pagamento>
+        <categoria>Diversos</categoria>
+        <subcategoria>Cartão de Crédito</subcategoria>
         <descricao>Cartao Bradesco Visa 1</descricao>
     </despesa>
     <despesa>
         <dia_vencimento>3</dia_vencimento>
         <tipo_pagamento>DA-cc</tipo_pagamento>
+        <categoria>Moradia</categoria>
+        <subcategoria>CEEE TM</subcategoria>
         <descricao>CEEE Terra Mater</descricao>
     </despesa>
     <despesa>
         <dia_vencimento>5</dia_vencimento>
         <tipo_pagamento>Boleto</tipo_pagamento>
+        <categoria>Diversos</categoria>
+        <subcategoria>Cartão de Crédito</subcategoria>
         <descricao>Cartao XP</descricao>
     </despesa>
     <despesa>
         <dia_vencimento>5</dia_vencimento>
         <tipo_pagamento>Boleto</tipo_pagamento>
+        <categoria>Educacao</categoria>
+        <subcategoria>Mensalidade Provincia</subcategoria>
         <descricao>Mensalidade Provincia</descricao>
     </despesa>
     <despesa>
         <dia_vencimento>5</dia_vencimento>
         <tipo_pagamento>Boleto</tipo_pagamento>
+        <categoria>Educacao</categoria>
+        <subcategoria>Cantina Provincia</subcategoria>
         <descricao>Cantina Provincia</descricao>
     </despesa>
     <despesa>
         <dia_vencimento>8</dia_vencimento>
         <tipo_pagamento>Boleto</tipo_pagamento>
+        <categoria>Moradia</categoria>
+        <subcategoria>IPTU TM</subcategoria>
         <descricao>IPTU Terra Mater 5/10</descricao>
     </despesa>
     <despesa>
         <dia_vencimento>10</dia_vencimento>
         <tipo_pagamento>Boleto</tipo_pagamento>
+        <categoria>Educacao</categoria>
+        <subcategoria>Atividades Provincia</subcategoria>
         <descricao>Atividades Extra Provincia</descricao>
     </despesa>
     <despesa>
         <dia_vencimento>10</dia_vencimento>
         <tipo_pagamento>DA-cc</tipo_pagamento>
+        <categoria>Telecom</categoria>
+        <subcategoria>Claro TM</subcategoria>
         <descricao>Claro Terra Mater</descricao>
     </despesa>
     <despesa>
         <dia_vencimento>10</dia_vencimento>
         <tipo_pagamento>Boleto</tipo_pagamento>
+        <categoria>Moradia</categoria>
+        <subcategoria>Condominio TM</subcategoria>
         <descricao>Condominio Terra Mater</descricao>
     </despesa>
     <despesa>
         <dia_vencimento>10</dia_vencimento>
         <tipo_pagamento>Pix</tipo_pagamento>
+        <categoria>Saude</categoria>
+        <subcategoria>Academia</subcategoria>
         <descricao>Guto Personal</descricao>
     </despesa>
     <despesa>
         <dia_vencimento>10</dia_vencimento>
         <tipo_pagamento>DA-cc</tipo_pagamento>
+        <categoria>Diversos</categoria>
+        <subcategoria>Cartão de Crédito</subcategoria>
         <descricao>Cartao Bradesco Visa 2</descricao>
     </despesa>
     <despesa>
         <dia_vencimento>10</dia_vencimento>
         <tipo_pagamento>DA-cc</tipo_pagamento>
+        <categoria>Telecom</categoria>
+        <subcategoria>Claro NL</subcategoria>
         <descricao>Claro New Life</descricao>
     </despesa>
     <despesa>
         <dia_vencimento>11</dia_vencimento>
         <tipo_pagamento>DA-cc</tipo_pagamento>
+        <categoria>Moradia</categoria>
+        <subcategoria>Financiamento</subcategoria>
         <descricao>Prestacao Bradesco</descricao>
     </despesa>
     <despesa>
         <dia_vencimento>24</dia_vencimento>
         <tipo_pagamento>Boleto</tipo_pagamento>
+        <categoria>Moradia</categoria>
+        <subcategoria>CEEE NL</subcategoria>
         <descricao>CEEE New Life</descricao>
     </despesa>
     <despesa>
         <dia_vencimento>28</dia_vencimento>
         <tipo_pagamento>Boleto</tipo_pagamento>
+        <categoria>Moradia</categoria>
+        <subcategoria>IPTU NL</subcategoria>
         <descricao>IPTU New Life 5/10</descricao>
     </despesa>
 </despesas>
