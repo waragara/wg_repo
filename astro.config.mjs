@@ -86,13 +86,14 @@ VISÃO HOLÍSTICA: Se você notar que o usuário selecionou poucos equipamentos 
 REGRA CRÍTICA 1: Os valores de guitar, pedals, amp e os titles dentro de equipment DEVEM ser uma cópia EXATA de algum item do inventário geral.
 REGRA CRÍTICA 2: Se a pedaleira "Pedaleira Multi Efeitos M-Vave Tank-G" for selecionada no setup (seja por você ou pelo usuário), você OBRIGATORIAMENTE deve usar um AMP e um IR CAB da lista do Tank-G e incluí-los no bloco equipment como mostrado no exemplo acima.
 REGRA CRÍTICA 3: O campo pickup (Braço, Ponte ou Ambos) é obrigatório no YAML Frontmatter.
-REGRA CRÍTICA 4 (A Regra de Ouro do Cabeamento Físico): O array 'pedals' no YAML Frontmatter DEVE representar o fluxo de áudio físico exato e sequencial. O sinal sai da Guitarra, conecta-se ao INPUT do primeiro pedal e flui até o Amplificador/Monitores. Nunca inverta essa lógica.
-Ordem Lógica Obrigatória de Efeitos: A ordem do array de pedais DEVE seguir estritamente esta arquitetura:
-1º: Ganho/Overdrive (ex: Boss OD-3, Pure Sky - Caline).
-2º: Equalização Analógica (ex: Equilizador Joyo 10-Band Controller).
-3º: Modulações/Tempo (ex: M-Vave LOst Tempo v2).
-4º: Processamento Digital / Amp Sim (ex: M-Vave Tank-G).
-5º: Ambiência Final (ex: M-Vave Mini Universe). O reverb deve ser sempre o último elo da cadeia antes da saída final.
+REGRA CRÍTICA 4 (A Regra de Ouro do Cabeamento Físico e Conexão): O sinal de áudio sai da Guitarra e ENTRA EXCLUSIVAMENTE no "Input" do pedal do Slot 1. Sob nenhuma hipótese conecte a guitarra na "saída" de um pedal. O fluxo é sempre Input -> Output para o próximo pedal. O array 'pedals' no YAML Frontmatter DEVE representar esse fluxo físico exato e sequencial.
+Ordem Lógica Obrigatória de Efeitos (Inviolável): A ordem do array de pedais DEVE respeitar rigorosamente as etapas físicas do sinal, sem pular a ordem:
+Slot 1: Ganho/Overdrive (ex: Pure Sky - Caline, Boss OD-3)
+Slot 2: Equalização Analógica (ex: Equilizador Joyo 10-Band Controller)
+Slot 3: Modulações/Tempo (ex: M-Vave LOst Tempo v2)
+Slot 4: Processamento Digital / Amp Sim / Multi-efeitos (ex: M-Vave Tank-G)
+Slot 5: Ambiência Final (ex: M-Vave Mini Universe)
+(O Joyo 10-Band NUNCA deve vir depois do Tank-G. O Lost Tempo NUNCA deve vir depois do Mini Universe).
 
 Inventário GERAL disponível:
 ${allGear.map((g) => `- ${g}`).join('\n')}
@@ -105,14 +106,14 @@ Inventário TANK-G (Opções exclusivas de Amps e Cabs do Tank-G):
               if (isAutopilot) {
                 systemPrompt += `
 CENÁRIO (Piloto Automático): O usuário NÃO selecionou nenhum equipamento.
-Sua Tarefa: Assuma que todo o inventário está conectado. Analise a música solicitada, vasculhe o inventário completo acima e selecione a dedo a melhor guitarra, pedais (quantos forem necessários) e amplificador.`;
+Sua Tarefa: Assuma que todo o inventário está conectado. Analise a música solicitada, vasculhe o inventário completo acima e selecione a dedo a melhor guitarra, pedais (quantos forem necessários) e amplificador, aplicando a Ordem Lógica Inviolável acima. Na seção SUGESTOES, explique como ordenou o sinal.`;
               } else {
                 systemPrompt += `
 CENÁRIO (Equipamento Selecionado): O usuário selecionou manualmente os seguintes equipamentos:
 ${selectedGear.map((g) => `- ${g}`).join('\n')}
 
 Sua Tarefa: Crie o setup utilizando os equipamentos que o usuário selecionou. 
-No entanto, aja com VISÃO HOLÍSTICA: assuma que TODOS os equipamentos do inventário estão disponíveis no seu estúdio. Se o setup selecionado pelo usuário estiver "pobre" para o timbre solicitado (ex: falta de um reverb ou drive), adicione os equipamentos necessários do inventário geral para atingir a perfeição, e explique isso na seção SUGESTOES.`;
+No entanto, aja com VISÃO HOLÍSTICA: assuma que TODOS os equipamentos do inventário estão disponíveis no seu estúdio. Se o setup selecionado pelo usuário estiver "pobre" para o timbre solicitado (ex: falta de um reverb ou drive), adicione os equipamentos necessários do inventário geral para atingir a perfeição. Você DEVE reconstruir a ordem de pedais aplicando a Ordem Lógica Inviolável acima. Na seção SUGESTOES, explique detalhadamente como você reordenou o sinal.`;
               }
 
               const ai = new GoogleGenAI({ apiKey });
@@ -315,13 +316,14 @@ VISÃO HOLÍSTICA: Se você notar que o usuário selecionou poucos equipamentos 
 REGRA CRÍTICA 1: Os valores de guitar, pedals, amp e os titles dentro de equipment DEVEM ser uma cópia EXATA de algum item do inventário geral.
 REGRA CRÍTICA 2: Se a pedaleira "Pedaleira Multi Efeitos M-Vave Tank-G" for selecionada no setup (seja por você ou pelo usuário), você OBRIGATORIAMENTE deve usar um AMP e um IR CAB da lista do Tank-G e incluí-los no bloco equipment como mostrado no exemplo acima.
 REGRA CRÍTICA 3: O campo pickup (Braço, Ponte ou Ambos) é obrigatório no YAML Frontmatter.
-REGRA CRÍTICA 4 (A Regra de Ouro do Cabeamento Físico): O array 'pedals' no YAML Frontmatter DEVE representar o fluxo de áudio físico exato e sequencial. O sinal sai da Guitarra, conecta-se ao INPUT do primeiro pedal e flui até o Amplificador/Monitores. Nunca inverta essa lógica.
-Ordem Lógica Obrigatória de Efeitos: A ordem do array de pedais DEVE seguir estritamente esta arquitetura:
-1º: Ganho/Overdrive (ex: Boss OD-3, Pure Sky - Caline).
-2º: Equalização Analógica (ex: Equilizador Joyo 10-Band Controller).
-3º: Modulações/Tempo (ex: M-Vave LOst Tempo v2).
-4º: Processamento Digital / Amp Sim (ex: M-Vave Tank-G).
-5º: Ambiência Final (ex: M-Vave Mini Universe). O reverb deve ser sempre o último elo da cadeia antes da saída final.
+REGRA CRÍTICA 4 (A Regra de Ouro do Cabeamento Físico e Conexão): O sinal de áudio sai da Guitarra e ENTRA EXCLUSIVAMENTE no "Input" do pedal do Slot 1. Sob nenhuma hipótese conecte a guitarra na "saída" de um pedal. O fluxo é sempre Input -> Output para o próximo pedal. O array 'pedals' no YAML Frontmatter DEVE representar esse fluxo físico exato e sequencial.
+Ordem Lógica Obrigatória de Efeitos (Inviolável): A ordem do array de pedais DEVE respeitar rigorosamente as etapas físicas do sinal, sem pular a ordem:
+Slot 1: Ganho/Overdrive (ex: Pure Sky - Caline, Boss OD-3)
+Slot 2: Equalização Analógica (ex: Equilizador Joyo 10-Band Controller)
+Slot 3: Modulações/Tempo (ex: M-Vave LOst Tempo v2)
+Slot 4: Processamento Digital / Amp Sim / Multi-efeitos (ex: M-Vave Tank-G)
+Slot 5: Ambiência Final (ex: M-Vave Mini Universe)
+(O Joyo 10-Band NUNCA deve vir depois do Tank-G. O Lost Tempo NUNCA deve vir depois do Mini Universe).
 
 Inventário GERAL disponível:
 ${allGear.map((g) => `- ${g}`).join('\n')}
@@ -331,7 +333,7 @@ Inventário TANK-G (Opções exclusivas de Amps e Cabs do Tank-G):
 - IR Cabs: ${tankGPresets.cabs.join(', ')}
 
 CENÁRIO (Piloto Automático / Reload):
-Sua Tarefa: Assuma que todo o inventário está conectado. Analise a música solicitada, vasculhe o inventário completo acima e selecione a dedo a melhor guitarra, pedais (quantos forem necessários) e amplificador.`;
+Sua Tarefa (DESTRUIÇÃO DO VIÉS ANTIGO): Ao receber o setup, IGNORE COMPLETAMENTE a ordem atual do array de pedals. Você DEVE reconstruir o array de pedais do absoluto zero. Analise TODOS os equipamentos disponíveis no arquivo de dados. Mesmo que o setup antigo tenha usado apenas 2 pedais, adicione outros pedais da lista se eles forem essenciais para o timbre solicitado. Assuma que todo o inventário está conectado. Selecione a dedo a melhor guitarra, pedais (quantos forem necessários) e amplificador, aplicando a Ordem Lógica Inviolável acima. Na chave 'SUGESTOES', explique brevemente como reordenou o sinal.`;
 
               const ai = new GoogleGenAI({ apiKey });
               const prompt = `Refaça o setup ideal para a música ${title} do artista ${artist} usando APENAS os equipamentos da lista.`;
