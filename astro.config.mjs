@@ -40,13 +40,17 @@ function localAdminPlugin() {
 
               const gearListPath = path.join(process.cwd(), 'src', 'data', 'gear.json');
               const allGear = JSON.parse(fs.readFileSync(gearListPath, 'utf-8'));
+              
+              const tankGPath = path.join(process.cwd(), 'src', 'data', 'tank-g-presets.json');
+              const tankGPresets = fs.existsSync(tankGPath) ? JSON.parse(fs.readFileSync(tankGPath, 'utf-8')) : { amps: [], cabs: [] };
+
               const isAutopilot = !selectedGear || selectedGear.length === 0;
 
               let systemPrompt = `Você é um engenheiro de áudio especialista em timbres de guitarra.
 Sua missão é criar o setup de áudio perfeito para a música/artista solicitado pelo usuário, baseando-se EXCLUSIVAMENTE nos equipamentos disponíveis.
 
 Você DEVE retornar um objeto JSON estrito contendo exatamente duas chaves:
-1. "sugestoes": Uma string com sua análise sobre o equipamento escolhido ou o motivo das suas escolhas.
+1. "sugestoes": Uma string com sua análise sobre o equipamento escolhido ou o motivo das suas escolhas. Se a pedaleira "M-Vave Tank-G" for escolhida, você deve justificar a escolha do AMP e do IR CAB selecionados.
 2. "markdown": Uma string com o CONTEÚDO COMPLETO DO ARQUIVO FINAL. Este conteúdo deve começar OBRIGATORIAMENTE com o bloco YAML (usando ---) e terminar com o texto da cadeia de sinal.
 
 Exemplo OBRIGATÓRIO do valor da chave "markdown" (você deve substituir os valores pelos dados reais e DEVE incluir as regulagens de TODOS os equipamentos):
@@ -63,18 +67,25 @@ equipment:
   - title: "NOME EXATO DO PEDAL 1"
     list:
       - '<strong class="text-white">Drive/Gain:</strong> 6 | <strong class="text-white">Tone:</strong> 5 | <strong class="text-white">Level:</strong> 5'
-  - title: "NOME EXATO DO AMPLIFICADOR"
+  - title: "Pedaleira Multi Efeitos M-Vave Tank-G"
     list:
-      - '<strong class="text-white">Gain:</strong> 4 | <strong class="text-white">Treble:</strong> 6 | <strong class="text-white">Middle:</strong> 5 | <strong class="text-white">Bass:</strong> 5'
+      - '<strong class="text-white">AMP:</strong> NOME EXATO DO AMP'
+      - '<strong class="text-white">CAB:</strong> NOME EXATO DO CAB'
+      - '<strong class="text-white">Gain:</strong> 5 | <strong class="text-white">Treble:</strong> 6 | <strong class="text-white">Middle:</strong> 5 | <strong class="text-white">Bass:</strong> 5'
 ---
 **Sinal:**
 1. A guitarra passa pelo pedal X...
 2. Em seguida vai para o Amp Y...
 
-REGRA CRÍTICA: Os valores de guitar, pedals, amp e os titles dentro de equipment DEVEM ser uma cópia EXATA de algum item do inventário abaixo.
+REGRA CRÍTICA 1: Os valores de guitar, pedals, amp e os titles dentro de equipment DEVEM ser uma cópia EXATA de algum item do inventário geral.
+REGRA CRÍTICA 2: Se a pedaleira "Pedaleira Multi Efeitos M-Vave Tank-G" for selecionada no setup (seja por você ou pelo usuário), você OBRIGATORIAMENTE deve usar um AMP e um IR CAB da lista do Tank-G e incluí-los no bloco equipment como mostrado no exemplo acima.
 
-Inventário COMPLETO disponível do usuário:
+Inventário GERAL disponível:
 ${allGear.map((g) => `- ${g}`).join('\n')}
+
+Inventário TANK-G (Opções exclusivas de Amps e Cabs do Tank-G):
+- Amps: ${tankGPresets.amps.join(', ')}
+- IR Cabs: ${tankGPresets.cabs.join(', ')}
 `;
 
               if (isAutopilot) {

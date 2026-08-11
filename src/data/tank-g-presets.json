@@ -1,0 +1,24 @@
+{
+  "amps": [
+    "VOX AC30HW Normal",
+    "Fender 65 Twin Reverb",
+    "Bogner Shiva",
+    "Marshall JTM45 OD",
+    "Plexi 100",
+    "Marshal JCM800",
+    "EVH 5150 LEAD",
+    "ENGL Powerball E645/2",
+    "Mesa Boogie Dual Rectifier"
+  ],
+  "cabs": [
+    "IR CAB turn off (None)",
+    "VHT Deliverance (4x12)",
+    "Sperimental (4x12)",
+    "Electrovoice (2x10)",
+    "Mesa Boogie (4x12)",
+    "Fender Champ (1x8)",
+    "Fender Pr Junior (1x10)",
+    "Marshall 1960V30 (4x12)",
+    "Diezel V30 (4x12)"
+  ]
+}
