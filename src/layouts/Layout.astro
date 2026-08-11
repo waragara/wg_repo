@@ -1,5 +1,5 @@
 ---
-import { ViewTransitions } from 'astro:transitions';
+import { ClientRouter } from 'astro:transitions';
 import '../styles/global.css';
 import HeaderAmp from '../components/HeaderAmp.astro';
 
@@ -16,7 +16,7 @@ const { title } = Astro.props;
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title}</title>
-    <ViewTransitions />
+    <ClientRouter />
   </head>
   <body class="bg-tolex text-silver font-mono leading-relaxed m-0 p-5">
     <div class="max-w-7xl mx-auto">
