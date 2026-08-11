@@ -121,7 +121,41 @@ Na chave "sugestoes", aja como um revisor: comente sobre a escolha do usuário b
         }
       });
 
-      // Rota 2: Salvar o Arquivo no Disco (Usado na Etapa de Revisão)
+      // Rota 2: Obter Conteúdo Cru de um Arquivo (Usado na Edição)
+      server.middlewares.use('/api/get-setup', (req, res, next) => {
+        if (req.method === 'GET') {
+          const url = new URL(req.url, `http://${req.headers.host}`);
+          const filename = url.searchParams.get('file');
+          
+          if (!filename) {
+            res.statusCode = 400;
+            res.end(JSON.stringify({ error: 'Parâmetro file é obrigatório' }));
+            return;
+          }
+
+          try {
+            const safeFilename = filename.endsWith('.md') ? filename : `${filename}.md`;
+            const filePath = path.join(process.cwd(), 'src', 'content', 'setups', safeFilename);
+            
+            if (!fs.existsSync(filePath)) {
+              res.statusCode = 404;
+              res.end(JSON.stringify({ error: 'Arquivo não encontrado' }));
+              return;
+            }
+
+            const content = fs.readFileSync(filePath, 'utf-8');
+            res.setHeader('Content-Type', 'application/json');
+            res.end(JSON.stringify({ success: true, content }));
+          } catch (e) {
+            res.statusCode = 500;
+            res.end(JSON.stringify({ error: e.message }));
+          }
+        } else {
+          next();
+        }
+      });
+
+      // Rota 3: Salvar o Arquivo no Disco (Usado na Etapa de Revisão e Edição)
       server.middlewares.use('/api/save-file', (req, res, next) => {
         if (req.method === 'POST') {
           let body = '';

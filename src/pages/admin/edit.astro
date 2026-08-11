@@ -1,0 +1,186 @@
+---
+import Layout from '../../layouts/Layout.astro';
+---
+
+<Layout title="Admin: Editar Setup">
+    <div class="max-w-4xl mx-auto">
+        <div class="mb-8">
+            <a href={`${import.meta.env.BASE_URL}/admin/`} class="inline-block bg-[#111] text-silver py-2 px-6 rounded-md text-sm font-bold no-underline hover:bg-[#222] border-b-4 border-black active:translate-y-1 active:border-b-0 uppercase tracking-wide">
+                ⬅ Cancelar e Voltar
+            </a>
+        </div>
+
+        <div class="bg-brushed-metal p-6 md:p-10 border-4 border-[#111] shadow-[0_10px_30px_rgba(0,0,0,0.9)] rounded-xl relative">
+            <!-- Screws -->
+            <div class="absolute top-3 left-3 w-3 h-3 rounded-full bg-black/60 shadow-inner border border-black/80"></div>
+            <div class="absolute top-3 right-3 w-3 h-3 rounded-full bg-black/60 shadow-inner border border-black/80"></div>
+            <div class="absolute bottom-3 left-3 w-3 h-3 rounded-full bg-black/60 shadow-inner border border-black/80"></div>
+            <div class="absolute bottom-3 right-3 w-3 h-3 rounded-full bg-black/60 shadow-inner border border-black/80"></div>
+
+            <h1 class="text-3xl md:text-4xl font-black font-slab uppercase tracking-widest text-[#111] drop-shadow-md text-center mb-8 border-b-2 border-[#111]/20 pb-4">
+                Editar Setup ✏️
+            </h1>
+
+            <form id="editSetupForm" class="flex flex-col gap-8 hidden">
+                
+                <div class="bg-black/60 p-6 rounded-xl border border-black/50 shadow-inner">
+                    <label for="filename" class="block font-mono font-bold text-mustard uppercase tracking-wider text-sm mb-3">
+                        Arquivo Original (somente leitura)
+                    </label>
+                    <input 
+                        type="text" 
+                        id="filename" 
+                        readonly
+                        class="w-full bg-black/80 text-silver/50 font-mono p-4 rounded border-2 border-black/50 cursor-not-allowed outline-none"
+                    />
+                </div>
+
+                <div class="bg-black/60 p-6 rounded-xl border border-black/50 shadow-inner flex-1">
+                    <label for="content" class="block font-mono font-bold text-mustard uppercase tracking-wider text-sm mb-3 flex items-center justify-between">
+                        <span>Código do Setup (YAML + Markdown)</span>
+                    </label>
+                    <textarea 
+                        id="content" 
+                        rows="25"
+                        required
+                        class="w-full bg-black/80 text-mustard font-mono p-4 rounded shadow-inner border-2 border-black/50 focus:border-mustard focus:outline-none transition-colors resize-y text-sm leading-relaxed"
+                    ></textarea>
+                </div>
+
+                <div id="statusMessage" class="hidden p-4 rounded-md font-mono font-bold text-center tracking-wide shadow-inner"></div>
+
+                <button 
+                    type="submit" 
+                    id="submitBtn"
+                    class="bg-mustard text-tolexDark py-5 px-6 rounded border-4 border-mustardDark shadow-[0_5px_15px_rgba(0,0,0,0.5)] font-slab font-black text-2xl uppercase tracking-widest hover:bg-mustardDark hover:text-black transition-all active:translate-y-1 mt-2"
+                >
+                    Salvar Alterações 💾
+                </button>
+            </form>
+
+            <div id="loadingState" class="flex flex-col items-center justify-center py-20 gap-4">
+                <span class="animate-spin text-4xl">⏳</span>
+                <p class="font-mono text-silver font-bold uppercase tracking-wider">Carregando arquivo...</p>
+            </div>
+            
+            <div id="errorState" class="hidden flex-col items-center justify-center py-20 gap-4">
+                <span class="text-4xl">❌</span>
+                <p id="errorText" class="font-mono text-red-700 font-bold uppercase tracking-wider text-center max-w-md"></p>
+                <a href={`${import.meta.env.BASE_URL}/admin/`} class="mt-4 bg-[#111] text-silver py-2 px-6 rounded border-2 border-black uppercase text-sm font-bold">Voltar</a>
+            </div>
+        </div>
+    </div>
+</Layout>
+
+<script>
+    document.addEventListener('DOMContentLoaded', async () => {
+        const form = document.getElementById('editSetupForm') as HTMLFormElement;
+        const filenameInput = document.getElementById('filename') as HTMLInputElement;
+        const contentInput = document.getElementById('content') as HTMLTextAreaElement;
+        
+        const loadingState = document.getElementById('loadingState');
+        const errorState = document.getElementById('errorState');
+        const errorText = document.getElementById('errorText');
+        
+        const statusMsg = document.getElementById('statusMessage');
+        const submitBtn = document.getElementById('submitBtn');
+
+        // Extrair parâmetro da URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const fileParam = urlParams.get('file');
+
+        if (!fileParam) {
+            if (loadingState) loadingState.classList.add('hidden');
+            if (errorState) errorState.classList.remove('hidden', 'flex-col');
+            if (errorState) errorState.classList.add('flex', 'flex-col');
+            if (errorText) errorText.textContent = 'Parâmetro ?file= não encontrado na URL.';
+            return;
+        }
+
+        try {
+            // Buscar o arquivo na API
+            const response = await fetch(`${import.meta.env.BASE_URL}/api/get-setup?file=${encodeURIComponent(fileParam)}`);
+            const result = await response.json();
+
+            if (loadingState) loadingState.classList.add('hidden');
+
+            if (!response.ok) {
+                throw new Error(result.error || 'Erro ao carregar o arquivo.');
+            }
+
+            // Popular form
+            filenameInput.value = fileParam;
+            contentInput.value = result.content;
+            
+            // Mostrar form
+            form.classList.remove('hidden', 'flex-col');
+            form.classList.add('flex', 'flex-col');
+
+        } catch (error: any) {
+            console.error(error);
+            if (loadingState) loadingState.classList.add('hidden');
+            if (errorState) errorState.classList.remove('hidden', 'flex-col');
+            if (errorState) errorState.classList.add('flex', 'flex-col');
+            if (errorText) errorText.textContent = error.message;
+        }
+
+        // Salvar alterações
+        if (form) {
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                
+                const filename = filenameInput.value.trim();
+                const content = contentInput.value.trim();
+
+                if (!filename || !content) return;
+
+                if (submitBtn) {
+                    submitBtn.textContent = 'Salvando...';
+                    submitBtn.setAttribute('disabled', 'true');
+                    submitBtn.classList.add('opacity-80', 'cursor-not-allowed');
+                }
+                
+                if (statusMsg) statusMsg.classList.add('hidden');
+                
+                try {
+                    const response = await fetch(`${import.meta.env.BASE_URL}/api/save-file`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ filename, content })
+                    });
+
+                    const result = await response.json();
+
+                    if (statusMsg) {
+                        statusMsg.classList.remove('hidden', 'bg-red-900', 'text-red-300');
+                        if (response.ok) {
+                            statusMsg.classList.add('bg-green-900', 'text-green-300', 'border', 'border-green-500');
+                            statusMsg.textContent = result.message || 'Salvo com sucesso! Redirecionando...';
+                            
+                            // Redirecionar para dashboard após sucesso
+                            setTimeout(() => {
+                                window.location.href = `${import.meta.env.BASE_URL}/admin/`;
+                            }, 1500);
+                        } else {
+                            throw new Error(result.error || 'Erro ao salvar.');
+                        }
+                    }
+
+                } catch (error: any) {
+                    console.error('Error saving file:', error);
+                    if (statusMsg) {
+                        statusMsg.classList.remove('hidden', 'bg-green-900', 'text-green-300');
+                        statusMsg.classList.add('bg-red-900', 'text-red-300', 'border', 'border-red-500');
+                        statusMsg.textContent = `Erro: ${error.message}`;
+                    }
+                } finally {
+                    if (submitBtn) {
+                        submitBtn.textContent = 'Salvar Alterações 💾';
+                        submitBtn.removeAttribute('disabled');
+                        submitBtn.classList.remove('opacity-80', 'cursor-not-allowed');
+                    }
+                }
+            });
+        }
+    });
+</script>

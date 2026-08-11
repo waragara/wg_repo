@@ -1,0 +1,68 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import fs from 'fs';
+import path from 'path';
+
+// Read files at build/dev time
+const setupsDir = path.join(process.cwd(), 'src', 'content', 'setups');
+let setups: string[] = [];
+
+if (fs.existsSync(setupsDir)) {
+    const files = fs.readdirSync(setupsDir);
+    setups = files.filter(f => f.endsWith('.md') && !f.startsWith('_')).sort();
+}
+---
+
+<Layout title="Admin: Painel de Controle">
+    <div class="max-w-4xl mx-auto">
+        <div class="flex flex-col sm:flex-row justify-between items-center gap-4 mb-8">
+            <a href={`${import.meta.env.BASE_URL}/`} class="inline-block bg-[#111] text-silver py-2 px-6 rounded-md text-sm font-bold no-underline hover:bg-[#222] border-b-4 border-black active:translate-y-1 active:border-b-0 uppercase tracking-wide">
+                ⬅ Voltar para o Site
+            </a>
+            
+            <a href={`${import.meta.env.BASE_URL}/admin/add-setup`} class="inline-block bg-mustard text-tolexDark py-2 px-6 rounded-md text-sm font-bold no-underline transition-all duration-200 hover:bg-mustardDark hover:shadow-[0_0_15px_rgba(234,179,8,0.5)] border-b-4 border-mustardDark active:translate-y-1 active:border-b-0 uppercase tracking-wide flex items-center gap-2">
+                <span>➕ Criar Novo Setup (IA)</span>
+            </a>
+        </div>
+
+        <div class="bg-brushed-metal p-6 md:p-10 border-4 border-[#111] shadow-[0_10px_30px_rgba(0,0,0,0.9)] rounded-xl relative">
+            <!-- Screws -->
+            <div class="absolute top-3 left-3 w-3 h-3 rounded-full bg-black/60 shadow-inner border border-black/80"></div>
+            <div class="absolute top-3 right-3 w-3 h-3 rounded-full bg-black/60 shadow-inner border border-black/80"></div>
+            <div class="absolute bottom-3 left-3 w-3 h-3 rounded-full bg-black/60 shadow-inner border border-black/80"></div>
+            <div class="absolute bottom-3 right-3 w-3 h-3 rounded-full bg-black/60 shadow-inner border border-black/80"></div>
+
+            <h1 class="text-3xl md:text-4xl font-black font-slab uppercase tracking-widest text-[#111] drop-shadow-md text-center mb-8 border-b-2 border-[#111]/20 pb-4 flex items-center justify-center gap-3">
+                Meus Setups 🎸
+            </h1>
+
+            <div class="bg-black/60 rounded-xl border border-black/50 overflow-hidden shadow-inner shadow-black/80">
+                <table class="w-full text-left font-mono">
+                    <thead class="bg-black/90 text-mustard uppercase text-sm border-b-2 border-mustard/50">
+                        <tr>
+                            <th class="p-4">Arquivo (.md)</th>
+                            <th class="p-4 text-right">Ação</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-silver text-base divide-y divide-white/5">
+                        {setups.map(file => (
+                            <tr class="hover:bg-white/5 transition-colors group">
+                                <td class="p-4 font-bold group-hover:text-white transition-colors">{file}</td>
+                                <td class="p-4 text-right">
+                                    <a href={`${import.meta.env.BASE_URL}/admin/edit?file=${file}`} class="inline-block bg-tolexDark text-mustard border border-mustard/30 py-2 px-5 rounded text-xs font-bold uppercase hover:bg-mustard hover:text-black transition-colors">
+                                        Editar ✏️
+                                    </a>
+                                </td>
+                            </tr>
+                        ))}
+                        {setups.length === 0 && (
+                            <tr>
+                                <td colspan="2" class="p-8 text-center text-silver/50 italic">Nenhum setup encontrado na pasta src/content/setups/</td>
+                            </tr>
+                        )}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</Layout>
