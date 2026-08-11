@@ -49,11 +49,9 @@ function localAdminPlugin() {
               let systemPrompt = `Você é um engenheiro de áudio especialista em timbres de guitarra.
 Sua missão é criar o setup de áudio perfeito para a música/artista solicitado pelo usuário, baseando-se EXCLUSIVAMENTE nos equipamentos disponíveis.
 
-Você DEVE retornar um objeto JSON estrito contendo exatamente duas chaves:
-1. "sugestoes": Uma string com sua análise sobre o equipamento escolhido ou o motivo das suas escolhas. Se a pedaleira "M-Vave Tank-G" for escolhida, você deve justificar a escolha do AMP e do IR CAB selecionados.
-2. "markdown": Uma string com o CONTEÚDO COMPLETO DO ARQUIVO FINAL. Este conteúdo deve começar OBRIGATORIAMENTE com o bloco YAML (usando ---) e terminar com o texto da cadeia de sinal.
+IMPORTANTE: Você NÃO deve retornar JSON. Retorne EXATAMENTE o texto bruto do arquivo markdown (incluindo o Frontmatter YAML) seguido de um separador "### SUGESTOES ###" e então escreva as suas explicações/sugestões na parte final.
 
-Exemplo OBRIGATÓRIO do valor da chave "markdown" (você deve substituir os valores pelos dados reais e DEVE incluir as regulagens de TODOS os equipamentos):
+Exemplo OBRIGATÓRIO do formato da sua resposta (substitua pelos dados reais e inclua as regulagens):
 ---
 title: "Nome da Música"
 artist: "Nome do Artista"
@@ -77,6 +75,9 @@ equipment:
 1. A guitarra passa pelo pedal X...
 2. Em seguida vai para o Amp Y...
 
+### SUGESTOES ###
+Explique aqui a sua análise. Se a pedaleira "M-Vave Tank-G" for escolhida, você deve justificar a escolha do AMP e do IR CAB selecionados.
+
 REGRA CRÍTICA 1: Os valores de guitar, pedals, amp e os titles dentro de equipment DEVEM ser uma cópia EXATA de algum item do inventário geral.
 REGRA CRÍTICA 2: Se a pedaleira "Pedaleira Multi Efeitos M-Vave Tank-G" for selecionada no setup (seja por você ou pelo usuário), você OBRIGATORIAMENTE deve usar um AMP e um IR CAB da lista do Tank-G e incluí-los no bloco equipment como mostrado no exemplo acima.
 
@@ -91,15 +92,14 @@ Inventário TANK-G (Opções exclusivas de Amps e Cabs do Tank-G):
               if (isAutopilot) {
                 systemPrompt += `
 CENÁRIO (Piloto Automático): O usuário NÃO selecionou nenhum equipamento.
-Sua Tarefa: Analise a música solicitada, vasculhe o inventário completo acima e selecione a dedo a melhor guitarra, pedais e amplificador.
-Na chave "sugestoes", explique brevemente por que você montou esse setup específico com base no inventário.`;
+Sua Tarefa: Analise a música solicitada, vasculhe o inventário completo acima e selecione a dedo a melhor guitarra, pedais e amplificador.`;
               } else {
                 systemPrompt += `
 CENÁRIO (Equipamento Selecionado): O usuário selecionou manualmente os seguintes equipamentos:
 ${selectedGear.map((g) => `- ${g}`).join('\n')}
 
 Sua Tarefa: Crie o setup utilizando ESTRITAMENTE E APENAS os equipamentos que o usuário selecionou. Não invente equipamentos fora desta lista.
-Na chave "sugestoes", aja como um revisor: comente sobre a escolha do usuário baseando-se no inventário completo (ex: elogie a escolha ou sugira gentilmente se outra guitarra do inventário seria melhor para aquele timbre).`;
+Aja como um revisor: na seção final (SUGESTOES), comente sobre a escolha do usuário baseando-se no inventário completo.`;
               }
 
               const ai = new GoogleGenAI({ apiKey });
@@ -107,18 +107,18 @@ Na chave "sugestoes", aja como um revisor: comente sobre a escolha do usuário b
                 model: 'gemini-3.5-flash',
                 contents: prompt,
                 config: { 
-                  systemInstruction: systemPrompt + "\n\nAVISO CRÍTICO PARA O PARSER: Você está gerando um objeto JSON. Valores de string em JSON NÃO PODEM conter quebras de linha literais (Enter). Você deve OBRIGATORIAMENTE escapar todas as quebras de linha do markdown usando o caractere \\n. Certifique-se de que sua saída é um JSON estritamente válido.",
-                  responseMimeType: "application/json"
+                  systemInstruction: systemPrompt,
+                  responseMimeType: "text/plain"
                 }
               });
 
-              let rawText = aiResponse.text || '{}';
-              // Limpa blocos de markdown que o Gemini às vezes insere em volta do JSON
-              rawText = rawText.replace(/```json/gi, '').replace(/```/g, '').trim();
+              let rawText = aiResponse.text || '';
+              // Remove possíveis marcações de bloco de código genéricas na resposta inteira
+              rawText = rawText.replace(/^```markdown/i, '').replace(/^```/i, '').replace(/```$/i, '').trim();
 
-              const responseData = JSON.parse(rawText);
-              const generatedContent = responseData.markdown || '';
-              const sugestoes = responseData.sugestoes || '';
+              const parts = rawText.split('### SUGESTOES ###');
+              const generatedContent = (parts[0] || '').trim();
+              const sugestoes = (parts[1] || '').trim();
               
               const filename = prompt.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
 
