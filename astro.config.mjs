@@ -46,7 +46,7 @@ Equipamentos permitidos: ${selectedGear.join(', ')}
 A sua resposta deve ser APENAS o código Markdown contendo o YAML Frontmatter perfeitamente alinhado à nossa Content Collection do Zod (artist, guitar, pedals, amp, amp_settings) seguido de uma breve explicação sobre a cadeia de sinal. Não adicione formatação de bloco de código (\`\`\`) envolvendo o arquivo todo.`;
 
               const aiResponse = await ai.models.generateContent({
-                model: 'gemini-2.5-flash',
+                model: 'gemini-1.5-flash',
                 contents: prompt,
                 config: { systemInstruction: systemPrompt }
               });
