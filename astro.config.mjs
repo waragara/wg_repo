@@ -8,7 +8,7 @@ import mdx from '@astrojs/mdx';
 import fs from 'fs';
 import path from 'path';
 
-import { GoogleGenAI } from '@google/genai';
+import { GoogleGenAI, Type } from '@google/genai';
 import { loadEnv } from 'vite';
 
 function localAdminPlugin() {
@@ -46,48 +46,58 @@ function localAdminPlugin() {
 
               const isAutopilot = !selectedGear || selectedGear.length === 0;
 
+              const setupSchema = {
+                type: Type.OBJECT,
+                properties: {
+                  sugestoes: { type: Type.STRING },
+                  markdown_frontmatter: {
+                    type: Type.OBJECT,
+                    properties: {
+                      title: { type: Type.STRING },
+                      artist: { type: Type.STRING },
+                      targetTone: { type: Type.STRING },
+                      guitar: { type: Type.STRING },
+                      pickup: { type: Type.STRING },
+                      amp: { type: Type.STRING },
+                      equipment: {
+                        type: Type.ARRAY,
+                        items: {
+                          type: Type.OBJECT,
+                          properties: {
+                            title: { type: Type.STRING },
+                            list: {
+                              type: Type.ARRAY,
+                              items: { type: Type.STRING }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  signal_chain: {
+                    type: Type.OBJECT,
+                    properties: {
+                      slot_1_gain: { type: Type.STRING, description: 'Overdrive/Distortion pedal (optional, leave empty if none)' },
+                      slot_2_eq: { type: Type.STRING, description: 'EQ pedal (optional)' },
+                      slot_3_modulation: { type: Type.STRING, description: 'Modulation/Tempo pedal (optional)' },
+                      slot_4_digital_amp: { type: Type.STRING, description: 'Digital Amp/Multi-fx like Tank-G (optional)' },
+                      slot_5_ambience: { type: Type.STRING, description: 'Reverb/Delay pedal (optional)' }
+                    }
+                  }
+                }
+              };
+
               let systemPrompt = `Você é um engenheiro de áudio especialista em timbres de guitarra.
 Sua missão é criar o setup de áudio perfeito para a música/artista solicitado pelo usuário, baseando-se nos equipamentos disponíveis.
 
-IMPORTANTE: Você NÃO deve retornar JSON. Retorne EXATAMENTE o texto bruto do arquivo markdown (incluindo o Frontmatter YAML) seguido de um separador "### SUGESTOES ###" e então escreva as suas explicações/sugestões na parte final.
+IMPORTANTE: Você DEVE retornar EXATAMENTE a estrutura JSON requerida no schema. Preencha os slots da "signal_chain" com os pedais adequados. Deixe vazio os slots que não for usar.
 
-Exemplo OBRIGATÓRIO do formato da sua resposta (substitua pelos dados reais e inclua as regulagens):
----
-title: "Nome da Música"
-artist: "Nome do Artista"
-targetTone: "Breve descrição do timbre alvo (ex: Distorção pesada com muito sustain)"
-guitar: "NOME EXATO DA GUITARRA"
-pickup: "Braço" # OBRIGATÓRIO: "Braço", "Ponte" ou "Ambos"
-pedals: 
-  - "NOME EXATO DO PEDAL 1"
-  - "NOME EXATO DO PEDAL 2"
-amp: "NOME EXATO DO AMPLIFICADOR"
-equipment:
-  - title: "NOME EXATO DO PEDAL 1"
-    list:
-      - '<strong class="text-white">Drive/Gain:</strong> 6 | <strong class="text-white">Tone:</strong> 5 | <strong class="text-white">Level:</strong> 5'
-  - title: "Pedaleira Multi Efeitos M-Vave Tank-G"
-    list:
-      - '<strong class="text-white">AMP:</strong> NOME EXATO DO AMP'
-      - '<strong class="text-white">CAB:</strong> NOME EXATO DO CAB'
-      - '<strong class="text-white">Gain:</strong> 5 | <strong class="text-white">Treble:</strong> 6 | <strong class="text-white">Middle:</strong> 5 | <strong class="text-white">Bass:</strong> 5'
----
-**Sinal:**
-1. A guitarra passa pelo pedal X...
-2. Em seguida vai para o Amp Y...
+REGRA CRÍTICA 1: Os valores de guitar, pickup, amp, equipment e signal_chain DEVEM ser uma cópia EXATA de algum item do inventário geral.
+REGRA CRÍTICA 2: Se a pedaleira "Pedaleira Multi Efeitos M-Vave Tank-G" for selecionada, você OBRIGATORIAMENTE deve usar um AMP e um IR CAB da lista exclusiva do Tank-G e incluí-los na chave 'list' dentro de 'equipment' (ex: "<strong class='text-white'>AMP:</strong> NOME DO AMP").
+REGRA CRÍTICA 3: O campo pickup (Braço, Ponte ou Ambos) é OBRIGATÓRIO.
 
-**Captadores:**
-Explique detalhadamente no corpo do texto o motivo da escolha do captador específico (Braço, Ponte ou Ambos) para essa música.
-
-### SUGESTOES ###
-Explique aqui a sua análise. Se a pedaleira "M-Vave Tank-G" for escolhida, justifique o AMP e IR CAB. 
-VISÃO HOLÍSTICA: Se você notar que o usuário selecionou poucos equipamentos mas o timbre exigiria mais, recomende proativamente a inclusão de outros pedais do inventário.
-
-REGRA CRÍTICA 1: Os valores de guitar, pedals, amp e os titles dentro de equipment DEVEM ser uma cópia EXATA de algum item do inventário geral.
-REGRA CRÍTICA 2: Se a pedaleira "Pedaleira Multi Efeitos M-Vave Tank-G" for selecionada no setup (seja por você ou pelo usuário), você OBRIGATORIAMENTE deve usar um AMP e um IR CAB da lista do Tank-G e incluí-los no bloco equipment como mostrado no exemplo acima.
-REGRA CRÍTICA 3: O campo pickup (Braço, Ponte ou Ambos) é obrigatório no YAML Frontmatter.
-REGRA CRÍTICA 4 (A Regra de Ouro do Cabeamento Físico e Conexão): O sinal de áudio sai da Guitarra e ENTRA EXCLUSIVAMENTE no "Input" do pedal do Slot 1. Sob nenhuma hipótese conecte a guitarra na "saída" de um pedal. O fluxo é sempre Input -> Output para o próximo pedal. O array 'pedals' no YAML Frontmatter DEVE representar esse fluxo físico exato e sequencial.
-Ordem Lógica Obrigatória de Efeitos (Inviolável): A ordem do array de pedais DEVE respeitar rigorosamente as etapas físicas do sinal, sem pular a ordem:
+REGRA CRÍTICA 4 (A Regra de Ouro do Cabeamento Físico e Conexão): O sinal de áudio sai da Guitarra e ENTRA EXCLUSIVAMENTE no "Input" do pedal do Slot 1. Sob nenhuma hipótese conecte a guitarra na "saída" de um pedal. O fluxo é sempre Input -> Output para o próximo pedal. 
+Ordem Lógica Obrigatória de Efeitos (Inviolável): Preencha os slots do JSON estritamente nesta arquitetura:
 Slot 1: Ganho/Overdrive (ex: Pure Sky - Caline, Boss OD-3)
 Slot 2: Equalização Analógica (ex: Equilizador Joyo 10-Band Controller)
 Slot 3: Modulações/Tempo (ex: M-Vave LOst Tempo v2)
@@ -106,14 +116,14 @@ Inventário TANK-G (Opções exclusivas de Amps e Cabs do Tank-G):
               if (isAutopilot) {
                 systemPrompt += `
 CENÁRIO (Piloto Automático): O usuário NÃO selecionou nenhum equipamento.
-Sua Tarefa: Assuma que todo o inventário está conectado. Analise a música solicitada, vasculhe o inventário completo acima e selecione a dedo a melhor guitarra, pedais (quantos forem necessários) e amplificador, aplicando a Ordem Lógica Inviolável acima. Na seção SUGESTOES, explique como ordenou o sinal.`;
+Sua Tarefa: Assuma que todo o inventário está conectado. Analise a música solicitada, vasculhe o inventário completo acima e selecione a dedo a melhor guitarra, pedais (quantos forem necessários) e amplificador, aplicando a Ordem Lógica Inviolável acima. Na chave 'sugestoes' do JSON, explique detalhadamente a escolha do captador e como ordenou o sinal.`;
               } else {
                 systemPrompt += `
 CENÁRIO (Equipamento Selecionado): O usuário selecionou manualmente os seguintes equipamentos:
 ${selectedGear.map((g) => `- ${g}`).join('\n')}
 
 Sua Tarefa: Crie o setup utilizando os equipamentos que o usuário selecionou. 
-No entanto, aja com VISÃO HOLÍSTICA: assuma que TODOS os equipamentos do inventário estão disponíveis no seu estúdio. Se o setup selecionado pelo usuário estiver "pobre" para o timbre solicitado (ex: falta de um reverb ou drive), adicione os equipamentos necessários do inventário geral para atingir a perfeição. Você DEVE reconstruir a ordem de pedais aplicando a Ordem Lógica Inviolável acima. Na seção SUGESTOES, explique detalhadamente como você reordenou o sinal.`;
+No entanto, aja com VISÃO HOLÍSTICA: assuma que TODOS os equipamentos do inventário estão disponíveis no seu estúdio. Se o setup selecionado pelo usuário estiver "pobre" para o timbre solicitado (ex: falta de um reverb ou drive), adicione os equipamentos necessários do inventário geral para atingir a perfeição. Você DEVE alocar os pedais nos slots corretos aplicando a Ordem Lógica Inviolável acima. Na chave 'sugestoes' do JSON, explique a escolha do captador e como reordenou o sinal.`;
               }
 
               const ai = new GoogleGenAI({ apiKey });
@@ -122,22 +132,60 @@ No entanto, aja com VISÃO HOLÍSTICA: assuma que TODOS os equipamentos do inven
                 contents: prompt,
                 config: { 
                   systemInstruction: systemPrompt,
-                  responseMimeType: "text/plain"
+                  responseMimeType: "application/json",
+                  responseSchema: setupSchema
                 }
               });
 
-              let rawText = aiResponse.text || '';
-              // Remove possíveis marcações de bloco de código genéricas na resposta inteira
-              rawText = rawText.replace(/^```markdown/i, '').replace(/^```/i, '').replace(/```$/i, '').trim();
-
-              const parts = rawText.split('### SUGESTOES ###');
-              let generatedContent = (parts[0] || '').trim();
-              const sugestoes = (parts[1] || '').trim();
-              
-              if (sugestoes) {
-                const formattedComment = sugestoes.split('\n').map(line => `  ${line}`).join('\n');
-                generatedContent = generatedContent.replace(/^---\n/, `---\naiComment: |\n${formattedComment}\n`);
+              let rawText = aiResponse.text || '{}';
+              let responseJson;
+              try {
+                responseJson = JSON.parse(rawText);
+              } catch (e) {
+                throw new Error("A IA não retornou um JSON válido.");
               }
+
+              const fm = responseJson.markdown_frontmatter || {};
+              const sc = responseJson.signal_chain || {};
+              const sugestoes = responseJson.sugestoes || '';
+
+              // Montagem hardcoded garantindo a ordem
+              const pedalsArray = [
+                sc.slot_1_gain,
+                sc.slot_2_eq,
+                sc.slot_3_modulation,
+                sc.slot_4_digital_amp,
+                sc.slot_5_ambience
+              ].filter(Boolean);
+
+              let equipmentYaml = '';
+              if (fm.equipment && fm.equipment.length > 0) {
+                equipmentYaml = 'equipment:\n';
+                fm.equipment.forEach(eq => {
+                  equipmentYaml += `  - title: "${eq.title}"\n    list:\n`;
+                  if (eq.list && eq.list.length > 0) {
+                    eq.list.forEach(item => {
+                      equipmentYaml += `      - '${item.replace(/'/g, "''")}'\n`;
+                    });
+                  }
+                });
+              }
+
+              const formattedComment = sugestoes.split('\n').map(line => `  ${line}`).join('\n');
+              
+              let generatedContent = `---
+title: "${fm.title || ''}"
+artist: "${fm.artist || ''}"
+targetTone: "${fm.targetTone || ''}"
+guitar: "${fm.guitar || ''}"
+pickup: "${fm.pickup || ''}"
+pedals:
+${pedalsArray.map(p => `  - "${p}"`).join('\n')}
+amp: "${fm.amp || ''}"
+${equipmentYaml.trimEnd()}
+aiComment: |
+${formattedComment}
+---`;
               
               const filename = prompt.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
 
@@ -276,48 +324,58 @@ No entanto, aja com VISÃO HOLÍSTICA: assuma que TODOS os equipamentos do inven
               const tankGPath = path.join(process.cwd(), 'src', 'data', 'tank-g-presets.json');
               const tankGPresets = fs.existsSync(tankGPath) ? JSON.parse(fs.readFileSync(tankGPath, 'utf-8')) : { amps: [], cabs: [] };
 
+              const setupSchema = {
+                type: Type.OBJECT,
+                properties: {
+                  sugestoes: { type: Type.STRING },
+                  markdown_frontmatter: {
+                    type: Type.OBJECT,
+                    properties: {
+                      title: { type: Type.STRING },
+                      artist: { type: Type.STRING },
+                      targetTone: { type: Type.STRING },
+                      guitar: { type: Type.STRING },
+                      pickup: { type: Type.STRING },
+                      amp: { type: Type.STRING },
+                      equipment: {
+                        type: Type.ARRAY,
+                        items: {
+                          type: Type.OBJECT,
+                          properties: {
+                            title: { type: Type.STRING },
+                            list: {
+                              type: Type.ARRAY,
+                              items: { type: Type.STRING }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  signal_chain: {
+                    type: Type.OBJECT,
+                    properties: {
+                      slot_1_gain: { type: Type.STRING, description: 'Overdrive/Distortion pedal (optional)' },
+                      slot_2_eq: { type: Type.STRING, description: 'EQ pedal (optional)' },
+                      slot_3_modulation: { type: Type.STRING, description: 'Modulation/Tempo pedal (optional)' },
+                      slot_4_digital_amp: { type: Type.STRING, description: 'Digital Amp/Multi-fx like Tank-G (optional)' },
+                      slot_5_ambience: { type: Type.STRING, description: 'Reverb/Delay pedal (optional)' }
+                    }
+                  }
+                }
+              };
+
               const systemPrompt = `Você é um engenheiro de áudio especialista em timbres de guitarra.
 Sua missão é criar o setup de áudio perfeito para a música/artista solicitado pelo usuário, baseando-se nos equipamentos disponíveis.
 
-IMPORTANTE: Você NÃO deve retornar JSON. Retorne EXATAMENTE o texto bruto do arquivo markdown (incluindo o Frontmatter YAML) seguido de um separador "### SUGESTOES ###" e então escreva as suas explicações/sugestões na parte final.
+IMPORTANTE: Você DEVE retornar EXATAMENTE a estrutura JSON requerida no schema. Preencha os slots da "signal_chain" com os pedais adequados. Deixe vazio os slots que não for usar.
 
-Exemplo OBRIGATÓRIO do formato da sua resposta (substitua pelos dados reais e inclua as regulagens):
----
-title: "Nome da Música"
-artist: "Nome do Artista"
-targetTone: "Breve descrição do timbre alvo (ex: Distorção pesada com muito sustain)"
-guitar: "NOME EXATO DA GUITARRA"
-pickup: "Braço" # OBRIGATÓRIO: "Braço", "Ponte" ou "Ambos"
-pedals: 
-  - "NOME EXATO DO PEDAL 1"
-  - "NOME EXATO DO PEDAL 2"
-amp: "NOME EXATO DO AMPLIFICADOR"
-equipment:
-  - title: "NOME EXATO DO PEDAL 1"
-    list:
-      - '<strong class="text-white">Drive/Gain:</strong> 6 | <strong class="text-white">Tone:</strong> 5 | <strong class="text-white">Level:</strong> 5'
-  - title: "Pedaleira Multi Efeitos M-Vave Tank-G"
-    list:
-      - '<strong class="text-white">AMP:</strong> NOME EXATO DO AMP'
-      - '<strong class="text-white">CAB:</strong> NOME EXATO DO CAB'
-      - '<strong class="text-white">Gain:</strong> 5 | <strong class="text-white">Treble:</strong> 6 | <strong class="text-white">Middle:</strong> 5 | <strong class="text-white">Bass:</strong> 5'
----
-**Sinal:**
-1. A guitarra passa pelo pedal X...
-2. Em seguida vai para o Amp Y...
+REGRA CRÍTICA 1: Os valores de guitar, pickup, amp, equipment e signal_chain DEVEM ser uma cópia EXATA de algum item do inventário geral.
+REGRA CRÍTICA 2: Se a pedaleira "Pedaleira Multi Efeitos M-Vave Tank-G" for selecionada, você OBRIGATORIAMENTE deve usar um AMP e um IR CAB da lista exclusiva do Tank-G e incluí-los na chave 'list' dentro de 'equipment' (ex: "<strong class='text-white'>AMP:</strong> NOME DO AMP").
+REGRA CRÍTICA 3: O campo pickup (Braço, Ponte ou Ambos) é OBRIGATÓRIO.
 
-**Captadores:**
-Explique detalhadamente no corpo do texto o motivo da escolha do captador específico (Braço, Ponte ou Ambos) para essa música.
-
-### SUGESTOES ###
-Explique aqui a sua análise. Se a pedaleira "M-Vave Tank-G" for escolhida, justifique o AMP e IR CAB. 
-VISÃO HOLÍSTICA: Se você notar que o usuário selecionou poucos equipamentos mas o timbre exigiria mais, recomende proativamente a inclusão de outros pedais do inventário.
-
-REGRA CRÍTICA 1: Os valores de guitar, pedals, amp e os titles dentro de equipment DEVEM ser uma cópia EXATA de algum item do inventário geral.
-REGRA CRÍTICA 2: Se a pedaleira "Pedaleira Multi Efeitos M-Vave Tank-G" for selecionada no setup (seja por você ou pelo usuário), você OBRIGATORIAMENTE deve usar um AMP e um IR CAB da lista do Tank-G e incluí-los no bloco equipment como mostrado no exemplo acima.
-REGRA CRÍTICA 3: O campo pickup (Braço, Ponte ou Ambos) é obrigatório no YAML Frontmatter.
-REGRA CRÍTICA 4 (A Regra de Ouro do Cabeamento Físico e Conexão): O sinal de áudio sai da Guitarra e ENTRA EXCLUSIVAMENTE no "Input" do pedal do Slot 1. Sob nenhuma hipótese conecte a guitarra na "saída" de um pedal. O fluxo é sempre Input -> Output para o próximo pedal. O array 'pedals' no YAML Frontmatter DEVE representar esse fluxo físico exato e sequencial.
-Ordem Lógica Obrigatória de Efeitos (Inviolável): A ordem do array de pedais DEVE respeitar rigorosamente as etapas físicas do sinal, sem pular a ordem:
+REGRA CRÍTICA 4 (A Regra de Ouro do Cabeamento Físico e Conexão): O sinal de áudio sai da Guitarra e ENTRA EXCLUSIVAMENTE no "Input" do pedal do Slot 1. Sob nenhuma hipótese conecte a guitarra na "saída" de um pedal. O fluxo é sempre Input -> Output para o próximo pedal. 
+Ordem Lógica Obrigatória de Efeitos (Inviolável): Preencha os slots do JSON estritamente nesta arquitetura:
 Slot 1: Ganho/Overdrive (ex: Pure Sky - Caline, Boss OD-3)
 Slot 2: Equalização Analógica (ex: Equilizador Joyo 10-Band Controller)
 Slot 3: Modulações/Tempo (ex: M-Vave LOst Tempo v2)
@@ -333,7 +391,7 @@ Inventário TANK-G (Opções exclusivas de Amps e Cabs do Tank-G):
 - IR Cabs: ${tankGPresets.cabs.join(', ')}
 
 CENÁRIO (Piloto Automático / Reload):
-Sua Tarefa (DESTRUIÇÃO DO VIÉS ANTIGO): Ao receber o setup, IGNORE COMPLETAMENTE a ordem atual do array de pedals. Você DEVE reconstruir o array de pedais do absoluto zero. Analise TODOS os equipamentos disponíveis no arquivo de dados. Mesmo que o setup antigo tenha usado apenas 2 pedais, adicione outros pedais da lista se eles forem essenciais para o timbre solicitado. Assuma que todo o inventário está conectado. Selecione a dedo a melhor guitarra, pedais (quantos forem necessários) e amplificador, aplicando a Ordem Lógica Inviolável acima. Na chave 'SUGESTOES', explique brevemente como reordenou o sinal.`;
+Sua Tarefa (DESTRUIÇÃO DO VIÉS ANTIGO): Ao receber o setup, IGNORE COMPLETAMENTE a ordem atual do array de pedals. Você DEVE reconstruir o array de pedais do absoluto zero. Analise TODOS os equipamentos disponíveis no arquivo de dados. Mesmo que o setup antigo tenha usado apenas 2 pedais, adicione outros pedais da lista se eles forem essenciais para o timbre solicitado. Assuma que todo o inventário está conectado. Selecione a dedo a melhor guitarra, pedais (quantos forem necessários) e amplificador, aplicando a Ordem Lógica Inviolável acima. Na chave 'sugestoes' do JSON, explique como reordenou o sinal.`;
 
               const ai = new GoogleGenAI({ apiKey });
               const prompt = `Refaça o setup ideal para a música ${title} do artista ${artist} usando APENAS os equipamentos da lista.`;
@@ -343,21 +401,60 @@ Sua Tarefa (DESTRUIÇÃO DO VIÉS ANTIGO): Ao receber o setup, IGNORE COMPLETAME
                 contents: prompt,
                 config: { 
                   systemInstruction: systemPrompt,
-                  responseMimeType: "text/plain"
+                  responseMimeType: "application/json",
+                  responseSchema: setupSchema
                 }
               });
 
-              let rawText = aiResponse.text || '';
-              rawText = rawText.replace(/^```markdown/i, '').replace(/^```/i, '').replace(/```$/i, '').trim();
-
-              const parts = rawText.split('### SUGESTOES ###');
-              let generatedContent = (parts[0] || '').trim();
-              const sugestoes = (parts[1] || '').trim();
-              
-              if (sugestoes) {
-                const formattedComment = sugestoes.split('\n').map(line => `  ${line}`).join('\n');
-                generatedContent = generatedContent.replace(/^---\n/, `---\naiComment: |\n${formattedComment}\n`);
+              let rawText = aiResponse.text || '{}';
+              let responseJson;
+              try {
+                responseJson = JSON.parse(rawText);
+              } catch (e) {
+                throw new Error("A IA não retornou um JSON válido.");
               }
+
+              const fm = responseJson.markdown_frontmatter || {};
+              const sc = responseJson.signal_chain || {};
+              const sugestoes = responseJson.sugestoes || '';
+
+              // Montagem hardcoded garantindo a ordem
+              const pedalsArray = [
+                sc.slot_1_gain,
+                sc.slot_2_eq,
+                sc.slot_3_modulation,
+                sc.slot_4_digital_amp,
+                sc.slot_5_ambience
+              ].filter(Boolean);
+
+              let equipmentYaml = '';
+              if (fm.equipment && fm.equipment.length > 0) {
+                equipmentYaml = 'equipment:\n';
+                fm.equipment.forEach(eq => {
+                  equipmentYaml += `  - title: "${eq.title}"\n    list:\n`;
+                  if (eq.list && eq.list.length > 0) {
+                    eq.list.forEach(item => {
+                      equipmentYaml += `      - '${item.replace(/'/g, "''")}'\n`;
+                    });
+                  }
+                });
+              }
+
+              const formattedComment = sugestoes.split('\n').map(line => `  ${line}`).join('\n');
+              
+              let generatedContent = `---
+title: "${fm.title || ''}"
+artist: "${fm.artist || ''}"
+targetTone: "${fm.targetTone || ''}"
+guitar: "${fm.guitar || ''}"
+pickup: "${fm.pickup || ''}"
+pedals:
+${pedalsArray.map(p => `  - "${p}"`).join('\n')}
+amp: "${fm.amp || ''}"
+${equipmentYaml.trimEnd()}
+aiComment: |
+${formattedComment}
+---`;
 
               fs.writeFileSync(filePath, generatedContent, 'utf-8');
               
