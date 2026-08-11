@@ -9,6 +9,7 @@ import fs from 'fs';
 import path from 'path';
 
 import { GoogleGenAI } from '@google/genai';
+import { loadEnv } from 'vite';
 
 function localAdminPlugin() {
   return {
@@ -27,7 +28,10 @@ function localAdminPlugin() {
                 return;
               }
 
-              const apiKey = process.env.GEMINI_API_KEY;
+              // Load .env explicitly for Vite middleware
+              const env = loadEnv(server.config.mode, process.cwd(), '');
+              const apiKey = env.GEMINI_API_KEY || process.env.GEMINI_API_KEY;
+              
               if (!apiKey) {
                 res.statusCode = 500;
                 res.end(JSON.stringify({ error: 'GEMINI_API_KEY environment variable is missing in .env' }));

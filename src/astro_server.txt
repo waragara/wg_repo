@@ -6,3 +6,6 @@ npx astro dev --background
 nvm use 22
 
 
+npx @astrojs/upg
+
+

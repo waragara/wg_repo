@@ -34,18 +34,18 @@ equipment:
   - title: "Caline Pure Sky"
     tagUso: "Compressão e Brilho Acústico"
     list:
-      - '<strong class="text-white">Volume:</strong> 6 | <strong class="text-white">Gain:</strong> 1'
-      - '<strong class="text-white">Treble:</strong> 8 | <strong class="text-white">Bass:</strong> 4'
+      - '<strong class="text-white">Volume:</strong> 6  <strong class="text-white">Gain:</strong> 1'
+      - '<strong class="text-white">Treble:</strong> 8  <strong class="text-white">Bass:</strong> 4'
 
   - title: "Boss OD-3"
     tagUso: "Desligado"
     list:
-      - '<strong class="text-white">Drive:</strong> 0 | <strong class="text-white">Tone:</strong> 5 | <strong class="text-white">Level:</strong> 5 (Só acione para o solo final de Knockin)'
+      - '<strong class="text-white">Drive:</strong> 0  <strong class="text-white">Tone:</strong> 5  <strong class="text-white">Level:</strong> 5 (Só acione para o solo final de Knockin)'
 
   - title: "M-Vave Tank-G"
     list:
       - '<strong class="text-white">AMP:</strong> Slot 2 (Fender 65 Twin Reverb) - Clean absoluto'
-      - '<strong class="text-white">Gain:</strong> 2.5 | <strong class="text-white">Treble:</strong> 7 | <strong class="text-white">Middle:</strong> 5 | <strong class="text-white">Bass:</strong> 5'
+      - '<strong class="text-white">Gain:</strong> 2.5  <strong class="text-white">Treble:</strong> 7  <strong class="text-white">Middle:</strong> 5  <strong class="text-white">Bass:</strong> 5'
       - '<strong class="text-white">CAB:</strong> Slot 7 (Marshall 1960)'
       - '<strong class="text-white">Modulação/Delay:</strong> CHORUS LIGADO (Velocidade baixa, Profundidade alta - Clássico Knockin e Paradise City)'
 
