@@ -48,7 +48,10 @@ if (fs.existsSync(setupsDir)) {
                         {setups.map(file => (
                             <tr class="hover:bg-white/5 transition-colors group">
                                 <td class="p-4 font-bold group-hover:text-white transition-colors">{file}</td>
-                                <td class="p-4 text-right">
+                                <td class="p-4 text-right flex justify-end gap-2">
+                                    <button class="reload-setup-btn inline-block bg-[#111] text-accentOrange border border-accentOrange/30 py-2 px-4 rounded text-xs font-bold uppercase hover:bg-accentOrange hover:text-[#111] transition-colors flex items-center justify-center min-w-[120px]" data-file={file}>
+                                        <span class="btn-text">Reload 🔄</span>
+                                    </button>
                                     <a href={`${import.meta.env.BASE_URL}/admin/edit?file=${file}`} class="inline-block bg-tolexDark text-mustard border border-mustard/30 py-2 px-5 rounded text-xs font-bold uppercase hover:bg-mustard hover:text-black transition-colors">
                                         Editar ✏️
                                     </a>
@@ -66,3 +69,49 @@ if (fs.existsSync(setupsDir)) {
         </div>
     </div>
 </Layout>
+
+<script>
+    document.addEventListener('astro:page-load', () => {
+        const reloadButtons = document.querySelectorAll('.reload-setup-btn');
+
+        reloadButtons.forEach(btn => {
+            btn.addEventListener('click', async (e) => {
+                const target = e.currentTarget as HTMLButtonElement;
+                const file = target.getAttribute('data-file');
+                if (!file) return;
+
+                const textSpan = target.querySelector('.btn-text');
+                if (!textSpan) return;
+
+                const originalText = textSpan.textContent;
+                textSpan.textContent = 'Carregando... ⏳';
+                target.disabled = true;
+                target.classList.add('opacity-70', 'cursor-not-allowed');
+
+                try {
+                    const response = await fetch(`${import.meta.env.BASE_URL}/api/reload-setup`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ filename: file })
+                    });
+
+                    if (response.ok) {
+                        alert('Setup refeito e atualizado com sucesso!');
+                    } else {
+                        const errorData = await response.json();
+                        alert(`Erro: ${errorData.error}`);
+                    }
+                } catch (error) {
+                    console.error(error);
+                    alert('Erro na comunicação com a API.');
+                } finally {
+                    textSpan.textContent = originalText;
+                    target.disabled = false;
+                    target.classList.remove('opacity-70', 'cursor-not-allowed');
+                }
+            });
+        });
+    });
+</script>
