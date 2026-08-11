@@ -4,6 +4,7 @@ export interface Props {
   artist: string;
   targetTone: string;
   guitar: string;
+  pickup?: string;
   pedals: string[];
   amp: string;
   tabs?: { label: string; url: string }[];
@@ -19,7 +20,7 @@ export interface Props {
 import SignalChain from './SignalChain.astro';
 import GearBadge from './GearBadge.astro';
 
-const { title, artist, targetTone, guitar, pedals, amp, tabs, equipment, aiComment } = Astro.props;
+const { title, artist, targetTone, guitar, pickup, pedals, amp, tabs, equipment, aiComment } = Astro.props;
 ---
 
 <div id={title.replace(/\s+/g, '-').toLowerCase()} class="setup-card relative bg-[#1a1a1a] rounded-xl shadow-[0_10px_30px_rgba(0,0,0,0.9)] border border-black mb-12 transition-all duration-300">
@@ -46,7 +47,7 @@ const { title, artist, targetTone, guitar, pedals, amp, tabs, equipment, aiComme
 
         <!-- BOTTOM DARK PANEL -->
         <div class="p-5 sm:p-6">
-            <SignalChain guitar={guitar} pedals={pedals} amp={amp} />
+            <SignalChain guitar={guitar} pickup={pickup} pedals={pedals} amp={amp} />
             
             <div class="mb-8 mt-2 flex flex-col md:flex-row gap-4 justify-between items-start md:items-center">
                 <div>

@@ -1,11 +1,12 @@
 ---
 export interface Props {
     guitar: string;
+    pickup?: string;
     pedals: string[];
     amp: string;
 }
 
-const { guitar, pedals, amp } = Astro.props;
+const { guitar, pickup, pedals, amp } = Astro.props;
 ---
 
 <div class="signal-chain-wrapper py-6">
@@ -21,6 +22,11 @@ const { guitar, pedals, amp } = Astro.props;
             
             <span class="text-silver text-xs font-mono mb-2 uppercase tracking-widest opacity-60">Input</span>
             <span class="text-white font-slab font-black text-center leading-tight drop-shadow-md">{guitar}</span>
+            {pickup && (
+                <div class="mt-2 text-mustard text-[10px] font-mono border border-mustard/40 px-2 py-0.5 bg-black/40 rounded uppercase tracking-wider">
+                    {pickup}
+                </div>
+            )}
         </div>
 
         <!-- CONNECT ARROW -->

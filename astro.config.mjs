@@ -47,7 +47,7 @@ function localAdminPlugin() {
               const isAutopilot = !selectedGear || selectedGear.length === 0;
 
               let systemPrompt = `Você é um engenheiro de áudio especialista em timbres de guitarra.
-Sua missão é criar o setup de áudio perfeito para a música/artista solicitado pelo usuário, baseando-se EXCLUSIVAMENTE nos equipamentos disponíveis.
+Sua missão é criar o setup de áudio perfeito para a música/artista solicitado pelo usuário, baseando-se nos equipamentos disponíveis.
 
 IMPORTANTE: Você NÃO deve retornar JSON. Retorne EXATAMENTE o texto bruto do arquivo markdown (incluindo o Frontmatter YAML) seguido de um separador "### SUGESTOES ###" e então escreva as suas explicações/sugestões na parte final.
 
@@ -57,6 +57,7 @@ title: "Nome da Música"
 artist: "Nome do Artista"
 targetTone: "Breve descrição do timbre alvo (ex: Distorção pesada com muito sustain)"
 guitar: "NOME EXATO DA GUITARRA"
+pickup: "Braço" # OBRIGATÓRIO: "Braço", "Ponte" ou "Ambos"
 pedals: 
   - "NOME EXATO DO PEDAL 1"
   - "NOME EXATO DO PEDAL 2"
@@ -75,11 +76,16 @@ equipment:
 1. A guitarra passa pelo pedal X...
 2. Em seguida vai para o Amp Y...
 
+**Captadores:**
+Explique detalhadamente no corpo do texto o motivo da escolha do captador específico (Braço, Ponte ou Ambos) para essa música.
+
 ### SUGESTOES ###
-Explique aqui a sua análise. Se a pedaleira "M-Vave Tank-G" for escolhida, você deve justificar a escolha do AMP e do IR CAB selecionados.
+Explique aqui a sua análise. Se a pedaleira "M-Vave Tank-G" for escolhida, justifique o AMP e IR CAB. 
+VISÃO HOLÍSTICA: Se você notar que o usuário selecionou poucos equipamentos mas o timbre exigiria mais, recomende proativamente a inclusão de outros pedais do inventário.
 
 REGRA CRÍTICA 1: Os valores de guitar, pedals, amp e os titles dentro de equipment DEVEM ser uma cópia EXATA de algum item do inventário geral.
 REGRA CRÍTICA 2: Se a pedaleira "Pedaleira Multi Efeitos M-Vave Tank-G" for selecionada no setup (seja por você ou pelo usuário), você OBRIGATORIAMENTE deve usar um AMP e um IR CAB da lista do Tank-G e incluí-los no bloco equipment como mostrado no exemplo acima.
+REGRA CRÍTICA 3: O campo pickup (Braço, Ponte ou Ambos) é obrigatório no YAML Frontmatter.
 
 Inventário GERAL disponível:
 ${allGear.map((g) => `- ${g}`).join('\n')}
@@ -92,14 +98,14 @@ Inventário TANK-G (Opções exclusivas de Amps e Cabs do Tank-G):
               if (isAutopilot) {
                 systemPrompt += `
 CENÁRIO (Piloto Automático): O usuário NÃO selecionou nenhum equipamento.
-Sua Tarefa: Analise a música solicitada, vasculhe o inventário completo acima e selecione a dedo a melhor guitarra, pedais e amplificador.`;
+Sua Tarefa: Assuma que todo o inventário está conectado. Analise a música solicitada, vasculhe o inventário completo acima e selecione a dedo a melhor guitarra, pedais (quantos forem necessários) e amplificador.`;
               } else {
                 systemPrompt += `
 CENÁRIO (Equipamento Selecionado): O usuário selecionou manualmente os seguintes equipamentos:
 ${selectedGear.map((g) => `- ${g}`).join('\n')}
 
-Sua Tarefa: Crie o setup utilizando ESTRITAMENTE E APENAS os equipamentos que o usuário selecionou. Não invente equipamentos fora desta lista.
-Aja como um revisor: na seção final (SUGESTOES), comente sobre a escolha do usuário baseando-se no inventário completo.`;
+Sua Tarefa: Crie o setup utilizando os equipamentos que o usuário selecionou. 
+No entanto, aja com VISÃO HOLÍSTICA: assuma que TODOS os equipamentos do inventário estão disponíveis no seu estúdio. Se o setup selecionado pelo usuário estiver "pobre" para o timbre solicitado (ex: falta de um reverb ou drive), adicione os equipamentos necessários do inventário geral para atingir a perfeição, e explique isso na seção SUGESTOES.`;
               }
 
               const ai = new GoogleGenAI({ apiKey });

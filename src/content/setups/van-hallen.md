@@ -16,7 +16,7 @@ aiComment: |
      - O delay interno sutil (por volta de 300ms) adiciona aquela sensação clássica de estúdio dos anos 80, onde o delay vinha logo em seguida do microfone da cabine.
   
   5. **A Espacialidade (M-Vave Mini Universe & Monitores MR4):** O Eddie usava muito reverb de placa/sala (muitas vezes mixado apenas de um lado do canal estéreo). Usar o *Mini Universe* no modo *Hall* recria essa sensação de arena de forma primorosa. Como estamos usando simulação de gabinete (IR), o ideal é ligar tudo diretamente nos *Monitores de Audio MR4*. Amplificadores comuns de guitarra coloririam o som do IR de forma indesejada; os monitores de referência MR4 vão garantir que você ouça exatamente a fidelidade física do gabinete Marshall 4x12 simulado.
-title: "Ain't Talkin' 'Bout Love"
+title: "Van Halen"
 artist: "Van Halen"
 targetTone: "O clássico 'Brown Sound': distorção orgânica, rica em harmônicos, com médios estalados, agudos definidos e muito sustain."
 guitar: "Guitarra Cort Classi Rock Les Paul"

@@ -8,6 +8,7 @@ const setupsCollection = defineCollection({
     artist: z.string(),
     targetTone: z.string(),
     guitar: z.string(),
+    pickup: z.string().optional(),
     pedals: z.array(z.string()),
     amp: z.string(),
     tabs: z.array(z.object({
