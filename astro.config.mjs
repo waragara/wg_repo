@@ -86,6 +86,13 @@ VISÃO HOLÍSTICA: Se você notar que o usuário selecionou poucos equipamentos 
 REGRA CRÍTICA 1: Os valores de guitar, pedals, amp e os titles dentro de equipment DEVEM ser uma cópia EXATA de algum item do inventário geral.
 REGRA CRÍTICA 2: Se a pedaleira "Pedaleira Multi Efeitos M-Vave Tank-G" for selecionada no setup (seja por você ou pelo usuário), você OBRIGATORIAMENTE deve usar um AMP e um IR CAB da lista do Tank-G e incluí-los no bloco equipment como mostrado no exemplo acima.
 REGRA CRÍTICA 3: O campo pickup (Braço, Ponte ou Ambos) é obrigatório no YAML Frontmatter.
+REGRA CRÍTICA 4 (A Regra de Ouro do Cabeamento Físico): O array 'pedals' no YAML Frontmatter DEVE representar o fluxo de áudio físico exato e sequencial. O sinal sai da Guitarra, conecta-se ao INPUT do primeiro pedal e flui até o Amplificador/Monitores. Nunca inverta essa lógica.
+Ordem Lógica Obrigatória de Efeitos: A ordem do array de pedais DEVE seguir estritamente esta arquitetura:
+1º: Ganho/Overdrive (ex: Boss OD-3, Pure Sky - Caline).
+2º: Equalização Analógica (ex: Equilizador Joyo 10-Band Controller).
+3º: Modulações/Tempo (ex: M-Vave LOst Tempo v2).
+4º: Processamento Digital / Amp Sim (ex: M-Vave Tank-G).
+5º: Ambiência Final (ex: M-Vave Mini Universe). O reverb deve ser sempre o último elo da cadeia antes da saída final.
 
 Inventário GERAL disponível:
 ${allGear.map((g) => `- ${g}`).join('\n')}
@@ -296,6 +303,13 @@ VISÃO HOLÍSTICA: Se você notar que o usuário selecionou poucos equipamentos 
 REGRA CRÍTICA 1: Os valores de guitar, pedals, amp e os titles dentro de equipment DEVEM ser uma cópia EXATA de algum item do inventário geral.
 REGRA CRÍTICA 2: Se a pedaleira "Pedaleira Multi Efeitos M-Vave Tank-G" for selecionada no setup (seja por você ou pelo usuário), você OBRIGATORIAMENTE deve usar um AMP e um IR CAB da lista do Tank-G e incluí-los no bloco equipment como mostrado no exemplo acima.
 REGRA CRÍTICA 3: O campo pickup (Braço, Ponte ou Ambos) é obrigatório no YAML Frontmatter.
+REGRA CRÍTICA 4 (A Regra de Ouro do Cabeamento Físico): O array 'pedals' no YAML Frontmatter DEVE representar o fluxo de áudio físico exato e sequencial. O sinal sai da Guitarra, conecta-se ao INPUT do primeiro pedal e flui até o Amplificador/Monitores. Nunca inverta essa lógica.
+Ordem Lógica Obrigatória de Efeitos: A ordem do array de pedais DEVE seguir estritamente esta arquitetura:
+1º: Ganho/Overdrive (ex: Boss OD-3, Pure Sky - Caline).
+2º: Equalização Analógica (ex: Equilizador Joyo 10-Band Controller).
+3º: Modulações/Tempo (ex: M-Vave LOst Tempo v2).
+4º: Processamento Digital / Amp Sim (ex: M-Vave Tank-G).
+5º: Ambiência Final (ex: M-Vave Mini Universe). O reverb deve ser sempre o último elo da cadeia antes da saída final.
 
 Inventário GERAL disponível:
 ${allGear.map((g) => `- ${g}`).join('\n')}
