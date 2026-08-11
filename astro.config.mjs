@@ -107,12 +107,16 @@ Na chave "sugestoes", aja como um revisor: comente sobre a escolha do usuário b
                 model: 'gemini-3.5-flash',
                 contents: prompt,
                 config: { 
-                  systemInstruction: systemPrompt,
+                  systemInstruction: systemPrompt + "\n\nAVISO CRÍTICO PARA O PARSER: Você está gerando um objeto JSON. Valores de string em JSON NÃO PODEM conter quebras de linha literais (Enter). Você deve OBRIGATORIAMENTE escapar todas as quebras de linha do markdown usando o caractere \\n. Certifique-se de que sua saída é um JSON estritamente válido.",
                   responseMimeType: "application/json"
                 }
               });
 
-              const responseData = JSON.parse(aiResponse.text || '{}');
+              let rawText = aiResponse.text || '{}';
+              // Limpa blocos de markdown que o Gemini às vezes insere em volta do JSON
+              rawText = rawText.replace(/```json/gi, '').replace(/```/g, '').trim();
+
+              const responseData = JSON.parse(rawText);
               const generatedContent = responseData.markdown || '';
               const sugestoes = responseData.sugestoes || '';
               
