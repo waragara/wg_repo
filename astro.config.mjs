@@ -240,17 +240,29 @@ No entanto, aja com VISÃO HOLÍSTICA: assuma que TODOS os equipamentos do inven
 
               const content = fs.readFileSync(filePath, 'utf-8');
               
-              // Extract title and artist using Regex
-              const titleMatch = content.match(/title:\s*["']([^"']+)["']/);
-              const artistMatch = content.match(/artist:\s*["']([^"']+)["']/);
+              // Extract title and artist using robust Regex (handles quotes or no quotes)
+              const titleMatch = content.match(/title:\s*([^\n\r]+)/);
+              const artistMatch = content.match(/artist:\s*([^\n\r]+)/);
               
-              const title = titleMatch ? titleMatch[1] : '';
-              const artist = artistMatch ? artistMatch[1] : '';
+              let title = titleMatch ? titleMatch[1].trim() : '';
+              let artist = artistMatch ? artistMatch[1].trim() : '';
+              
+              // Remove surrounding quotes if they exist
+              title = title.replace(/^["']/, '').replace(/["']$/, '');
+              artist = artist.replace(/^["']/, '').replace(/["']$/, '');
               
               if (!title || !artist) {
-                res.statusCode = 400;
-                res.end(JSON.stringify({ error: 'Não foi possível extrair o título ou o artista do frontmatter.' }));
-                return;
+                // Se ainda falhar, tenta extrair pelo nome do arquivo
+                // Ex: acdc-back-in-black.md => artist: acdc, title: back in black
+                const nameParts = filename.replace('.md', '').split('-');
+                if (nameParts.length >= 2) {
+                    artist = nameParts[0];
+                    title = nameParts.slice(1).join(' ');
+                } else {
+                    res.statusCode = 400;
+                    res.end(JSON.stringify({ error: 'Não foi possível extrair o título ou o artista do frontmatter.' }));
+                    return;
+                }
               }
 
               const env = loadEnv(server.config.mode, process.cwd(), '');
