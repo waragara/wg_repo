@@ -61,6 +61,15 @@ import gearList from '../../data/gear.json';
                     </div>
                 </div>
 
+                <!-- Bloco de Sugestões da IA (Aparece após gerar) -->
+                <div id="aiSuggestions" class="hidden bg-black/60 p-6 rounded-xl border border-mustard shadow-inner shadow-mustard/20">
+                    <h3 class="text-mustard font-mono font-bold uppercase tracking-wider mb-2 flex items-center gap-2">
+                        <span>💡</span>
+                        <span>Comentário da IA</span>
+                    </h3>
+                    <p id="aiSuggestionsText" class="text-silver font-mono text-base leading-relaxed"></p>
+                </div>
+
                 <div id="statusMessage" class="hidden p-4 rounded-md font-mono font-bold text-center tracking-wide shadow-inner"></div>
 
                 <button 
@@ -94,11 +103,6 @@ import gearList from '../../data/gear.json';
                 const selectedGear = Array.from(checkboxes).map((cb: Element) => (cb as HTMLInputElement).value);
 
                 if (!prompt) return;
-                
-                if (selectedGear.length === 0) {
-                    alert("Por favor, selecione pelo menos um equipamento!");
-                    return;
-                }
 
                 // UI Loading state
                 if (submitBtn) {
@@ -110,6 +114,10 @@ import gearList from '../../data/gear.json';
                 if (statusMsg) {
                     statusMsg.classList.add('hidden');
                 }
+                
+                const suggestionsBox = document.getElementById('aiSuggestions');
+                const suggestionsText = document.getElementById('aiSuggestionsText');
+                if (suggestionsBox) suggestionsBox.classList.add('hidden');
                 
                 try {
                     const response = await fetch(`${import.meta.env.BASE_URL}/api/generate-setup`, {
@@ -127,6 +135,13 @@ import gearList from '../../data/gear.json';
                         if (response.ok) {
                             statusMsg.classList.add('bg-green-900', 'text-green-300', 'border', 'border-green-500');
                             statusMsg.textContent = result.message || 'Setup gerado e salvo com sucesso!';
+                            
+                            // Display suggestions if available
+                            if (result.sugestoes && suggestionsBox && suggestionsText) {
+                                suggestionsText.textContent = result.sugestoes;
+                                suggestionsBox.classList.remove('hidden');
+                            }
+                            
                         } else {
                             throw new Error(result.error || 'Erro desconhecido');
                         }
@@ -149,13 +164,6 @@ import gearList from '../../data/gear.json';
                         submitBtn.removeAttribute('disabled');
                         submitBtn.classList.remove('opacity-80', 'cursor-not-allowed');
                     }
-                    
-                    // Hide success message after 5 seconds
-                    setTimeout(() => {
-                        if (statusMsg && statusMsg.classList.contains('bg-green-900')) {
-                            statusMsg.classList.add('hidden');
-                        }
-                    }, 5000);
                 }
             });
         }
