@@ -61,16 +61,7 @@ import gearList from '../../data/gear.json';
                     </div>
                 </div>
 
-                <!-- Bloco de Sugestões da IA (Aparece após gerar) -->
-                <div id="aiSuggestions" class="hidden bg-black/60 p-6 rounded-xl border border-mustard shadow-inner shadow-mustard/20">
-                    <h3 class="text-mustard font-mono font-bold uppercase tracking-wider mb-2 flex items-center gap-2">
-                        <span>💡</span>
-                        <span>Comentário da IA</span>
-                    </h3>
-                    <p id="aiSuggestionsText" class="text-silver font-mono text-base leading-relaxed"></p>
-                </div>
-
-                <div id="statusMessage" class="hidden p-4 rounded-md font-mono font-bold text-center tracking-wide shadow-inner"></div>
+                <div id="statusMessageGen" class="hidden p-4 rounded-md font-mono font-bold text-center tracking-wide shadow-inner"></div>
 
                 <button 
                     type="submit" 
@@ -81,88 +72,217 @@ import gearList from '../../data/gear.json';
                     <span class="animate-pulse">✨</span>
                 </button>
             </form>
+
+            <!-- Formulário 2: Revisão (Escondido por padrão) -->
+            <form id="saveSetupForm" class="hidden flex-col gap-8">
+                <!-- Bloco de Sugestões da IA (Aparece após gerar) -->
+                <div id="aiSuggestions" class="hidden bg-black/60 p-6 rounded-xl border border-mustard shadow-inner shadow-mustard/20">
+                    <h3 class="text-mustard font-mono font-bold uppercase tracking-wider mb-2 flex items-center gap-2">
+                        <span>💡</span>
+                        <span>Comentário da IA</span>
+                    </h3>
+                    <p id="aiSuggestionsText" class="text-silver font-mono text-base leading-relaxed"></p>
+                </div>
+
+                <div class="bg-black/60 p-6 rounded-xl border border-black/50 shadow-inner">
+                    <label for="reviewContent" class="block font-mono font-bold text-mustard uppercase tracking-wider text-sm mb-3">
+                        Revisar Código (YAML + Markdown)
+                    </label>
+                    <textarea 
+                        id="reviewContent" 
+                        rows="15"
+                        required
+                        class="w-full bg-black/80 text-mustard font-mono p-4 rounded shadow-inner border-2 border-black/50 focus:border-mustard focus:outline-none transition-colors resize-y text-sm"
+                    ></textarea>
+                </div>
+
+                <div class="bg-black/60 p-6 rounded-xl border border-black/50 shadow-inner">
+                    <label for="reviewFilename" class="block font-mono font-bold text-mustard uppercase tracking-wider text-sm mb-3">
+                        Nome do Arquivo (URL amigável)
+                    </label>
+                    <input 
+                        type="text" 
+                        id="reviewFilename" 
+                        required
+                        class="w-full bg-black/80 text-silver font-mono p-4 rounded shadow-inner border-2 border-black/50 focus:border-mustard focus:outline-none transition-colors"
+                    />
+                </div>
+
+                <div id="statusMessageSave" class="hidden p-4 rounded-md font-mono font-bold text-center tracking-wide shadow-inner"></div>
+
+                <div class="flex gap-4">
+                    <button 
+                        type="button" 
+                        id="cancelBtn"
+                        class="flex-1 bg-[#1a1a1a] text-silver py-4 px-6 rounded border-4 border-[#111] font-slab font-bold text-xl uppercase hover:bg-black transition-all"
+                    >
+                        Cancelar
+                    </button>
+                    <button 
+                        type="submit" 
+                        id="finalSaveBtn"
+                        class="flex-[2] bg-green-900 text-green-100 py-4 px-6 rounded border-4 border-green-950 shadow-[0_5px_15px_rgba(0,0,0,0.5)] font-slab font-black text-2xl uppercase tracking-widest hover:bg-green-800 transition-all active:translate-y-1"
+                    >
+                        Salvar Setup 💾
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 </Layout>
 
 <script>
     document.addEventListener('DOMContentLoaded', () => {
-        const form = document.getElementById('aiSetupForm') as HTMLFormElement;
-        const statusMsg = document.getElementById('statusMessage');
+        const formGen = document.getElementById('aiSetupForm') as HTMLFormElement;
+        const formSave = document.getElementById('saveSetupForm') as HTMLFormElement;
+        
+        const statusMsgGen = document.getElementById('statusMessageGen');
         const submitBtn = document.getElementById('submitBtn');
+        
+        const suggestionsBox = document.getElementById('aiSuggestions');
+        const suggestionsText = document.getElementById('aiSuggestionsText');
+        const reviewContent = document.getElementById('reviewContent') as HTMLTextAreaElement;
+        const reviewFilename = document.getElementById('reviewFilename') as HTMLInputElement;
+        
+        const statusMsgSave = document.getElementById('statusMessageSave');
+        const finalSaveBtn = document.getElementById('finalSaveBtn');
+        const cancelBtn = document.getElementById('cancelBtn');
 
-        if (form) {
-            form.addEventListener('submit', async (e) => {
+        // Etapa 1: Gerar o Setup
+        if (formGen) {
+            formGen.addEventListener('submit', async (e) => {
                 e.preventDefault();
                 
                 const promptInput = document.getElementById('prompt') as HTMLInputElement;
                 const prompt = promptInput.value.trim();
 
-                // Get selected gear
                 const checkboxes = document.querySelectorAll('input[name="gear"]:checked');
                 const selectedGear = Array.from(checkboxes).map((cb: Element) => (cb as HTMLInputElement).value);
 
                 if (!prompt) return;
 
-                // UI Loading state
                 if (submitBtn) {
                     submitBtn.innerHTML = '<span class="animate-spin text-2xl">⏳</span> <span>Gerando... Pode levar 1 minuto</span>';
                     submitBtn.setAttribute('disabled', 'true');
                     submitBtn.classList.add('opacity-80', 'cursor-not-allowed');
                 }
                 
-                if (statusMsg) {
-                    statusMsg.classList.add('hidden');
-                }
-                
-                const suggestionsBox = document.getElementById('aiSuggestions');
-                const suggestionsText = document.getElementById('aiSuggestionsText');
-                if (suggestionsBox) suggestionsBox.classList.add('hidden');
+                if (statusMsgGen) statusMsgGen.classList.add('hidden');
                 
                 try {
                     const response = await fetch(`${import.meta.env.BASE_URL}/api/generate-setup`, {
                         method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
+                        headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ prompt, selectedGear })
                     });
 
                     const result = await response.json();
 
-                    if (statusMsg) {
-                        statusMsg.classList.remove('hidden', 'bg-red-900', 'text-red-300');
-                        if (response.ok) {
-                            statusMsg.classList.add('bg-green-900', 'text-green-300', 'border', 'border-green-500');
-                            statusMsg.textContent = result.message || 'Setup gerado e salvo com sucesso!';
-                            
-                            // Display suggestions if available
-                            if (result.sugestoes && suggestionsBox && suggestionsText) {
-                                suggestionsText.textContent = result.sugestoes;
-                                suggestionsBox.classList.remove('hidden');
-                            }
-                            
-                        } else {
-                            throw new Error(result.error || 'Erro desconhecido');
-                        }
+                    if (!response.ok) {
+                        throw new Error(result.error || 'Erro desconhecido ao gerar.');
                     }
+
+                    // Sucesso! Esconder form de gerar e mostrar form de revisão
+                    formGen.classList.add('hidden');
+                    formSave.classList.remove('hidden', 'flex-col');
+                    formSave.classList.add('flex', 'flex-col');
                     
-                    // Clear form if success
-                    if (response.ok) form.reset();
+                    reviewContent.value = result.markdown || '';
+                    reviewFilename.value = result.filename || prompt.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+                    
+                    if (result.sugestoes && suggestionsBox && suggestionsText) {
+                        suggestionsText.textContent = result.sugestoes;
+                        suggestionsBox.classList.remove('hidden');
+                    } else if (suggestionsBox) {
+                        suggestionsBox.classList.add('hidden');
+                    }
 
                 } catch (error: any) {
                     console.error('Error generating setup:', error);
-                    if (statusMsg) {
-                        statusMsg.classList.remove('hidden', 'bg-green-900', 'text-green-300');
-                        statusMsg.classList.add('bg-red-900', 'text-red-300', 'border', 'border-red-500');
-                        statusMsg.textContent = `Erro: ${error.message}`;
+                    if (statusMsgGen) {
+                        statusMsgGen.classList.remove('hidden', 'bg-green-900', 'text-green-300');
+                        statusMsgGen.classList.add('bg-red-900', 'text-red-300', 'border', 'border-red-500');
+                        statusMsgGen.textContent = `Erro: ${error.message}`;
                     }
                 } finally {
-                    // Restore UI
                     if (submitBtn) {
                         submitBtn.innerHTML = '<span>Gerar Setup com IA</span> <span class="animate-pulse">✨</span>';
                         submitBtn.removeAttribute('disabled');
                         submitBtn.classList.remove('opacity-80', 'cursor-not-allowed');
+                    }
+                }
+            });
+        }
+
+        // Etapa 2: Botão Cancelar
+        if (cancelBtn) {
+            cancelBtn.addEventListener('click', () => {
+                formSave.classList.add('hidden');
+                formSave.classList.remove('flex', 'flex-col');
+                formGen.classList.remove('hidden');
+                formGen.classList.add('flex', 'flex-col');
+            });
+        }
+
+        // Etapa 3: Salvar Definitivamente
+        if (formSave) {
+            formSave.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                
+                const filename = reviewFilename.value.trim();
+                const content = reviewContent.value.trim();
+
+                if (!filename || !content) return;
+
+                if (finalSaveBtn) {
+                    finalSaveBtn.textContent = 'Salvando...';
+                    finalSaveBtn.setAttribute('disabled', 'true');
+                    finalSaveBtn.classList.add('opacity-80', 'cursor-not-allowed');
+                }
+                
+                try {
+                    const response = await fetch(`${import.meta.env.BASE_URL}/api/save-file`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ filename, content })
+                    });
+
+                    const result = await response.json();
+
+                    if (statusMsgSave) {
+                        statusMsgSave.classList.remove('hidden', 'bg-red-900', 'text-red-300');
+                        if (response.ok) {
+                            statusMsgSave.classList.add('bg-green-900', 'text-green-300', 'border', 'border-green-500');
+                            statusMsgSave.textContent = result.message || 'Setup salvo com sucesso!';
+                        } else {
+                            throw new Error(result.error || 'Erro ao salvar.');
+                        }
+                    }
+                    
+                    if (response.ok) {
+                        // Voltar para a tela 1 depois de 2 segundos
+                        setTimeout(() => {
+                            formGen.reset();
+                            formSave.classList.add('hidden');
+                            formSave.classList.remove('flex', 'flex-col');
+                            formGen.classList.remove('hidden');
+                            formGen.classList.add('flex', 'flex-col');
+                            if (statusMsgSave) statusMsgSave.classList.add('hidden');
+                        }, 2000);
+                    }
+
+                } catch (error: any) {
+                    console.error('Error saving file:', error);
+                    if (statusMsgSave) {
+                        statusMsgSave.classList.remove('hidden', 'bg-green-900', 'text-green-300');
+                        statusMsgSave.classList.add('bg-red-900', 'text-red-300', 'border', 'border-red-500');
+                        statusMsgSave.textContent = `Erro: ${error.message}`;
+                    }
+                } finally {
+                    if (finalSaveBtn) {
+                        finalSaveBtn.textContent = 'Salvar Setup 💾';
+                        finalSaveBtn.removeAttribute('disabled');
+                        finalSaveBtn.classList.remove('opacity-80', 'cursor-not-allowed');
                     }
                 }
             });

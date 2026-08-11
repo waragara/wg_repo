@@ -15,6 +15,7 @@ function localAdminPlugin() {
   return {
     name: 'local-admin-api',
     configureServer(server) {
+      // Rota 1: Gerar Setup com IA (Não salva no disco)
       server.middlewares.use('/api/generate-setup', (req, res, next) => {
         if (req.method === 'POST') {
           let body = '';
@@ -28,7 +29,6 @@ function localAdminPlugin() {
                 return;
               }
 
-              // Load .env explicitly for Vite middleware
               const env = loadEnv(server.config.mode, process.cwd(), '');
               const apiKey = env.GEMINI_API_KEY || process.env.GEMINI_API_KEY;
               
@@ -38,10 +38,8 @@ function localAdminPlugin() {
                 return;
               }
 
-              // Load Full Inventory
               const gearListPath = path.join(process.cwd(), 'src', 'data', 'gear.json');
               const allGear = JSON.parse(fs.readFileSync(gearListPath, 'utf-8'));
-
               const isAutopilot = !selectedGear || selectedGear.length === 0;
 
               let systemPrompt = `Você é um engenheiro de áudio especialista em timbres de guitarra.
@@ -78,7 +76,6 @@ Na chave "sugestoes", aja como um revisor: comente sobre a escolha do usuário b
               }
 
               const ai = new GoogleGenAI({ apiKey });
-
               const aiResponse = await ai.models.generateContent({
                 model: 'gemini-3.5-flash',
                 contents: prompt,
@@ -92,19 +89,43 @@ Na chave "sugestoes", aja como um revisor: comente sobre a escolha do usuário b
               const generatedContent = responseData.markdown || '';
               const sugestoes = responseData.sugestoes || '';
               
-              // Gera um nome de arquivo seguro baseado no prompt
-              const filename = prompt.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '') + '.md';
-              const filePath = path.join(process.cwd(), 'src', 'content', 'setups', filename);
-              
-              fs.writeFileSync(filePath, generatedContent, 'utf-8');
+              const filename = prompt.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
 
               res.setHeader('Content-Type', 'application/json');
-              res.end(JSON.stringify({ success: true, message: `Setup gerado e salvo como ${filename}!`, sugestoes }));
+              res.end(JSON.stringify({ success: true, markdown: generatedContent, sugestoes, filename }));
 
             } catch (e) {
               console.error('API Error:', e);
               res.statusCode = 500;
               res.end(JSON.stringify({ error: e.message || 'Error generating setup' }));
+            }
+          });
+        } else {
+          next();
+        }
+      });
+
+      // Rota 2: Salvar o Arquivo no Disco (Usado na Etapa de Revisão)
+      server.middlewares.use('/api/save-file', (req, res, next) => {
+        if (req.method === 'POST') {
+          let body = '';
+          req.on('data', chunk => body += chunk.toString());
+          req.on('end', () => {
+            try {
+              const { filename, content } = JSON.parse(body);
+              if (filename && content) {
+                const safeFilename = filename.endsWith('.md') ? filename : `${filename}.md`;
+                const filePath = path.join(process.cwd(), 'src', 'content', 'setups', safeFilename);
+                fs.writeFileSync(filePath, content, 'utf-8');
+                res.setHeader('Content-Type', 'application/json');
+                res.end(JSON.stringify({ success: true, message: `Setup ${safeFilename} salvo com sucesso!` }));
+                return;
+              }
+              res.statusCode = 400;
+              res.end(JSON.stringify({ error: 'Filename and content are required' }));
+            } catch (e) {
+              res.statusCode = 500;
+              res.end(JSON.stringify({ error: e.message }));
             }
           });
         } else {
