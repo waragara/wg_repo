@@ -73,7 +73,7 @@ import Layout from '../../layouts/Layout.astro';
 </Layout>
 
 <script>
-    document.addEventListener('DOMContentLoaded', async () => {
+    document.addEventListener('astro:page-load', async () => {
         const form = document.getElementById('editSetupForm') as HTMLFormElement;
         const filenameInput = document.getElementById('filename') as HTMLInputElement;
         const contentInput = document.getElementById('content') as HTMLTextAreaElement;

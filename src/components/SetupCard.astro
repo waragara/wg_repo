@@ -150,7 +150,7 @@ const uniqueSlug = slug || title.replace(/\s+/g, '-').toLowerCase();
 
 <script>
     // Astro bundles this script and runs it once on the client side
-    document.addEventListener("DOMContentLoaded", () => {
+    document.addEventListener("astro:page-load", () => {
         const buttons = document.querySelectorAll('.active-setup-btn');
         
         function updateActiveSetup() {
