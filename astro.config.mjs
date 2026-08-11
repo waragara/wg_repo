@@ -117,8 +117,13 @@ Aja como um revisor: na seção final (SUGESTOES), comente sobre a escolha do us
               rawText = rawText.replace(/^```markdown/i, '').replace(/^```/i, '').replace(/```$/i, '').trim();
 
               const parts = rawText.split('### SUGESTOES ###');
-              const generatedContent = (parts[0] || '').trim();
+              let generatedContent = (parts[0] || '').trim();
               const sugestoes = (parts[1] || '').trim();
+              
+              if (sugestoes) {
+                const formattedComment = sugestoes.split('\n').map(line => `  ${line}`).join('\n');
+                generatedContent = generatedContent.replace(/^---\n/, `---\naiComment: |\n${formattedComment}\n`);
+              }
               
               const filename = prompt.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
 

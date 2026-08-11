@@ -22,7 +22,8 @@ const setupsCollection = defineCollection({
         f: z.union([z.string(), z.number()]),
         db: z.union([z.string(), z.number()])
       })).optional()
-    })).optional()
+    })).optional(),
+    aiComment: z.string().optional()
   })
 });
 

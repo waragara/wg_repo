@@ -13,12 +13,13 @@ export interface Props {
     list?: string[];
     table?: { f: string | number; db: string | number }[];
   }[];
+  aiComment?: string;
 }
 
 import SignalChain from './SignalChain.astro';
 import GearBadge from './GearBadge.astro';
 
-const { title, artist, targetTone, guitar, pedals, amp, tabs, equipment } = Astro.props;
+const { title, artist, targetTone, guitar, pedals, amp, tabs, equipment, aiComment } = Astro.props;
 ---
 
 <div id={title.replace(/\s+/g, '-').toLowerCase()} class="setup-card relative bg-[#1a1a1a] rounded-xl shadow-[0_10px_30px_rgba(0,0,0,0.9)] border border-black mb-12 transition-all duration-300">
@@ -47,12 +48,26 @@ const { title, artist, targetTone, guitar, pedals, amp, tabs, equipment } = Astr
         <div class="p-5 sm:p-6">
             <SignalChain guitar={guitar} pedals={pedals} amp={amp} />
             
-            <div class="mb-8 mt-2">
-                {tabs && tabs.map(tab => (
-                    <a href={tab.url} target="_blank" class="inline-block bg-mustard text-tolexDark py-2 px-4 rounded-md text-sm font-bold mt-2 mr-3 no-underline transition-all duration-200 hover:bg-mustardDark hover:shadow-lg border-b-4 border-mustardDark active:translate-y-1 active:border-b-0 uppercase tracking-wide">
-                        {tab.label}
-                    </a>
-                ))}
+            <div class="mb-8 mt-2 flex flex-col md:flex-row gap-4 justify-between items-start md:items-center">
+                <div>
+                    {tabs && tabs.map(tab => (
+                        <a href={tab.url} target="_blank" class="inline-block bg-mustard text-tolexDark py-2 px-4 rounded-md text-sm font-bold mt-2 mr-3 no-underline transition-all duration-200 hover:bg-mustardDark hover:shadow-lg border-b-4 border-mustardDark active:translate-y-1 active:border-b-0 uppercase tracking-wide">
+                            {tab.label}
+                        </a>
+                    ))}
+                </div>
+
+                {aiComment && (
+                    <details class="group cursor-pointer relative z-30">
+                        <summary class="text-xs font-mono text-silver/60 hover:text-mustard uppercase tracking-widest list-none inline-flex items-center gap-2 transition-colors bg-[#111] px-4 py-2 rounded-full border border-white/10 shadow-inner">
+                            <span>🤖 Análise da IA</span>
+                            <span class="group-open:rotate-180 transition-transform">▼</span>
+                        </summary>
+                        <div class="absolute right-0 mt-3 p-4 bg-black/90 border border-mustard/30 rounded-md text-silver font-mono text-sm shadow-[0_10px_30px_rgba(0,0,0,0.9)] leading-relaxed whitespace-pre-line w-[300px] sm:w-[450px] z-40 backdrop-blur-sm">
+                            {aiComment}
+                        </div>
+                    </details>
+                )}
             </div>
 
     <div class="relative z-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
