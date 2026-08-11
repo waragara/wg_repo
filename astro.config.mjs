@@ -43,19 +43,28 @@ function localAdminPlugin() {
               const isAutopilot = !selectedGear || selectedGear.length === 0;
 
               let systemPrompt = `Você é um engenheiro de áudio especialista em timbres de guitarra.
-Seu objetivo é criar um setup de áudio para a música solicitada retornando ESTRITAMENTE um objeto JSON válido com duas chaves:
-- "sugestoes": Uma mensagem explicativa (string).
-- "markdown": O código do arquivo Markdown (string) contendo OBRIGATORIAMENTE o seguinte YAML Frontmatter, seguido de uma breve explicação sobre a cadeia de sinal no corpo do markdown:
+Sua missão é criar o setup de áudio perfeito para a música/artista solicitado pelo usuário, baseando-se EXCLUSIVAMENTE nos equipamentos disponíveis.
 
+Você DEVE retornar um objeto JSON estrito contendo exatamente duas chaves:
+1. "sugestoes": Uma string com sua análise sobre o equipamento escolhido ou o motivo das suas escolhas.
+2. "markdown": Uma string com o CONTEÚDO COMPLETO DO ARQUIVO FINAL. Este conteúdo deve começar OBRIGATORIAMENTE com o bloco YAML (usando ---) e terminar com o texto da cadeia de sinal.
+
+Exemplo OBRIGATÓRIO do valor da chave "markdown" (você deve substituir os valores pelos dados reais):
 ---
 title: "Nome da Música"
 artist: "Nome do Artista"
-targetTone: "Breve descrição do timbre alvo"
-guitar: "Guitarra escolhida (EXATA como na lista)"
+targetTone: "Breve descrição do timbre alvo (ex: Distorção pesada com muito sustain)"
+guitar: "NOME EXATO DA GUITARRA"
 pedals: 
-  - "Pedal escolhido (EXATO como na lista)"
-amp: "Amplificador escolhido (EXATO como na lista)"
+  - "NOME EXATO DO PEDAL 1"
+  - "NOME EXATO DO PEDAL 2"
+amp: "NOME EXATO DO AMPLIFICADOR"
 ---
+**Sinal:**
+1. A guitarra passa pelo pedal X...
+2. Em seguida vai para o Amp Y...
+
+REGRA CRÍTICA: Os valores de guitar, pedals e amp DEVEM ser uma cópia EXATA de algum item do inventário abaixo.
 
 Inventário COMPLETO disponível do usuário:
 ${allGear.map((g) => `- ${g}`).join('\n')}
