@@ -15,15 +15,18 @@ export interface Props {
     table?: { f: string | number; db: string | number }[];
   }[];
   aiComment?: string;
+  slug?: string;
 }
 
 import SignalChain from './SignalChain.astro';
 import GearBadge from './GearBadge.astro';
 
-const { title, artist, targetTone, guitar, pickup, pedals, amp, tabs, equipment, aiComment } = Astro.props;
+const { title, artist, targetTone, guitar, pickup, pedals, amp, tabs, equipment, aiComment, slug } = Astro.props;
+// Fallback slug for backward compatibility if used directly
+const uniqueSlug = slug || title.replace(/\s+/g, '-').toLowerCase();
 ---
 
-<div id={title.replace(/\s+/g, '-').toLowerCase()} class="setup-card relative bg-[#1a1a1a] rounded-xl shadow-[0_10px_30px_rgba(0,0,0,0.9)] border border-black mb-12 transition-all duration-300">
+<div id={uniqueSlug} class="setup-card relative bg-[#1a1a1a] rounded-xl shadow-[0_10px_30px_rgba(0,0,0,0.9)] border border-black mb-12 transition-all duration-300">
     <!-- Metal corner caps for the main amp head -->
     <div class="absolute top-[-2px] left-[-2px] w-5 h-5 bg-gradient-to-br from-silver to-metalPanelDark rounded-tl-xl border border-black/50 shadow-[inset_1px_1px_2px_rgba(255,255,255,0.8)] z-20"></div>
     <div class="absolute top-[-2px] right-[-2px] w-5 h-5 bg-gradient-to-bl from-silver to-metalPanelDark rounded-tr-xl border border-black/50 shadow-[inset_-1px_1px_2px_rgba(255,255,255,0.8)] z-20"></div>
@@ -36,10 +39,10 @@ const { title, artist, targetTone, guitar, pickup, pedals, amp, tabs, equipment,
         <!-- TOP METAL PLATE (Title) -->
         <div class="bg-brushed-metal p-5 sm:p-6 border-b-8 border-[#111] shadow-[inset_0_-2px_10px_rgba(0,0,0,0.4)] flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
             <div>
-                <h2 class="m-0 text-[#111] text-3xl sm:text-4xl lg:text-5xl font-black font-slab uppercase tracking-widest drop-shadow-sm">{title}</h2>
+                <h2 class="m-0 text-[#111] text-3xl sm:text-4xl lg:text-5xl font-black font-slab uppercase tracking-widest drop-shadow-sm" transition:name={`title-${uniqueSlug}`}>{title}</h2>
                 <p class="text-base sm:text-lg text-[#333] m-0 mt-2 font-bold font-mono">{targetTone}</p>
             </div>
-            <button class="active-setup-btn shrink-0 bg-tolexDark text-silver px-6 py-3 rounded-md shadow-[inset_0_2px_5px_rgba(255,255,255,0.1),_0_5px_15px_rgba(0,0,0,0.5)] border-2 border-[#111] font-mono uppercase font-bold tracking-wider hover:bg-tolexLight active:translate-y-1 transition-all cursor-pointer flex items-center gap-2" data-setup-id={title.replace(/\s+/g, '-').toLowerCase()}>
+            <button class="active-setup-btn shrink-0 bg-tolexDark text-silver px-6 py-3 rounded-md shadow-[inset_0_2px_5px_rgba(255,255,255,0.1),_0_5px_15px_rgba(0,0,0,0.5)] border-2 border-[#111] font-mono uppercase font-bold tracking-wider hover:bg-tolexLight active:translate-y-1 transition-all cursor-pointer flex items-center gap-2" data-setup-id={uniqueSlug}>
                 <span class="indicator w-3 h-3 rounded-full bg-red-600 shadow-[inset_0_2px_4px_rgba(0,0,0,0.8)] border border-black"></span>
                 <span>Configurar</span>
             </button>

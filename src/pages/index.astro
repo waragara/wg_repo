@@ -1,6 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import SetupCard from '../components/SetupCard.astro';
+import SetupThumb from '../components/SetupThumb.astro';
 import GearBadge from '../components/GearBadge.astro';
 import BandBadge from '../components/BandBadge.astro';
 import { getCollection } from 'astro:content';
@@ -59,17 +59,21 @@ const allBandTags = Array.from(uniqueBands).sort();
         </div>
     </div>
 
-    <!-- GLOBAL FILTERS -->
+    <!-- GLOBAL FILTERS & SEARCH -->
     <div class="bg-black/60 p-6 rounded-xl shadow-[inset_0_2px_10px_rgba(0,0,0,0.8)] border border-black/50 mb-12 max-w-4xl mx-auto flex flex-col gap-6">
         
-        {allBandTags.length > 0 && (
-            <div>
-                <h3 class="text-[#e0e0e0] font-mono text-center font-bold uppercase mb-3 tracking-widest text-lg border-b-2 border-white/10 pb-2">🎵 Filtrar por Artista / Banda</h3>
-                <div class="flex flex-wrap justify-center items-center gap-2">
-                    {allBandTags.map((tag: string) => <BandBadge bandName={tag} />)}
-                </div>
+        <!-- Live Search -->
+        <div>
+            <h3 class="text-white font-mono text-center font-bold uppercase mb-3 tracking-widest text-lg border-b-2 border-white/10 pb-2">🔍 Buscar Setup</h3>
+            <div class="flex justify-center">
+                <input 
+                    type="text" 
+                    id="setupSearchInput"
+                    placeholder="Digite a música ou banda..."
+                    class="bg-[#111] text-silver font-mono p-3 rounded shadow-[inset_0_2px_5px_rgba(0,0,0,0.8)] border-2 border-black/50 focus:border-mustard focus:outline-none w-full max-w-md text-center"
+                />
             </div>
-        )}
+        </div>
 
         {allGearTags.length > 0 && (
             <div>
@@ -95,7 +99,46 @@ const allBandTags = Array.from(uniqueBands).sort();
         
     </div>
 
-    {setups.map(setup => (
-        <SetupCard {...setup.data} />
-    ))}
+    <!-- THUMBS GRID -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-12" id="setupGrid">
+        {setups.map(setup => (
+            <div class="thumb-container">
+                <SetupThumb 
+                    slug={setup.id}
+                    title={setup.data.title}
+                    artist={setup.data.artist}
+                    guitar={setup.data.guitar}
+                    pedalsCount={setup.data.pedals ? setup.data.pedals.length : 0}
+                />
+            </div>
+        ))}
+    </div>
 </Layout>
+
+<script>
+    // Live Search Filter
+    document.addEventListener('astro:page-load', () => {
+        const searchInput = document.getElementById('setupSearchInput');
+        const thumbs = document.querySelectorAll('.thumb-container');
+
+        if (searchInput) {
+            searchInput.addEventListener('keyup', (e) => {
+                const term = e.target.value.toLowerCase();
+                
+                thumbs.forEach(thumb => {
+                    const link = thumb.querySelector('.setup-thumb');
+                    if (link) {
+                        const title = link.getAttribute('data-title') || '';
+                        const artist = link.getAttribute('data-artist') || '';
+                        
+                        if (title.includes(term) || artist.includes(term)) {
+                            thumb.style.display = '';
+                        } else {
+                            thumb.style.display = 'none';
+                        }
+                    }
+                });
+            });
+        }
+    });
+</script>
