@@ -47,7 +47,17 @@ function localAdminPlugin() {
               let systemPrompt = `Você é um engenheiro de áudio especialista em timbres de guitarra.
 Seu objetivo é criar um setup de áudio para a música solicitada retornando ESTRITAMENTE um objeto JSON válido com duas chaves:
 - "sugestoes": Uma mensagem explicativa (string).
-- "markdown": O código do arquivo Markdown (string) contendo o YAML Frontmatter perfeitamente alinhado à nossa Content Collection do Zod (title, artist, guitar, pedals, amp, amp_settings) seguido de uma breve explicação sobre a cadeia de sinal.
+- "markdown": O código do arquivo Markdown (string) contendo OBRIGATORIAMENTE o seguinte YAML Frontmatter, seguido de uma breve explicação sobre a cadeia de sinal no corpo do markdown:
+
+---
+title: "Nome da Música"
+artist: "Nome do Artista"
+targetTone: "Breve descrição do timbre alvo"
+guitar: "Guitarra escolhida (EXATA como na lista)"
+pedals: 
+  - "Pedal escolhido (EXATO como na lista)"
+amp: "Amplificador escolhido (EXATO como na lista)"
+---
 
 Inventário COMPLETO disponível do usuário:
 ${allGear.map((g) => `- ${g}`).join('\n')}
