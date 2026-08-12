@@ -168,10 +168,7 @@ No entanto, aja com VISÃO HOLÍSTICA: assuma que TODOS os equipamentos do inven
 
               let responseJson;
               try {
-                // Tenta limpar newlines não escapadas dentro de strings (comum em LLMs)
-                let cleanedText = rawText.replace(/(?<=: *")(.*?)(?=" *(,|\}))/gs, (match) => {
-                  return match.replace(/\n/g, '\\n').replace(/\r/g, '\\r').replace(/\t/g, '\\t');
-                });
+                let cleanedText = rawText.replace(/[\u0000-\u001F]+/g, " ");
                 responseJson = JSON.parse(cleanedText);
               } catch (e1) {
                 try {
@@ -492,10 +489,8 @@ REGRA CRÍTICA 5: NUNCA use quebras de linha reais dentro das strings do JSON. U
 
               let responseJson;
               try {
-                // Tenta limpar newlines não escapadas dentro de strings (comum em LLMs)
-                let cleanedText = rawText.replace(/(?<=: *")(.*?)(?=" *(,|\}))/gs, (match) => {
-                  return match.replace(/\n/g, '\\n').replace(/\r/g, '\\r').replace(/\t/g, '\\t');
-                });
+                // Remove invalid control characters that often break JSON parsing
+                let cleanedText = rawText.replace(/[\u0000-\u001F]+/g, " ");
                 responseJson = JSON.parse(cleanedText);
               } catch (e1) {
                 try {
