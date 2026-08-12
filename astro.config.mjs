@@ -212,7 +212,8 @@ No entanto, aja com VISÃO HOLÍSTICA: assuma que TODOS os equipamentos do inven
                   if (eq.table && eq.table.length > 0) {
                     equipmentYaml += `    table:\n`;
                     eq.table.forEach(row => {
-                      equipmentYaml += `      - { f: "${(row.f || '').toString().replace(/"/g, '\\"')}", db: "${(row.db || '').toString().replace(/"/g, '\\"')}" }\n`;
+                      equipmentYaml += `      - f: "${(row.f || '').toString().replace(/"/g, '\\"')}"\n`;
+                      equipmentYaml += `        db: "${(row.db || '').toString().replace(/"/g, '\\"')}"\n`;
                     });
                   }
                 });
@@ -528,7 +529,8 @@ REGRA CRÍTICA 5: NUNCA use quebras de linha reais dentro das strings do JSON. U
                   if (eq.table && eq.table.length > 0) {
                     equipmentYaml += `    table:\n`;
                     eq.table.forEach(row => {
-                      equipmentYaml += `      - { f: "${(row.f || '').toString().replace(/"/g, '\\"')}", db: "${(row.db || '').toString().replace(/"/g, '\\"')}" }\n`;
+                      equipmentYaml += `      - f: "${(row.f || '').toString().replace(/"/g, '\\"')}"\n`;
+                      equipmentYaml += `        db: "${(row.db || '').toString().replace(/"/g, '\\"')}"\n`;
                     });
                   }
                 });
