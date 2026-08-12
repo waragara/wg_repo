@@ -95,6 +95,91 @@ import Layout from '../layouts/Layout.astro';
                     </div>
                 </div>
 
+                
+                <!-- EFFECTS LISTS -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- REVERB -->
+                    <div>
+                        <h2 class="m-0 mb-4 text-mustard text-xl font-bold font-slab uppercase tracking-wider border-b border-mustard/30 pb-2">Reverb (RVB)</h2>
+                        <div class="w-full bg-black/40 p-1 rounded-md border border-black shadow-inner">
+                            <table class="w-full border-collapse text-sm font-mono">
+                                <thead>
+                                    <tr>
+                                        <th class="border border-black p-2 text-center bg-[#111] text-mustard uppercase">#</th>
+                                        <th class="border border-black p-2 text-left bg-[#111] text-mustard uppercase">Tipo</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {[
+                                        { s: '1', n: 'Room' },
+                                        { s: '2', n: 'Spring' },
+                                        { s: '3', n: 'Cloud' }
+                                    ].map((row, i) => (
+                                        <tr class={i % 2 === 0 ? 'bg-black/20' : 'bg-black/5'}>
+                                            <td class="border border-black/40 p-2 text-center text-silver font-bold">{row.s}</td>
+                                            <td class="border border-black/40 p-2 text-left text-silver">{row.n}</td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- DELAY -->
+                    <div>
+                        <h2 class="m-0 mb-4 text-mustard text-xl font-bold font-slab uppercase tracking-wider border-b border-mustard/30 pb-2">Delay (DLY)</h2>
+                        <div class="w-full bg-black/40 p-1 rounded-md border border-black shadow-inner">
+                            <table class="w-full border-collapse text-sm font-mono">
+                                <thead>
+                                    <tr>
+                                        <th class="border border-black p-2 text-center bg-[#111] text-mustard uppercase">#</th>
+                                        <th class="border border-black p-2 text-left bg-[#111] text-mustard uppercase">Tipo</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {[
+                                        { s: '1', n: 'Analog' },
+                                        { s: '2', n: 'Tape' },
+                                        { s: '3', n: 'Dual' }
+                                    ].map((row, i) => (
+                                        <tr class={i % 2 === 0 ? 'bg-black/20' : 'bg-black/5'}>
+                                            <td class="border border-black/40 p-2 text-center text-silver font-bold">{row.s}</td>
+                                            <td class="border border-black/40 p-2 text-left text-silver">{row.n}</td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- MOD FX -->
+                    <div>
+                        <h2 class="m-0 mb-4 text-mustard text-xl font-bold font-slab uppercase tracking-wider border-b border-mustard/30 pb-2">Modulação (MOD)</h2>
+                        <div class="w-full bg-black/40 p-1 rounded-md border border-black shadow-inner">
+                            <table class="w-full border-collapse text-sm font-mono">
+                                <thead>
+                                    <tr>
+                                        <th class="border border-black p-2 text-center bg-[#111] text-mustard uppercase">#</th>
+                                        <th class="border border-black p-2 text-left bg-[#111] text-mustard uppercase">Tipo</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {[
+                                        { s: '1', n: 'Chorus' },
+                                        { s: '2', n: 'Phaser' },
+                                        { s: '3', n: 'Tremolo' }
+                                    ].map((row, i) => (
+                                        <tr class={i % 2 === 0 ? 'bg-black/20' : 'bg-black/5'}>
+                                            <td class="border border-black/40 p-2 text-center text-silver font-bold">{row.s}</td>
+                                            <td class="border border-black/40 p-2 text-left text-silver">{row.n}</td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- PRESETS TABLE -->
                 <div>
                     <h2 class="m-0 mb-4 text-mustard text-2xl font-bold font-slab uppercase tracking-wider border-b border-mustard/30 pb-2">Bancos e Timbres (Presets)</h2>
