@@ -160,7 +160,8 @@ No entanto, aja com VISÃO HOLÍSTICA: assuma que TODOS os equipamentos do inven
                   systemInstruction: systemPrompt,
                   responseMimeType: "application/json",
                   responseSchema: setupSchema,
-                  temperature: 0.1
+                  temperature: 0.1,
+                  maxOutputTokens: 8192
                 }
               });
 
@@ -487,7 +488,8 @@ Sua Tarefa: Você deve reconstruir o array de pedais do zero. Analise TODOS os e
                   systemInstruction: systemPrompt,
                   responseMimeType: "application/json",
                   responseSchema: setupSchema,
-                  temperature: 0.1
+                  temperature: 0.1,
+                  maxOutputTokens: 8192
                 }
               });
 
