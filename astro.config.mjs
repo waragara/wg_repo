@@ -122,7 +122,7 @@ Sua Tarefa: Assuma que todo o inventário está conectado. Analise a música sol
 CENÁRIO (Equipamento Selecionado): O usuário selecionou manualmente os seguintes equipamentos:
 ${selectedGear.map((g) => `- ${g}`).join('\n')}
 
-Sua Tarefa: Crie o setup utilizando os equipamentos que o usuário selecionou. 
+REGRA CRÍTICA 5: NUNCA use quebras de linha reais dentro das strings do JSON. Use apenas espaço.\nSua Tarefa: Crie o setup utilizando os equipamentos que o usuário selecionou. 
 No entanto, aja com VISÃO HOLÍSTICA: assuma que TODOS os equipamentos do inventário estão disponíveis no seu estúdio. Se o setup selecionado pelo usuário estiver "pobre" para o timbre solicitado (ex: falta de um reverb ou drive), adicione os equipamentos necessários do inventário geral para atingir a perfeição. Você DEVE alocar os pedais nos slots corretos aplicando a Ordem Lógica Inviolável acima. Na chave 'sugestoes' do JSON, explique a escolha do captador e como reordenou o sinal.`;
               }
 
@@ -145,10 +145,21 @@ No entanto, aja com VISÃO HOLÍSTICA: assuma que TODOS os equipamentos do inven
 
               let responseJson;
               try {
-                responseJson = JSON.parse(rawText);
-              } catch (e) {
-                console.error("Erro no Parse do JSON. Texto recebido:\n", aiResponse.text);
-                throw new Error("Falha no JSON da IA. Tente novamente.");
+                // Tenta limpar newlines não escapadas dentro de strings (comum em LLMs)
+                let cleanedText = rawText.replace(/(?<=: *")(.*?)(?=" *(,|\}))/gs, (match) => {
+                  return match.replace(/\n/g, '\\n').replace(/\r/g, '\\r').replace(/\t/g, '\\t');
+                });
+                responseJson = JSON.parse(cleanedText);
+              } catch (e1) {
+                try {
+                  // Fallback extremamente permissivo caso o JSON.parse falhe
+                  responseJson = (new Function('return ' + rawText))();
+                } catch (e2) {
+                  console.error("Erro no Parse do JSON. Texto bruto recebido:\n", rawText);
+                  res.statusCode = 500;
+                  res.end(JSON.stringify({ error: "Falha na formatação da IA. Resposta: " + rawText.substring(0, 150) + "..." }));
+                  return;
+                }
               }
 
               const fm = responseJson.markdown_frontmatter || {};
@@ -398,7 +409,7 @@ Inventário TANK-G (Opções exclusivas de Amps e Cabs do Tank-G):
 - IR Cabs: ${tankGPresets.cabs.join(', ')}
 
 CENÁRIO (Piloto Automático / Reload):
-Sua Tarefa (DESTRUIÇÃO DO VIÉS ANTIGO): Ao receber o setup, IGNORE COMPLETAMENTE a ordem atual do array de pedals. Você DEVE reconstruir o array de pedais do absoluto zero. Analise TODOS os equipamentos disponíveis no arquivo de dados. Mesmo que o setup antigo tenha usado apenas 2 pedais, adicione outros pedais da lista se eles forem essenciais para o timbre solicitado. Assuma que todo o inventário está conectado. Selecione a dedo a melhor guitarra, pedais (quantos forem necessários) e amplificador, aplicando a Ordem Lógica Inviolável acima. Na chave 'sugestoes' do JSON, explique como reordenou o sinal.`;
+REGRA CRÍTICA 5: NUNCA use quebras de linha reais dentro das strings do JSON. Use apenas espaço.\nSua Tarefa (DESTRUIÇÃO DO VIÉS ANTIGO): Ao receber o setup, IGNORE COMPLETAMENTE a ordem atual do array de pedals. Você DEVE reconstruir o array de pedais do absoluto zero. Analise TODOS os equipamentos disponíveis no arquivo de dados. Mesmo que o setup antigo tenha usado apenas 2 pedais, adicione outros pedais da lista se eles forem essenciais para o timbre solicitado. Assuma que todo o inventário está conectado. Selecione a dedo a melhor guitarra, pedais (quantos forem necessários) e amplificador, aplicando a Ordem Lógica Inviolável acima. Na chave 'sugestoes' do JSON, explique como reordenou o sinal.`;
 
               const ai = new GoogleGenAI({ apiKey });
               const prompt = `Refaça o setup ideal para a música ${title} do artista ${artist} usando APENAS os equipamentos da lista.`;
@@ -421,10 +432,21 @@ Sua Tarefa (DESTRUIÇÃO DO VIÉS ANTIGO): Ao receber o setup, IGNORE COMPLETAME
 
               let responseJson;
               try {
-                responseJson = JSON.parse(rawText);
-              } catch (e) {
-                console.error("Erro no Parse do JSON. Texto recebido:\n", aiResponse.text);
-                throw new Error("Falha no JSON da IA. Tente novamente.");
+                // Tenta limpar newlines não escapadas dentro de strings (comum em LLMs)
+                let cleanedText = rawText.replace(/(?<=: *")(.*?)(?=" *(,|\}))/gs, (match) => {
+                  return match.replace(/\n/g, '\\n').replace(/\r/g, '\\r').replace(/\t/g, '\\t');
+                });
+                responseJson = JSON.parse(cleanedText);
+              } catch (e1) {
+                try {
+                  // Fallback extremamente permissivo caso o JSON.parse falhe
+                  responseJson = (new Function('return ' + rawText))();
+                } catch (e2) {
+                  console.error("Erro no Parse do JSON. Texto bruto recebido:\n", rawText);
+                  res.statusCode = 500;
+                  res.end(JSON.stringify({ error: "Falha na formatação da IA. Resposta: " + rawText.substring(0, 150) + "..." }));
+                  return;
+                }
               }
 
               const fm = responseJson.markdown_frontmatter || {};
