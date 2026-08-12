@@ -66,7 +66,7 @@ function localAdminPlugin() {
                         type: Type.ARRAY,
                         items: {
                           type: Type.OBJECT,
-                          required: ["title"],
+                          required: ["title", "tagUso", "list", "table"],
                           properties: {
                             title: { type: Type.STRING, description: "Exact name of the gear from the inventory" },
                             tagUso: { type: Type.STRING },
@@ -122,9 +122,9 @@ Slot 5: Ambiência Final (ex: M-Vave Mini Universe)
 ((O Joyo 10-Band NUNCA deve vir depois do Tank-G. O Lost Tempo NUNCA deve vir depois do Mini Universe).\n
 REGRA CRÍTICA 6 (Detalhamento do Equipamento): No array 'equipment', forneça um objeto para CADA guitarra, pedal e amp usado detalhando a configuração.
 - 'title': O nome exato do equipamento.
-- 'tagUso' (opcional): Uma frase curta explicando o uso.
-- 'list' (opcional): Array de strings puras. Exemplo: "Volume: 7 | Drive: 4" ou "Captador: Braço". Use apenas texto simples.
-- 'table' (opcional): Apenas para o Equalizador Joyo 10-Band. Formato: {f: "125", db: "-2"}.
+- 'tagUso': Uma frase curta explicando o uso.
+- 'list': OBRIGATÓRIO para guitarras, amps e todos os pedais (exceto o Equalizador). Array de strings puras com os parâmetros. Exemplo: "Volume: 7 | Drive: 4" ou "Captador: Braço". Use apenas texto simples.
+- 'table': OBRIGATÓRIO Apenas para o Equalizador Joyo 10-Band. Formato: {f: "125", db: "-2"}.
 
 Inventário GERAL disponível:
 ${allGear.map((g) => `- ${g}`).join('\n')}
@@ -166,7 +166,6 @@ No entanto, aja com VISÃO HOLÍSTICA: assuma que TODOS os equipamentos do inven
               });
 
               let rawText = aiResponse.text || '{}';
-              fs.writeFileSync(path.join(process.cwd(), 'src', 'content', 'setups', 'debug1.txt'), rawText);
               const jsonMatch = rawText.match(/\{[\s\S]*\}/);
               if (jsonMatch) {
                 rawText = jsonMatch[0];
@@ -402,7 +401,7 @@ ${formattedComment}
                         type: Type.ARRAY,
                         items: {
                           type: Type.OBJECT,
-                          required: ["title"],
+                          required: ["title", "tagUso", "list", "table"],
                           properties: {
                             title: { type: Type.STRING, description: "Exact name of the gear from the inventory" },
                             tagUso: { type: Type.STRING },
@@ -459,9 +458,9 @@ Slot 5: Ambiência Final (ex: M-Vave Mini Universe)
 ((O Joyo 10-Band NUNCA deve vir depois do Tank-G. O Lost Tempo NUNCA deve vir depois do Mini Universe).\n
 REGRA CRÍTICA 6 (Detalhamento do Equipamento): No array 'equipment', forneça um objeto para CADA guitarra, pedal e amp usado detalhando a configuração.
 - 'title': O nome exato do equipamento.
-- 'tagUso' (opcional): Uma frase curta explicando o uso.
-- 'list' (opcional): Array de strings puras. Exemplo: "Volume: 7 | Drive: 4" ou "Captador: Braço". Use apenas texto simples.
-- 'table' (opcional): Apenas para o Equalizador Joyo 10-Band. Formato: {f: "125", db: "-2"}.
+- 'tagUso': Uma frase curta explicando o uso.
+- 'list': OBRIGATÓRIO para guitarras, amps e todos os pedais (exceto o Equalizador). Array de strings puras com os parâmetros. Exemplo: "Volume: 7 | Drive: 4" ou "Captador: Braço". Use apenas texto simples.
+- 'table': OBRIGATÓRIO Apenas para o Equalizador Joyo 10-Band. Formato: {f: "125", db: "-2"}.
 
 Inventário GERAL disponível:
 ${allGear.map((g) => `- ${g}`).join('\n')}
@@ -494,7 +493,6 @@ Sua Tarefa: Você deve reconstruir o array de pedais do zero. Analise TODOS os e
               });
 
               let rawText = aiResponse.text || '{}';
-              fs.writeFileSync(path.join(process.cwd(), 'src', 'content', 'setups', 'debug2.txt'), rawText);
               const jsonMatch = rawText.match(/\{[\s\S]*\}/);
               if (jsonMatch) {
                 rawText = jsonMatch[0];
