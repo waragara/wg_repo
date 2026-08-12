@@ -115,12 +115,11 @@ Slot 3: Modulações/Tempo (ex: M-Vave LOst Tempo v2)
 Slot 4: Processamento Digital / Amp Sim / Multi-efeitos (ex: M-Vave Tank-G)
 Slot 5: Ambiência Final (ex: M-Vave Mini Universe)
 ((O Joyo 10-Band NUNCA deve vir depois do Tank-G. O Lost Tempo NUNCA deve vir depois do Mini Universe).\n
-REGRA CRÍTICA 6 (Detalhamento do Equipamento): No array 'equipment', você DEVE fornecer um objeto para CADA guitarra, pedal e amp usado, detalhando sua configuração (knobs).
+REGRA CRÍTICA 6 (Detalhamento do Equipamento): No array 'equipment', forneça um objeto para CADA guitarra, pedal e amp usado detalhando a configuração.
 - 'title': O nome exato do equipamento.
-- 'tagUso' (opcional): Uma frase curta explicando o uso (ex: "Sempre ligado para brilho", "Saturação principal").
-- 'list' (opcional): Array de strings com a configuração. A chave do knob DEVE usar a tag HTML strong (ex: "<strong class='text-white'>Volume:</strong> 7 <strong class='text-white'>Drive:</strong> 4" ou "<strong class='text-white'>Captador:</strong> Braço").
-- 'table' (opcional): USE APENAS para o Equalizador Joyo 10-Band. Retorne as 10 bandas no formato {f: "freq", db: "ganho"}, ex: {f: "125", db: "-2"}.
-.
+- 'tagUso' (opcional): Uma frase curta explicando o uso.
+- 'list' (opcional): Array de strings puras. Exemplo: "Volume: 7 | Drive: 4" ou "Captador: Braço". PROIBIDO USAR HTML OU CARACTERES ESPECIAIS.
+- 'table' (opcional): Apenas para o Equalizador Joyo 10-Band. Formato: {f: "125", db: "-2"}.
 
 Inventário GERAL disponível:
 ${allGear.map((g) => `- ${g}`).join('\n')}
@@ -200,7 +199,8 @@ No entanto, aja com VISÃO HOLÍSTICA: assuma que TODOS os equipamentos do inven
                   if (eq.list && eq.list.length > 0) {
                     equipmentYaml += `    list:\n`;
                     eq.list.forEach(item => {
-                      equipmentYaml += `      - '${item.replace(/'/g, "''")}'\n`;
+                      let formattedItem = item.replace(/([A-Za-zÀ-ÿ0-9/ ]+):/g, "<strong class=\"text-white\">$1:</strong>");
+                      equipmentYaml += `      - '${formattedItem.replace(/'/g, "''")}'\n`;
                     });
                   }
                 });
@@ -428,12 +428,11 @@ Slot 3: Modulações/Tempo (ex: M-Vave LOst Tempo v2)
 Slot 4: Processamento Digital / Amp Sim / Multi-efeitos (ex: M-Vave Tank-G)
 Slot 5: Ambiência Final (ex: M-Vave Mini Universe)
 ((O Joyo 10-Band NUNCA deve vir depois do Tank-G. O Lost Tempo NUNCA deve vir depois do Mini Universe).\n
-REGRA CRÍTICA 6 (Detalhamento do Equipamento): No array 'equipment', você DEVE fornecer um objeto para CADA guitarra, pedal e amp usado, detalhando sua configuração (knobs).
+REGRA CRÍTICA 6 (Detalhamento do Equipamento): No array 'equipment', forneça um objeto para CADA guitarra, pedal e amp usado detalhando a configuração.
 - 'title': O nome exato do equipamento.
-- 'tagUso' (opcional): Uma frase curta explicando o uso (ex: "Sempre ligado para brilho", "Saturação principal").
-- 'list' (opcional): Array de strings com a configuração. A chave do knob DEVE usar a tag HTML strong (ex: "<strong class='text-white'>Volume:</strong> 7 <strong class='text-white'>Drive:</strong> 4" ou "<strong class='text-white'>Captador:</strong> Braço").
-- 'table' (opcional): USE APENAS para o Equalizador Joyo 10-Band. Retorne as 10 bandas no formato {f: "freq", db: "ganho"}, ex: {f: "125", db: "-2"}.
-.
+- 'tagUso' (opcional): Uma frase curta explicando o uso.
+- 'list' (opcional): Array de strings puras. Exemplo: "Volume: 7 | Drive: 4" ou "Captador: Braço". PROIBIDO USAR HTML OU CARACTERES ESPECIAIS.
+- 'table' (opcional): Apenas para o Equalizador Joyo 10-Band. Formato: {f: "125", db: "-2"}.
 
 Inventário GERAL disponível:
 ${allGear.map((g) => `- ${g}`).join('\n')}
@@ -504,7 +503,8 @@ REGRA CRÍTICA 5: NUNCA use quebras de linha reais dentro das strings do JSON. U
                   if (eq.list && eq.list.length > 0) {
                     equipmentYaml += `    list:\n`;
                     eq.list.forEach(item => {
-                      equipmentYaml += `      - '${item.replace(/'/g, "''")}'\n`;
+                      let formattedItem = item.replace(/([A-Za-zÀ-ÿ0-9/ ]+):/g, "<strong class=\"text-white\">$1:</strong>");
+                      equipmentYaml += `      - '${formattedItem.replace(/'/g, "''")}'\n`;
                     });
                   }
                 });
