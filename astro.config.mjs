@@ -124,7 +124,7 @@ Slot 5: Ambiência Final (ex: M-Vave Mini Universe)
 REGRA CRÍTICA 6 (Detalhamento do Equipamento): No array 'equipment', forneça um objeto para CADA guitarra, pedal e amp usado detalhando a configuração.
 - 'title': O nome exato do equipamento.
 - 'tagUso': Uma frase curta explicando o uso.
-- 'list': OBRIGATÓRIO para guitarras, amps e todos os pedais (exceto o Equalizador). Array de strings puras com os parâmetros. NUNCA invente parâmetros extras (como AMP ou CAB no Tank-G). Use APENAS os listados no conhecimento técnico.
+- 'list': OBRIGATÓRIO para guitarras, amps e todos os pedais (exceto o Equalizador). Array de strings puras com os parâmetros. NUNCA invente parâmetros extras. Use APENAS os listados no conhecimento técnico.
 - 'table': OBRIGATÓRIO Apenas para o Equalizador Joyo 10-Band. Formato: {f: "125", db: "-2"}. PREENCHA TODOS OS VALORES 'db' COM NÚMEROS (ex: +2, -3, 0). NUNCA DEIXE VAZIO.
 
 Inventário GERAL disponível:
@@ -461,7 +461,7 @@ Slot 5: Ambiência Final (ex: M-Vave Mini Universe)
 REGRA CRÍTICA 6 (Detalhamento do Equipamento): No array 'equipment', forneça um objeto para CADA guitarra, pedal e amp usado detalhando a configuração.
 - 'title': O nome exato do equipamento.
 - 'tagUso': Uma frase curta explicando o uso.
-- 'list': OBRIGATÓRIO para guitarras, amps e todos os pedais (exceto o Equalizador). Array de strings puras com os parâmetros. NUNCA invente parâmetros extras (como AMP ou CAB no Tank-G). Use APENAS os listados no conhecimento técnico.
+- 'list': OBRIGATÓRIO para guitarras, amps e todos os pedais (exceto o Equalizador). Array de strings puras com os parâmetros. NUNCA invente parâmetros extras. Use APENAS os listados no conhecimento técnico.
 - 'table': OBRIGATÓRIO Apenas para o Equalizador Joyo 10-Band. Formato: {f: "125", db: "-2"}. PREENCHA TODOS OS VALORES 'db' COM NÚMEROS (ex: +2, -3, 0). NUNCA DEIXE VAZIO.
 
 Inventário GERAL disponível:
