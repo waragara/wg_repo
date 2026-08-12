@@ -1,59 +1,47 @@
 # Base de Conhecimento Oficial dos Equipamentos (Manuais)
 
-Esta base de conhecimento contém o resumo técnico de funcionamento e os controles exatos dos pedais, extraídos dos seus manuais oficiais. Utilize essas informações para justificar a escolha dos parâmetros em cada setup.
+Esta base de conhecimento contém o resumo técnico de funcionamento e os controles exatos dos pedais. Você DEVE usar EXATAMENTE os nomes dos controles abaixo na chave 'list' (ou 'table' para o EQ) do seu JSON. NUNCA invente controles que não existem nesta lista.
 
 ## 1. Boss OD-3 (OverDrive)
-**Características:** Overdrive natural com circuito Dual-Stage. Oferece sustain longo, compressão moderada e preserva a dinâmica. Usado desde clean boost até hard rock overdrive.
-**Controles:**
-- **DRIVE:** Ajusta a quantidade de overdrive/saturação.
-- **TONE:** Ajusta as frequências altas. Girar para a esquerda deixa o som mais suave (milder) e para a direita deixa o som mais cortante (sharper).
-- **LEVEL:** Controla o volume geral de saída do efeito.
+**Chaves OBRIGATÓRIAS na 'list':**
+- **DRIVE:** Ajusta a quantidade de overdrive (0 a 10).
+- **TONE:** Ajusta as frequências altas. Direita para som mais cortante, esquerda para mais suave (0 a 10).
+- **LEVEL:** Controla o volume geral (0 a 10).
 
 ## 2. Caline CP-12 Pure Sky (Overdrive)
-**Características:** Overdrive altamente transparente e puro. Preserva perfeitamente o timbre original do amplificador.
-**Controles:**
-- **VOL:** Ajusta o volume de saída do efeito.
-- **GAIN:** Controla a quantidade de saturação. Valores baixos atuam como clean boost; valores altos trazem texturas fortes de overdrive.
-- **TREBLE:** Ajusta as frequências altas (agudos).
-- **BASS:** Ajusta as frequências baixas (graves).
+**Chaves OBRIGATÓRIAS na 'list':**
+- **VOL:** Ajusta o volume de saída (0 a 10).
+- **GAIN:** Controla a saturação. Clean boost em valores baixos (0 a 10).
+- **TREBLE:** Ajusta agudos (0 a 10).
+- **BASS:** Ajusta graves (0 a 10).
 
 ## 3. Joyo R-12 Band Controller (Equalizador de 10 Bandas)
-**Características:** Equalizador gráfico analógico de 10 bandas. Permite ajustes finos do timbre geral.
-**Controles:**
-- **Bandas (Hz/kHz):** 31.25, 62.5, 125, 250, 500, 1k, 2k, 4k, 8k, 16k.
-- **dB:** Cada banda pode ser cortada ou impulsionada, formato {f: "freq", db: "valor"}.
-- **Knob VOLUME:** Ajusta o ganho geral/compensação de volume pós-EQ.
+**REGRA ABSOLUTA:** Para este pedal, você é PROIBIDO de usar a chave 'list'. Você DEVE usar APENAS a chave 'table' fornecendo um array de objetos.
+- **Formato OBRIGATÓRIO da table:** Forneça as 10 bandas EXATAS (31.25, 62.5, 125, 250, 500, 1k, 2k, 4k, 8k, 16k).
+- **Exemplo de item da table:** `{ f: "31.25", db: "-4" }` (os valores db devem incluir o sinal de + ou -).
 
 ## 4. M-Vave Tank-G (Pedaleira Multi-Efeitos / Amp Sim)
-**Características:** Simulador digital contendo Noise Gate, 9 PreAmps (Clean, Overdrive, Distorção), EQ de 3 bandas, Modulações, Delays, Reverbs e 8 slots de IR CAB.
-**Controles/Módulos:**
-- **NOISE GATE:** Threshold do gate. À esquerda fecha o gate.
-- **AMP TYPE (9 Tipos):**
-  - 1: Clean (Baseado no UWE-Twins 335)
-  - 2: Clean (Baseado no Archetype_C_W)
-  - 3: Overdrive (Baseado no TH-Mars VM410)
-  - 4: Overdrive (Baseado no Friedman 100)
-  - 5: Overdrive (Baseado no Brit Plex 50)
-  - 6-9: Distorção High Gain (Mars FD, Pea V 534, Diesel, EVH 5150).
-- **AMP EQ & GAIN:** GAIN, TREBLE, MIDDLE, BASS, VOLUME.
-- **MOD FX:** Um único botão contendo 3 efeitos (Chorus, Phaser, Tremolo) mapeados em três trechos de giro.
-- **DLY MIX / DLY TIME:** Controlam Analog, Tape e Dual Delay em diferentes trechos do giro.
-- **RVB MIX / RVB DECAY:** Room, Spring e Cloud em diferentes trechos do giro.
-- **IR CAB (9 Slots):** Slot 0 é desligado. Slots 1 a 8 trazem simulações 4x12, 2x10, 1x8, 1x10 (VHT, Fender, Marshall, Diezel).
+**Chaves OBRIGATÓRIAS na 'list':**
+- **NOISE GATE:** Threshold do gate.
+- **AMP TYPE:** Escolha entre (1-Clean 335, 2-Clean Archetype, 3-OD Mars, 4-OD Friedman, 5-OD Plex, 6-Dist Mars, 7-Dist Pea, 8-Dist Diesel, 9-Dist EVH).
+- **AMP GAIN / TREBLE / MIDDLE / BASS / VOLUME:** Ajuste de 0 a 10.
+- **MOD FX:** Escolha entre (Chorus, Phaser, Tremolo) e o nível de mistura.
+- **DLY MIX / DLY TIME:** Escolha o tipo (Analog, Tape, Dual) e o tempo/mistura.
+- **RVB MIX / RVB DECAY:** Escolha o tipo (Room, Spring, Cloud) e o nível/tempo.
+- **IR CAB:** Escolha entre (1 a 8) ou informe o nome do Cabinet.
 
 ## 5. M-Vave Mini Universe (Reverb Digital)
-**Características:** Processador digital de reverb de alto desempenho com 9 algoritmos clássicos e modernos (Room, Hall, Plate, Spring, Shimmer, Cloud, Bloom, Swell, LoFi).
-**Controles:**
-- **TYPE:** Seleciona um dos 9 algoritmos.
-- **DECAY:** Tempo de decaimento/duração do eco.
-- **MIX:** Proporção Wet/Dry.
-- **PARAM 1 (HIGH PASS):** Corta os graves apenas do sinal Wet.
-- **PARAM 2 (LOW PASS):** Corta os agudos apenas do sinal Wet. (Exceção: no Shimmer ajusta o Pitch, no LoFi ajusta White Noise).
-- **PARAM 3:** Varia por tipo (Drift, Dwell, Amount, Diffusion).
+**Chaves OBRIGATÓRIAS na 'list':**
+- **TYPE:** Escolha EXATAMENTE um destes 9 algoritmos: Room, Hall, Plate, Spring, Shimmer, Cloud, Bloom, Swell, LoFi.
+- **DECAY:** Tempo de decaimento (0 a 10).
+- **MIX:** Proporção Wet/Dry (0 a 10).
+- **PARAM 1:** Regula High Pass (cortar graves) de 0 a 10.
+- **PARAM 2:** Regula Low Pass (cortar agudos) de 0 a 10. No Shimmer = Pitch. No LoFi = White Noise.
+- **PARAM 3:** Varia (Drift, Dwell, Amount, Diffusion).
 
 ## 6. M-Vave Lost Tempo v2 (Drum & Looper)
-**Características:** Estação de trabalho de áudio contendo 30 ritmos de bateria (4/4, 3/4, 6/8), Looper de 4 faixas e Afinador (Tuner).
-**Controles:**
-- **DRUM Knob:** Ajusta o volume da bateria.
-- **TAP Button:** Botão de Tap Tempo para a bateria. O tempo (BPM) varia de 40 a 240.
-- **LOOP Knob:** Ajusta o volume do loop gravado.
+**ATENÇÃO:** Este é um pedal de Bateria e Looper. Ele NÃO possui Delay, NÃO possui Time e NÃO possui Feedback. NUNCA invente esses controles para este pedal!
+**Chaves OBRIGATÓRIAS na 'list':**
+- **DRUM TYPE:** Escolha um preset de bateria (ex: d01 a d30).
+- **BPM:** Ritmo do Tap Tempo (40 a 240).
+- **DRUM VOL / LOOP VOL:** Volume (0 a 10).

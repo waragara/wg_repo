@@ -43,6 +43,8 @@ function localAdminPlugin() {
               
               const tankGPath = path.join(process.cwd(), 'src', 'data', 'tank-g-presets.json');
               const tankGPresets = fs.existsSync(tankGPath) ? JSON.parse(fs.readFileSync(tankGPath, 'utf-8')) : { amps: [], cabs: [] };
+              const gearKnowledgePath = path.join(process.cwd(), 'src', 'data', 'gear-knowledge.md');
+              const gearKnowledge = fs.existsSync(gearKnowledgePath) ? fs.readFileSync(gearKnowledgePath, 'utf-8') : '';
 
               const isAutopilot = !selectedGear || selectedGear.length === 0;
 
@@ -127,6 +129,11 @@ ${allGear.map((g) => `- ${g}`).join('\n')}
 Inventário TANK-G (Opções exclusivas de Amps e Cabs do Tank-G):
 - Amps: ${tankGPresets.amps.join(', ')}
 - IR Cabs: ${tankGPresets.cabs.join(', ')}
+
+REGRA CRÍTICA 7 (Conhecimento dos Manuais): Você tem acesso ao manual oficial de funcionamento dos pedais Boss OD-3, Caline Pure Sky, Joyo EQ, M-Vave Tank-G, Mini Universe e Lost Tempo v2. Ao utilizar esses pedais, a sua escolha de parâmetros DEVE respeitar OS NOMES EXATOS descritos nos manuais abaixo.
+--- INÍCIO DOS MANUAIS ---
+${gearKnowledge}
+--- FIM DOS MANUAIS ---
 `;
 
               if (isAutopilot) {
@@ -371,6 +378,8 @@ ${formattedComment}
               
               const tankGPath = path.join(process.cwd(), 'src', 'data', 'tank-g-presets.json');
               const tankGPresets = fs.existsSync(tankGPath) ? JSON.parse(fs.readFileSync(tankGPath, 'utf-8')) : { amps: [], cabs: [] };
+              const gearKnowledgePath = path.join(process.cwd(), 'src', 'data', 'gear-knowledge.md');
+              const gearKnowledge = fs.existsSync(gearKnowledgePath) ? fs.readFileSync(gearKnowledgePath, 'utf-8') : '';
 
               const setupSchema = {
                 type: Type.OBJECT,
@@ -453,6 +462,11 @@ ${allGear.map((g) => `- ${g}`).join('\n')}
 Inventário TANK-G (Opções exclusivas de Amps e Cabs do Tank-G):
 - Amps: ${tankGPresets.amps.join(', ')}
 - IR Cabs: ${tankGPresets.cabs.join(', ')}
+
+REGRA CRÍTICA 7 (Conhecimento dos Manuais): Você tem acesso ao manual oficial de funcionamento dos pedais Boss OD-3, Caline Pure Sky, Joyo EQ, M-Vave Tank-G, Mini Universe e Lost Tempo v2. Ao utilizar esses pedais, a sua escolha de parâmetros DEVE respeitar OS NOMES EXATOS descritos nos manuais abaixo.
+--- INÍCIO DOS MANUAIS ---
+${gearKnowledge}
+--- FIM DOS MANUAIS ---
 
 CENÁRIO (Piloto Automático / Reload):
 REGRA CRÍTICA 5: NUNCA use quebras de linha reais dentro das strings do JSON. Use apenas espaço.\nSua Tarefa (DESTRUIÇÃO DO VIÉS ANTIGO): Ao receber o setup, IGNORE COMPLETAMENTE a ordem atual do array de pedals. Você DEVE reconstruir o array de pedais do absoluto zero. Analise TODOS os equipamentos disponíveis no arquivo de dados. Mesmo que o setup antigo tenha usado apenas 2 pedais, adicione outros pedais da lista se eles forem essenciais para o timbre solicitado. Assuma que todo o inventário está conectado. Selecione a dedo a melhor guitarra, pedais (quantos forem necessários) e amplificador, aplicando a Ordem Lógica Inviolável acima. Na chave 'sugestoes' do JSON, explique como reordenou o sinal.`;
