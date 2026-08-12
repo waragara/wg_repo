@@ -16,7 +16,7 @@ Esta base de conhecimento contém o resumo técnico de funcionamento e os contro
 - **BASS:** Ajusta graves (0 a 10).
 
 ## 3. Joyo R-12 Band Controller (Equalizador de 10 Bandas)
-**REGRA ABSOLUTA:** Para este pedal, você é PROIBIDO de usar a chave 'list'. Você DEVE usar APENAS a chave 'table' fornecendo um array de objetos.
+**REGRA ABSOLUTA:** Você DEVE preencher a chave 'table' fornecendo um array de objetos, e deixar a chave 'list' vazia ou inexistente para este pedal.
 - **Formato OBRIGATÓRIO da table:** Forneça as 10 bandas EXATAS (31.25, 62.5, 125, 250, 500, 1k, 2k, 4k, 8k, 16k).
 - **Exemplo de item da table:** `{ f: "31.25", db: "-4" }` (os valores db devem incluir o sinal de + ou -).
 
@@ -40,7 +40,8 @@ Esta base de conhecimento contém o resumo técnico de funcionamento e os contro
 - **PARAM 3:** Varia (Drift, Dwell, Amount, Diffusion).
 
 ## 6. M-Vave Lost Tempo v2 (Drum & Looper)
-**ATENÇÃO:** Este é um pedal de Bateria e Looper. Ele NÃO possui Delay, NÃO possui Time e NÃO possui Feedback. NUNCA invente esses controles para este pedal!
+## 6. M-Vave Lost Tempo v2 (Drum & Looper)
+**ATENÇÃO:** Este é EXCLUSIVAMENTE um pedal de Bateria e Looper. Os controles são apenas os listados abaixo.
 **Chaves OBRIGATÓRIAS na 'list':**
 - **DRUM TYPE:** Escolha um preset de bateria (ex: d01 a d30).
 - **BPM:** Ritmo do Tap Tempo (40 a 240).

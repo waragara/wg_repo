@@ -466,7 +466,7 @@ ${gearKnowledge}
 --- FIM DOS MANUAIS ---
 
 CENÁRIO (Piloto Automático / Reload):
-REGRA CRÍTICA 5: NUNCA use quebras de linha reais dentro das strings do JSON. Use apenas espaço.\nSua Tarefa (DESTRUIÇÃO DO VIÉS ANTIGO): Ao receber o setup, IGNORE COMPLETAMENTE a ordem atual do array de pedals. Você DEVE reconstruir o array de pedais do absoluto zero. Analise TODOS os equipamentos disponíveis no arquivo de dados. Mesmo que o setup antigo tenha usado apenas 2 pedais, adicione outros pedais da lista se eles forem essenciais para o timbre solicitado. Assuma que todo o inventário está conectado. Selecione a dedo a melhor guitarra, pedais (quantos forem necessários) e amplificador, aplicando a Ordem Lógica Inviolável acima. Na chave 'sugestoes' do JSON, explique como reordenou o sinal.`;
+Sua Tarefa (DESTRUIÇÃO DO VIÉS ANTIGO): Ao receber o setup, IGNORE COMPLETAMENTE a ordem atual do array de pedals. Você DEVE reconstruir o array de pedais do absoluto zero. Analise TODOS os equipamentos disponíveis no arquivo de dados. Mesmo que o setup antigo tenha usado apenas 2 pedais, adicione outros pedais da lista se eles forem essenciais para o timbre solicitado. Assuma que todo o inventário está conectado. Selecione a dedo a melhor guitarra, pedais (quantos forem necessários) e amplificador, aplicando a Ordem Lógica Inviolável acima. Na chave 'sugestoes' do JSON, explique como reordenou o sinal.`;
 
               const ai = new GoogleGenAI({ apiKey });
               const prompt = `Refaça o setup ideal para a música ${title} do artista ${artist} usando APENAS os equipamentos da lista.`;
