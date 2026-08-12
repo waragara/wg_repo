@@ -138,26 +138,23 @@ No entanto, aja com VISÃO HOLÍSTICA: assuma que TODOS os equipamentos do inven
               });
 
               let rawText = aiResponse.text || '{}';
-              // Remove possíveis marcações de bloco de código JSON e extrai apenas o que importa
               const jsonMatch = rawText.match(/\{[\s\S]*\}/);
               if (jsonMatch) {
                 rawText = jsonMatch[0];
               }
 
-
               let responseJson;
               try {
                 responseJson = JSON.parse(rawText);
               } catch (e) {
-                console.error("Erro no Parse do JSON:", rawText);
-                throw new Error("A IA não retornou um JSON válido. Verifique os logs do terminal.");
+                console.error("Erro no Parse do JSON. Texto recebido:\n", aiResponse.text);
+                throw new Error("Falha no JSON da IA. Tente novamente.");
               }
 
               const fm = responseJson.markdown_frontmatter || {};
               const sc = responseJson.signal_chain || {};
               const sugestoes = responseJson.sugestoes || '';
 
-              // Montagem hardcoded garantindo a ordem
               const pedalsArray = [
                 sc.slot_1_gain,
                 sc.slot_2_eq,
@@ -170,8 +167,10 @@ No entanto, aja com VISÃO HOLÍSTICA: assuma que TODOS os equipamentos do inven
               if (fm.equipment && fm.equipment.length > 0) {
                 equipmentYaml = 'equipment:\n';
                 fm.equipment.forEach(eq => {
-                  equipmentYaml += `  - title: "${eq.title}"\n    list:\n`;
+                  const eqTitle = (eq.title || '').replace(/"/g, '\\"');
+                  equipmentYaml += `  - title: "${eqTitle}"\n`;
                   if (eq.list && eq.list.length > 0) {
+                    equipmentYaml += `    list:\n`;
                     eq.list.forEach(item => {
                       equipmentYaml += `      - '${item.replace(/'/g, "''")}'\n`;
                     });
@@ -180,16 +179,16 @@ No entanto, aja com VISÃO HOLÍSTICA: assuma que TODOS os equipamentos do inven
               }
 
               const formattedComment = sugestoes.split('\n').map(line => `  ${line}`).join('\n');
+              const escapeYml = (str) => (str || '').replace(/"/g, '\\"');
               
               let generatedContent = `---
-title: "${fm.title || ''}"
-artist: "${fm.artist || ''}"
-targetTone: "${fm.targetTone || ''}"
-guitar: "${fm.guitar || ''}"
-pickup: "${fm.pickup || ''}"
-pedals:
-${pedalsArray.map(p => `  - "${p}"`).join('\n')}
-amp: "${fm.amp || ''}"
+title: "${escapeYml(fm.title)}"
+artist: "${escapeYml(fm.artist)}"
+targetTone: "${escapeYml(fm.targetTone)}"
+guitar: "${escapeYml(fm.guitar)}"
+pickup: "${escapeYml(fm.pickup)}"
+pedals: ${pedalsArray.length > 0 ? '\n' + pedalsArray.map(p => `  - "${escapeYml(p)}"`).join('\n') : '[]'}
+amp: "${escapeYml(fm.amp)}"
 ${equipmentYaml.trimEnd()}
 aiComment: |
 ${formattedComment}
@@ -415,26 +414,23 @@ Sua Tarefa (DESTRUIÇÃO DO VIÉS ANTIGO): Ao receber o setup, IGNORE COMPLETAME
               });
 
               let rawText = aiResponse.text || '{}';
-              // Remove possíveis marcações de bloco de código JSON e extrai apenas o que importa
               const jsonMatch = rawText.match(/\{[\s\S]*\}/);
               if (jsonMatch) {
                 rawText = jsonMatch[0];
               }
 
-
               let responseJson;
               try {
                 responseJson = JSON.parse(rawText);
               } catch (e) {
-                console.error("Erro no Parse do JSON:", rawText);
-                throw new Error("A IA não retornou um JSON válido. Verifique os logs do terminal.");
+                console.error("Erro no Parse do JSON. Texto recebido:\n", aiResponse.text);
+                throw new Error("Falha no JSON da IA. Tente novamente.");
               }
 
               const fm = responseJson.markdown_frontmatter || {};
               const sc = responseJson.signal_chain || {};
               const sugestoes = responseJson.sugestoes || '';
 
-              // Montagem hardcoded garantindo a ordem
               const pedalsArray = [
                 sc.slot_1_gain,
                 sc.slot_2_eq,
@@ -447,8 +443,10 @@ Sua Tarefa (DESTRUIÇÃO DO VIÉS ANTIGO): Ao receber o setup, IGNORE COMPLETAME
               if (fm.equipment && fm.equipment.length > 0) {
                 equipmentYaml = 'equipment:\n';
                 fm.equipment.forEach(eq => {
-                  equipmentYaml += `  - title: "${eq.title}"\n    list:\n`;
+                  const eqTitle = (eq.title || '').replace(/"/g, '\\"');
+                  equipmentYaml += `  - title: "${eqTitle}"\n`;
                   if (eq.list && eq.list.length > 0) {
+                    equipmentYaml += `    list:\n`;
                     eq.list.forEach(item => {
                       equipmentYaml += `      - '${item.replace(/'/g, "''")}'\n`;
                     });
@@ -457,16 +455,16 @@ Sua Tarefa (DESTRUIÇÃO DO VIÉS ANTIGO): Ao receber o setup, IGNORE COMPLETAME
               }
 
               const formattedComment = sugestoes.split('\n').map(line => `  ${line}`).join('\n');
+              const escapeYml = (str) => (str || '').replace(/"/g, '\\"');
               
               let generatedContent = `---
-title: "${fm.title || ''}"
-artist: "${fm.artist || ''}"
-targetTone: "${fm.targetTone || ''}"
-guitar: "${fm.guitar || ''}"
-pickup: "${fm.pickup || ''}"
-pedals:
-${pedalsArray.map(p => `  - "${p}"`).join('\n')}
-amp: "${fm.amp || ''}"
+title: "${escapeYml(fm.title)}"
+artist: "${escapeYml(fm.artist)}"
+targetTone: "${escapeYml(fm.targetTone)}"
+guitar: "${escapeYml(fm.guitar)}"
+pickup: "${escapeYml(fm.pickup)}"
+pedals: ${pedalsArray.length > 0 ? '\n' + pedalsArray.map(p => `  - "${escapeYml(p)}"`).join('\n') : '[]'}
+amp: "${escapeYml(fm.amp)}"
 ${equipmentYaml.trimEnd()}
 aiComment: |
 ${formattedComment}
