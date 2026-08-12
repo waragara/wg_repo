@@ -138,11 +138,15 @@ No entanto, aja com VISÃO HOLÍSTICA: assuma que TODOS os equipamentos do inven
               });
 
               let rawText = aiResponse.text || '{}';
+              // Remove possíveis marcações de bloco de código JSON que o Gemini às vezes adiciona
+              rawText = rawText.replace(/^```(?:json)?\s*/i, '').replace(/```\s*$/i, '').trim();
+
               let responseJson;
               try {
                 responseJson = JSON.parse(rawText);
               } catch (e) {
-                throw new Error("A IA não retornou um JSON válido.");
+                console.error("Erro no Parse do JSON:", rawText);
+                throw new Error("A IA não retornou um JSON válido. Verifique os logs do terminal.");
               }
 
               const fm = responseJson.markdown_frontmatter || {};
@@ -407,11 +411,15 @@ Sua Tarefa (DESTRUIÇÃO DO VIÉS ANTIGO): Ao receber o setup, IGNORE COMPLETAME
               });
 
               let rawText = aiResponse.text || '{}';
+              // Remove possíveis marcações de bloco de código JSON que o Gemini às vezes adiciona
+              rawText = rawText.replace(/^```(?:json)?\s*/i, '').replace(/```\s*$/i, '').trim();
+
               let responseJson;
               try {
                 responseJson = JSON.parse(rawText);
               } catch (e) {
-                throw new Error("A IA não retornou um JSON válido.");
+                console.error("Erro no Parse do JSON:", rawText);
+                throw new Error("A IA não retornou um JSON válido. Verifique os logs do terminal.");
               }
 
               const fm = responseJson.markdown_frontmatter || {};
