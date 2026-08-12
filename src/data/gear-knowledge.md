@@ -35,9 +35,9 @@ Esta base de conhecimento contém o resumo técnico de funcionamento e os contro
   - 8 - ENGL Powerball E645/2
   - 9 - Mesa Boogie Dual Rectifier
 - **AMP GAIN / TREBLE / MIDDLE / BASS / VOLUME:** Ajuste de 0 a 10.
-- **MOD FX:** Escolha entre (Chorus, Phaser, Tremolo) e o nível de mistura.
-- **DLY MIX / DLY TIME:** Escolha o tipo (Analog, Tape, Dual) e o tempo/mistura.
-- **RVB MIX / RVB DECAY:** Escolha o tipo (Room, Spring, Cloud) e o nível/tempo.
+- **MOD FX:** Escolha entre (1-Chorus, 2-Phaser, 3-Tremolo) e o nível de mistura.
+- **DLY MIX / DLY TIME:** Escolha o tipo (1-Analog, 2-Tape, 3-Dual) e o tempo/mistura.
+- **RVB MIX / RVB DECAY:** Escolha o tipo (1-Room, 2-Spring, 3-Cloud) e o nível/tempo.
 - **IR CAB:** APENAS o número correspondente (0 a 8).
 - **CAB:** APENAS o nome correspondente da lista abaixo:
   - 0 - IR CAB turn off (None)
