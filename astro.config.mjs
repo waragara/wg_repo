@@ -65,9 +65,20 @@ function localAdminPlugin() {
                           type: Type.OBJECT,
                           properties: {
                             title: { type: Type.STRING },
+                            tagUso: { type: Type.STRING },
                             list: {
                               type: Type.ARRAY,
                               items: { type: Type.STRING }
+                            },
+                            table: {
+                              type: Type.ARRAY,
+                              items: {
+                                type: Type.OBJECT,
+                                properties: {
+                                  f: { type: Type.STRING },
+                                  db: { type: Type.STRING }
+                                }
+                              }
                             }
                           }
                         }
@@ -103,7 +114,13 @@ Slot 2: Equalização Analógica (ex: Equilizador Joyo 10-Band Controller)
 Slot 3: Modulações/Tempo (ex: M-Vave LOst Tempo v2)
 Slot 4: Processamento Digital / Amp Sim / Multi-efeitos (ex: M-Vave Tank-G)
 Slot 5: Ambiência Final (ex: M-Vave Mini Universe)
-(O Joyo 10-Band NUNCA deve vir depois do Tank-G. O Lost Tempo NUNCA deve vir depois do Mini Universe).
+((O Joyo 10-Band NUNCA deve vir depois do Tank-G. O Lost Tempo NUNCA deve vir depois do Mini Universe).\n
+REGRA CRÍTICA 6 (Detalhamento do Equipamento): No array 'equipment', você DEVE fornecer um objeto para CADA guitarra, pedal e amp usado, detalhando sua configuração (knobs).
+- 'title': O nome exato do equipamento.
+- 'tagUso' (opcional): Uma frase curta explicando o uso (ex: "Sempre ligado para brilho", "Saturação principal").
+- 'list' (opcional): Array de strings com a configuração. A chave do knob DEVE usar a tag HTML strong (ex: "<strong class='text-white'>Volume:</strong> 7 <strong class='text-white'>Drive:</strong> 4" ou "<strong class='text-white'>Captador:</strong> Braço").
+- 'table' (opcional): USE APENAS para o Equalizador Joyo 10-Band. Retorne as 10 bandas no formato {f: "freq", db: "ganho"}, ex: {f: "125", db: "-2"}.
+.
 
 Inventário GERAL disponível:
 ${allGear.map((g) => `- ${g}`).join('\n')}
@@ -361,9 +378,20 @@ ${formattedComment}
                           type: Type.OBJECT,
                           properties: {
                             title: { type: Type.STRING },
+                            tagUso: { type: Type.STRING },
                             list: {
                               type: Type.ARRAY,
                               items: { type: Type.STRING }
+                            },
+                            table: {
+                              type: Type.ARRAY,
+                              items: {
+                                type: Type.OBJECT,
+                                properties: {
+                                  f: { type: Type.STRING },
+                                  db: { type: Type.STRING }
+                                }
+                              }
                             }
                           }
                         }
@@ -399,7 +427,13 @@ Slot 2: Equalização Analógica (ex: Equilizador Joyo 10-Band Controller)
 Slot 3: Modulações/Tempo (ex: M-Vave LOst Tempo v2)
 Slot 4: Processamento Digital / Amp Sim / Multi-efeitos (ex: M-Vave Tank-G)
 Slot 5: Ambiência Final (ex: M-Vave Mini Universe)
-(O Joyo 10-Band NUNCA deve vir depois do Tank-G. O Lost Tempo NUNCA deve vir depois do Mini Universe).
+((O Joyo 10-Band NUNCA deve vir depois do Tank-G. O Lost Tempo NUNCA deve vir depois do Mini Universe).\n
+REGRA CRÍTICA 6 (Detalhamento do Equipamento): No array 'equipment', você DEVE fornecer um objeto para CADA guitarra, pedal e amp usado, detalhando sua configuração (knobs).
+- 'title': O nome exato do equipamento.
+- 'tagUso' (opcional): Uma frase curta explicando o uso (ex: "Sempre ligado para brilho", "Saturação principal").
+- 'list' (opcional): Array de strings com a configuração. A chave do knob DEVE usar a tag HTML strong (ex: "<strong class='text-white'>Volume:</strong> 7 <strong class='text-white'>Drive:</strong> 4" ou "<strong class='text-white'>Captador:</strong> Braço").
+- 'table' (opcional): USE APENAS para o Equalizador Joyo 10-Band. Retorne as 10 bandas no formato {f: "freq", db: "ganho"}, ex: {f: "125", db: "-2"}.
+.
 
 Inventário GERAL disponível:
 ${allGear.map((g) => `- ${g}`).join('\n')}
