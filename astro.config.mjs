@@ -196,11 +196,23 @@ No entanto, aja com VISÃO HOLÍSTICA: assuma que TODOS os equipamentos do inven
                 fm.equipment.forEach(eq => {
                   const eqTitle = (eq.title || '').replace(/"/g, '\\"');
                   equipmentYaml += `  - title: "${eqTitle}"\n`;
+                  
+                  if (eq.tagUso) {
+                    equipmentYaml += `    tagUso: "${eq.tagUso.replace(/"/g, '\\"')}"\n`;
+                  }
+                  
                   if (eq.list && eq.list.length > 0) {
                     equipmentYaml += `    list:\n`;
                     eq.list.forEach(item => {
                       let formattedItem = item.replace(/([A-Za-zÀ-ÿ0-9/ ]+):/g, "<strong class=\"text-white\">$1:</strong>");
                       equipmentYaml += `      - '${formattedItem.replace(/'/g, "''")}'\n`;
+                    });
+                  }
+                  
+                  if (eq.table && eq.table.length > 0) {
+                    equipmentYaml += `    table:\n`;
+                    eq.table.forEach(row => {
+                      equipmentYaml += `      - { f: "${(row.f || '').toString().replace(/"/g, '\\"')}", db: "${(row.db || '').toString().replace(/"/g, '\\"')}" }\n`;
                     });
                   }
                 });
@@ -500,11 +512,23 @@ REGRA CRÍTICA 5: NUNCA use quebras de linha reais dentro das strings do JSON. U
                 fm.equipment.forEach(eq => {
                   const eqTitle = (eq.title || '').replace(/"/g, '\\"');
                   equipmentYaml += `  - title: "${eqTitle}"\n`;
+                  
+                  if (eq.tagUso) {
+                    equipmentYaml += `    tagUso: "${eq.tagUso.replace(/"/g, '\\"')}"\n`;
+                  }
+                  
                   if (eq.list && eq.list.length > 0) {
                     equipmentYaml += `    list:\n`;
                     eq.list.forEach(item => {
                       let formattedItem = item.replace(/([A-Za-zÀ-ÿ0-9/ ]+):/g, "<strong class=\"text-white\">$1:</strong>");
                       equipmentYaml += `      - '${formattedItem.replace(/'/g, "''")}'\n`;
+                    });
+                  }
+                  
+                  if (eq.table && eq.table.length > 0) {
+                    equipmentYaml += `    table:\n`;
+                    eq.table.forEach(row => {
+                      equipmentYaml += `      - { f: "${(row.f || '').toString().replace(/"/g, '\\"')}", db: "${(row.db || '').toString().replace(/"/g, '\\"')}" }\n`;
                     });
                   }
                 });
