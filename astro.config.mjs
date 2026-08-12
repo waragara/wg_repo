@@ -54,8 +54,9 @@ function localAdminPlugin() {
                   sugestoes: { type: Type.STRING },
                   markdown_frontmatter: {
                     type: Type.OBJECT,
+                    required: ["title", "artist", "targetTone", "guitar", "pickup", "amp", "equipment"],
                     properties: {
-                      title: { type: Type.STRING },
+                      title: { type: Type.STRING, description: "Short title (max 40 chars)" },
                       artist: { type: Type.STRING },
                       targetTone: { type: Type.STRING },
                       guitar: { type: Type.STRING },
@@ -65,8 +66,9 @@ function localAdminPlugin() {
                         type: Type.ARRAY,
                         items: {
                           type: Type.OBJECT,
+                          required: ["title"],
                           properties: {
-                            title: { type: Type.STRING },
+                            title: { type: Type.STRING, description: "Exact name of the gear from the inventory" },
                             tagUso: { type: Type.STRING },
                             list: {
                               type: Type.ARRAY,
@@ -89,6 +91,7 @@ function localAdminPlugin() {
                   },
                   signal_chain: {
                     type: Type.OBJECT,
+                    required: ["slot_1_gain", "slot_2_eq", "slot_3_modulation", "slot_4_digital_amp", "slot_5_ambience"],
                     properties: {
                       slot_1_gain: { type: Type.STRING, description: 'Overdrive/Distortion pedal (optional, leave empty if none)' },
                       slot_2_eq: { type: Type.STRING, description: 'EQ pedal (optional)' },
@@ -120,7 +123,7 @@ Slot 5: Ambiência Final (ex: M-Vave Mini Universe)
 REGRA CRÍTICA 6 (Detalhamento do Equipamento): No array 'equipment', forneça um objeto para CADA guitarra, pedal e amp usado detalhando a configuração.
 - 'title': O nome exato do equipamento.
 - 'tagUso' (opcional): Uma frase curta explicando o uso.
-- 'list' (opcional): Array de strings puras. Exemplo: "Volume: 7 | Drive: 4" ou "Captador: Braço". PROIBIDO USAR HTML OU CARACTERES ESPECIAIS.
+- 'list' (opcional): Array de strings puras. Exemplo: "Volume: 7 | Drive: 4" ou "Captador: Braço". Use apenas texto simples.
 - 'table' (opcional): Apenas para o Equalizador Joyo 10-Band. Formato: {f: "125", db: "-2"}.
 
 Inventário GERAL disponível:
@@ -139,7 +142,7 @@ ${gearKnowledge}
               if (isAutopilot) {
                 systemPrompt += `
 CENÁRIO (Piloto Automático): O usuário NÃO selecionou nenhum equipamento.
-Sua Tarefa: Assuma que todo o inventário está conectado. Analise a música solicitada, vasculhe o inventário completo acima e selecione a dedo a melhor guitarra, pedais (quantos forem necessários) e amplificador, aplicando a Ordem Lógica Inviolável acima. Na chave 'sugestoes' do JSON, explique detalhadamente a escolha do captador e como ordenou o sinal.`;
+Sua Tarefa: Assuma que todo o inventário está conectado. Analise a música solicitada, vasculhe o inventário completo acima e selecione a melhor guitarra, pedais e amplificador. Na chave 'sugestoes' do JSON, explique detalhadamente a escolha do captador e como ordenou o sinal.`;
               } else {
                 systemPrompt += `
 CENÁRIO (Equipamento Selecionado): O usuário selecionou manualmente os seguintes equipamentos:
@@ -156,11 +159,13 @@ No entanto, aja com VISÃO HOLÍSTICA: assuma que TODOS os equipamentos do inven
                 config: { 
                   systemInstruction: systemPrompt,
                   responseMimeType: "application/json",
-                  responseSchema: setupSchema
+                  responseSchema: setupSchema,
+                  temperature: 0.1
                 }
               });
 
               let rawText = aiResponse.text || '{}';
+              fs.writeFileSync(path.join(process.cwd(), 'src', 'content', 'setups', 'debug1.txt'), rawText);
               const jsonMatch = rawText.match(/\{[\s\S]*\}/);
               if (jsonMatch) {
                 rawText = jsonMatch[0];
@@ -384,8 +389,9 @@ ${formattedComment}
                   sugestoes: { type: Type.STRING },
                   markdown_frontmatter: {
                     type: Type.OBJECT,
+                    required: ["title", "artist", "targetTone", "guitar", "pickup", "amp", "equipment"],
                     properties: {
-                      title: { type: Type.STRING },
+                      title: { type: Type.STRING, description: "Short title (max 40 chars)" },
                       artist: { type: Type.STRING },
                       targetTone: { type: Type.STRING },
                       guitar: { type: Type.STRING },
@@ -395,8 +401,9 @@ ${formattedComment}
                         type: Type.ARRAY,
                         items: {
                           type: Type.OBJECT,
+                          required: ["title"],
                           properties: {
-                            title: { type: Type.STRING },
+                            title: { type: Type.STRING, description: "Exact name of the gear from the inventory" },
                             tagUso: { type: Type.STRING },
                             list: {
                               type: Type.ARRAY,
@@ -419,6 +426,7 @@ ${formattedComment}
                   },
                   signal_chain: {
                     type: Type.OBJECT,
+                    required: ["slot_1_gain", "slot_2_eq", "slot_3_modulation", "slot_4_digital_amp", "slot_5_ambience"],
                     properties: {
                       slot_1_gain: { type: Type.STRING, description: 'Overdrive/Distortion pedal (optional)' },
                       slot_2_eq: { type: Type.STRING, description: 'EQ pedal (optional)' },
@@ -429,6 +437,7 @@ ${formattedComment}
                   }
                 }
               };
+              setupSchema.required = ["sugestoes", "markdown_frontmatter", "signal_chain"];
 
               const systemPrompt = `Você é um engenheiro de áudio especialista em timbres de guitarra.
 Sua missão é criar o setup de áudio perfeito para a música/artista solicitado pelo usuário, baseando-se nos equipamentos disponíveis.
@@ -450,7 +459,7 @@ Slot 5: Ambiência Final (ex: M-Vave Mini Universe)
 REGRA CRÍTICA 6 (Detalhamento do Equipamento): No array 'equipment', forneça um objeto para CADA guitarra, pedal e amp usado detalhando a configuração.
 - 'title': O nome exato do equipamento.
 - 'tagUso' (opcional): Uma frase curta explicando o uso.
-- 'list' (opcional): Array de strings puras. Exemplo: "Volume: 7 | Drive: 4" ou "Captador: Braço". PROIBIDO USAR HTML OU CARACTERES ESPECIAIS.
+- 'list' (opcional): Array de strings puras. Exemplo: "Volume: 7 | Drive: 4" ou "Captador: Braço". Use apenas texto simples.
 - 'table' (opcional): Apenas para o Equalizador Joyo 10-Band. Formato: {f: "125", db: "-2"}.
 
 Inventário GERAL disponível:
@@ -465,8 +474,8 @@ REGRA CRÍTICA 7 (Conhecimento dos Manuais): Você tem acesso ao manual oficial 
 ${gearKnowledge}
 --- FIM DOS MANUAIS ---
 
-CENÁRIO (Piloto Automático / Reload):
-Sua Tarefa (DESTRUIÇÃO DO VIÉS ANTIGO): Ao receber o setup, IGNORE COMPLETAMENTE a ordem atual do array de pedals. Você DEVE reconstruir o array de pedais do absoluto zero. Analise TODOS os equipamentos disponíveis no arquivo de dados. Mesmo que o setup antigo tenha usado apenas 2 pedais, adicione outros pedais da lista se eles forem essenciais para o timbre solicitado. Assuma que todo o inventário está conectado. Selecione a dedo a melhor guitarra, pedais (quantos forem necessários) e amplificador, aplicando a Ordem Lógica Inviolável acima. Na chave 'sugestoes' do JSON, explique como reordenou o sinal.`;
+CENÁRIO (Reload / Otimização):
+Sua Tarefa: Você deve reconstruir o array de pedais do zero. Analise TODOS os equipamentos disponíveis no arquivo de dados. Se o setup antigo usou apenas 2 pedais, adicione outros pedais se eles forem essenciais para o timbre solicitado. Selecione a melhor guitarra, pedais e amplificador. Na chave 'sugestoes' do JSON, explique como reordenou o sinal.`;
 
               const ai = new GoogleGenAI({ apiKey });
               const prompt = `Refaça o setup ideal para a música ${title} do artista ${artist} usando APENAS os equipamentos da lista.`;
@@ -477,11 +486,13 @@ Sua Tarefa (DESTRUIÇÃO DO VIÉS ANTIGO): Ao receber o setup, IGNORE COMPLETAME
                 config: { 
                   systemInstruction: systemPrompt,
                   responseMimeType: "application/json",
-                  responseSchema: setupSchema
+                  responseSchema: setupSchema,
+                  temperature: 0.1
                 }
               });
 
               let rawText = aiResponse.text || '{}';
+              fs.writeFileSync(path.join(process.cwd(), 'src', 'content', 'setups', 'debug2.txt'), rawText);
               const jsonMatch = rawText.match(/\{[\s\S]*\}/);
               if (jsonMatch) {
                 rawText = jsonMatch[0];
