@@ -138,8 +138,12 @@ No entanto, aja com VISÃO HOLÍSTICA: assuma que TODOS os equipamentos do inven
               });
 
               let rawText = aiResponse.text || '{}';
-              // Remove possíveis marcações de bloco de código JSON que o Gemini às vezes adiciona
-              rawText = rawText.replace(/^```(?:json)?\s*/i, '').replace(/```\s*$/i, '').trim();
+              // Remove possíveis marcações de bloco de código JSON e extrai apenas o que importa
+              const jsonMatch = rawText.match(/\{[\s\S]*\}/);
+              if (jsonMatch) {
+                rawText = jsonMatch[0];
+              }
+
 
               let responseJson;
               try {
@@ -411,8 +415,12 @@ Sua Tarefa (DESTRUIÇÃO DO VIÉS ANTIGO): Ao receber o setup, IGNORE COMPLETAME
               });
 
               let rawText = aiResponse.text || '{}';
-              // Remove possíveis marcações de bloco de código JSON que o Gemini às vezes adiciona
-              rawText = rawText.replace(/^```(?:json)?\s*/i, '').replace(/```\s*$/i, '').trim();
+              // Remove possíveis marcações de bloco de código JSON e extrai apenas o que importa
+              const jsonMatch = rawText.match(/\{[\s\S]*\}/);
+              if (jsonMatch) {
+                rawText = jsonMatch[0];
+              }
+
 
               let responseJson;
               try {
