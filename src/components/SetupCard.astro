@@ -16,12 +16,13 @@ export interface Props {
   }[];
   aiComment?: string;
   slug?: string;
+  tank_g_settings?: any;
 }
 
 import SignalChain from './SignalChain.astro';
 import GearBadge from './GearBadge.astro';
 
-const { title, artist, targetTone, guitar, pickup, pedals, amp, tabs, equipment, aiComment, slug } = Astro.props;
+const { title, artist, targetTone, guitar, pickup, pedals, amp, tabs, equipment, aiComment, slug, tank_g_settings } = Astro.props;
 // Fallback slug for backward compatibility if used directly
 const uniqueSlug = slug || title.replace(/\s+/g, '-').toLowerCase();
 ---
@@ -93,31 +94,77 @@ const uniqueSlug = slug || title.replace(/\s+/g, '-').toLowerCase();
                     </div>
                 )}
 
-                {item.list && (
-                    <ul class="list-none p-0 m-0 flex flex-wrap gap-3 justify-center amp-knobs">
-                        {item.list.map(li => (
-                            <li class="flex flex-col items-center justify-center bg-black/5 p-3 rounded-lg border border-black/10 shadow-[inset_0_2px_4px_rgba(0,0,0,0.1)] min-w-[80px] text-center" set:html={li} />
-                        ))}
+                {item.title.includes('Tank-G') && tank_g_settings ? (
+                    <ul class="list-none p-0 m-0 mt-4 flex flex-wrap gap-3 justify-center amp-knobs">
+                        <li class="flex flex-col items-center justify-center bg-black/5 p-3 rounded-lg border border-black/10 shadow-[inset_0_2px_4px_rgba(0,0,0,0.1)] min-w-[80px] text-center">
+                            <strong>AMP Type:</strong> {tank_g_settings.amp_cab?.amp_type}
+                        </li>
+                        <li class="flex flex-col items-center justify-center bg-black/5 p-3 rounded-lg border border-black/10 shadow-[inset_0_2px_4px_rgba(0,0,0,0.1)] min-w-[80px] text-center">
+                            <strong>IR CAB:</strong> {tank_g_settings.amp_cab?.ir_cab}
+                        </li>
+                        <li class="flex flex-col items-center justify-center bg-black/5 p-3 rounded-lg border border-black/10 shadow-[inset_0_2px_4px_rgba(0,0,0,0.1)] min-w-[80px] text-center">
+                            <strong>Bass:</strong> {tank_g_settings.eq?.bass}
+                        </li>
+                        <li class="flex flex-col items-center justify-center bg-black/5 p-3 rounded-lg border border-black/10 shadow-[inset_0_2px_4px_rgba(0,0,0,0.1)] min-w-[80px] text-center">
+                            <strong>Middle:</strong> {tank_g_settings.eq?.middle}
+                        </li>
+                        <li class="flex flex-col items-center justify-center bg-black/5 p-3 rounded-lg border border-black/10 shadow-[inset_0_2px_4px_rgba(0,0,0,0.1)] min-w-[80px] text-center">
+                            <strong>Treble:</strong> {tank_g_settings.eq?.treble}
+                        </li>
+                        <li class="flex flex-col items-center justify-center bg-black/5 p-3 rounded-lg border border-black/10 shadow-[inset_0_2px_4px_rgba(0,0,0,0.1)] min-w-[80px] text-center">
+                            <strong>Gain:</strong> {tank_g_settings.eq?.gain}
+                        </li>
+                        <li class="flex flex-col items-center justify-center bg-black/5 p-3 rounded-lg border border-black/10 shadow-[inset_0_2px_4px_rgba(0,0,0,0.1)] min-w-[80px] text-center">
+                            <strong>RVB DECAY:</strong> {tank_g_settings.effects?.rvb_mix == 0 ? 'Off' : tank_g_settings.effects?.rvb_decay_type}
+                        </li>
+                        <li class="flex flex-col items-center justify-center bg-black/5 p-3 rounded-lg border border-black/10 shadow-[inset_0_2px_4px_rgba(0,0,0,0.1)] min-w-[80px] text-center">
+                            <strong>RVB Mix:</strong> {tank_g_settings.effects?.rvb_mix}
+                        </li>
+                        <li class="flex flex-col items-center justify-center bg-black/5 p-3 rounded-lg border border-black/10 shadow-[inset_0_2px_4px_rgba(0,0,0,0.1)] min-w-[80px] text-center">
+                            <strong>DLY MIX:</strong> {tank_g_settings.effects?.dly_time == 0 ? 'Off' : tank_g_settings.effects?.dly_mix_type}
+                        </li>
+                        <li class="flex flex-col items-center justify-center bg-black/5 p-3 rounded-lg border border-black/10 shadow-[inset_0_2px_4px_rgba(0,0,0,0.1)] min-w-[80px] text-center">
+                            <strong>DLY Time:</strong> {tank_g_settings.effects?.dly_time}
+                        </li>
+                        <li class="flex flex-col items-center justify-center bg-black/5 p-3 rounded-lg border border-black/10 shadow-[inset_0_2px_4px_rgba(0,0,0,0.1)] min-w-[80px] text-center">
+                            <strong>MOD FX:</strong> {tank_g_settings.effects?.mod_speed == 0 ? 'Off' : tank_g_settings.effects?.mod_fx_type}
+                        </li>
+                        <li class="flex flex-col items-center justify-center bg-black/5 p-3 rounded-lg border border-black/10 shadow-[inset_0_2px_4px_rgba(0,0,0,0.1)] min-w-[80px] text-center">
+                            <strong>Mod Speed:</strong> {tank_g_settings.effects?.mod_speed}
+                        </li>
+                        <li class="flex flex-col items-center justify-center bg-black/5 p-3 rounded-lg border border-black/10 shadow-[inset_0_2px_4px_rgba(0,0,0,0.1)] min-w-[80px] text-center">
+                            <strong>Noise Gate:</strong> {tank_g_settings.noise_gate}
+                        </li>
                     </ul>
-                )}
+                ) : (
+                    <>
+                        {item.list && (
+                            <ul class="list-none p-0 m-0 flex flex-wrap gap-3 justify-center amp-knobs">
+                                {item.list.map(li => (
+                                    <li class="flex flex-col items-center justify-center bg-black/5 p-3 rounded-lg border border-black/10 shadow-[inset_0_2px_4px_rgba(0,0,0,0.1)] min-w-[80px] text-center" set:html={li} />
+                                ))}
+                            </ul>
+                        )}
 
-                {item.table && (
-                    <div class="w-full overflow-x-auto pb-2 mt-4 bg-black/5 p-2 rounded border border-black/10 shadow-inner">
-                        <table class="w-full border-collapse text-base min-w-max font-mono">
-                            {Array.from({ length: Math.ceil(item.table.length / 5) }).map((_, chunkIndex) => (
-                                <>
-                                    <tr>
-                                        <th class="border border-black/20 p-2 text-center bg-black text-mustard text-sm uppercase tracking-wider">Freq</th>
-                                        {item.table.slice(chunkIndex * 5, chunkIndex * 5 + 5).map(t => <td class="border border-black/20 p-2 text-center bg-black/80 text-silver font-bold">{t.f}</td>)}
-                                    </tr>
-                                    <tr>
-                                        <th class="border border-black/20 p-2 text-center bg-black text-mustard text-sm uppercase tracking-wider">dB</th>
-                                        {item.table.slice(chunkIndex * 5, chunkIndex * 5 + 5).map(t => <td class="border border-black/20 p-2 text-center bg-black/80 text-silver font-bold">{t.db}</td>)}
-                                    </tr>
-                                </>
-                            ))}
-                        </table>
-                    </div>
+                        {item.table && (
+                            <div class="w-full overflow-x-auto pb-2 mt-4 bg-black/5 p-2 rounded border border-black/10 shadow-inner">
+                                <table class="w-full border-collapse text-base min-w-max font-mono">
+                                    {Array.from({ length: Math.ceil(item.table.length / 5) }).map((_, chunkIndex) => (
+                                        <>
+                                            <tr>
+                                                <th class="border border-black/20 p-2 text-center bg-black text-mustard text-sm uppercase tracking-wider">Freq</th>
+                                                {item.table.slice(chunkIndex * 5, chunkIndex * 5 + 5).map(t => <td class="border border-black/20 p-2 text-center bg-black/80 text-silver font-bold">{t.f}</td>)}
+                                            </tr>
+                                            <tr>
+                                                <th class="border border-black/20 p-2 text-center bg-black text-mustard text-sm uppercase tracking-wider">dB</th>
+                                                {item.table.slice(chunkIndex * 5, chunkIndex * 5 + 5).map(t => <td class="border border-black/20 p-2 text-center bg-black/80 text-silver font-bold">{t.db}</td>)}
+                                            </tr>
+                                        </>
+                                    ))}
+                                </table>
+                            </div>
+                        )}
+                    </>
                 )}
             </div>
         ))}

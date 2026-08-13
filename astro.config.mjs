@@ -87,6 +87,16 @@ function localAdminPlugin() {
                             }
                           }
                         }
+                      },
+                      tank_g_settings: {
+                        type: Type.OBJECT,
+                        properties: {
+                          amp_cab: { type: Type.OBJECT, properties: { amp_type: { type: Type.STRING }, ir_cab: { type: Type.STRING } }, required: ["amp_type", "ir_cab"] },
+                          eq: { type: Type.OBJECT, properties: { bass: { type: Type.NUMBER }, middle: { type: Type.NUMBER }, treble: { type: Type.NUMBER }, gain: { type: Type.NUMBER } }, required: ["bass", "middle", "treble", "gain"] },
+                          effects: { type: Type.OBJECT, properties: { rvb_decay_type: { type: Type.STRING }, rvb_mix: { type: Type.NUMBER }, dly_mix_type: { type: Type.STRING }, dly_time: { type: Type.NUMBER }, mod_fx_type: { type: Type.STRING }, mod_speed: { type: Type.NUMBER } }, required: ["rvb_decay_type", "rvb_mix", "dly_mix_type", "dly_time", "mod_fx_type", "mod_speed"] },
+                          noise_gate: { type: Type.NUMBER }
+                        },
+                        required: ["amp_cab", "eq", "effects", "noise_gate"]
                       }
                     }
                   },
@@ -110,7 +120,7 @@ Sua missão é criar o setup de áudio perfeito para a música/artista solicitad
 IMPORTANTE: Você DEVE retornar EXATAMENTE a estrutura JSON requerida no schema. Preencha os slots da "signal_chain" com os pedais adequados. Deixe vazio os slots que não for usar.
 
 REGRA CRÍTICA 1: Os valores de guitar, pickup, amp, equipment e signal_chain DEVEM ser uma cópia EXATA de algum item do inventário geral.
-REGRA CRÍTICA 2: Se a pedaleira "Pedaleira Multi Efeitos M-Vave Tank-G" for selecionada, você OBRIGATORIAMENTE deve usar um AMP e um IR CAB da lista exclusiva do Tank-G e incluí-los na chave 'list' dentro de 'equipment' (ex: "<strong class='text-white'>AMP:</strong> NOME DO AMP").
+REGRA CRÍTICA 2: Se a pedaleira "Pedaleira Multi Efeitos M-Vave Tank-G" for selecionada, você OBRIGATORIAMENTE deve usar um AMP e um IR CAB da lista exclusiva do Tank-G e incluí-los na chave 'list' dentro de 'equipment' (ex: "<strong class='text-white'>AMP:</strong> NOME DO AMP"). Sempre que o M-Vave Tank-G for incluído na signal chain, você DEVE preencher obrigatoriamente o objeto tank_g_settings com os parâmetros ideais extraídos do manual para o timbre solicitado.
 REGRA CRÍTICA 3: O campo pickup (Braço, Ponte ou Ambos) é OBRIGATÓRIO.
 
 REGRA CRÍTICA 4 (A Regra de Ouro do Cabeamento Físico e Conexão): O sinal de áudio sai da Guitarra e ENTRA EXCLUSIVAMENTE no "Input" do pedal do Slot 1. Sob nenhuma hipótese conecte a guitarra na "saída" de um pedal. O fluxo é sempre Input -> Output para o próximo pedal. 
@@ -232,6 +242,28 @@ No entanto, aja com VISÃO HOLÍSTICA: assuma que TODOS os equipamentos do inven
               const formattedComment = sugestoes.split('\n').map(line => `  ${line}`).join('\n');
               const escapeYml = (str) => (str || '').replace(/"/g, '\\"');
               
+              let tankGYaml = '';
+              if (fm.tank_g_settings) {
+                const ts = fm.tank_g_settings;
+                tankGYaml = `tank_g_settings:
+  amp_cab:
+    amp_type: "${escapeYml(ts.amp_cab?.amp_type)}"
+    ir_cab: "${escapeYml(ts.amp_cab?.ir_cab)}"
+  eq:
+    bass: ${ts.eq?.bass ?? 0}
+    middle: ${ts.eq?.middle ?? 0}
+    treble: ${ts.eq?.treble ?? 0}
+    gain: ${ts.eq?.gain ?? 0}
+  effects:
+    rvb_decay_type: "${escapeYml(ts.effects?.rvb_decay_type)}"
+    rvb_mix: ${ts.effects?.rvb_mix ?? 0}
+    dly_mix_type: "${escapeYml(ts.effects?.dly_mix_type)}"
+    dly_time: ${ts.effects?.dly_time ?? 0}
+    mod_fx_type: "${escapeYml(ts.effects?.mod_fx_type)}"
+    mod_speed: ${ts.effects?.mod_speed ?? 0}
+  noise_gate: ${ts.noise_gate ?? 0}`;
+              }
+              
               let generatedContent = `---
 title: "${escapeYml(fm.title)}"
 artist: "${escapeYml(fm.artist)}"
@@ -241,6 +273,7 @@ pickup: "${escapeYml(fm.pickup)}"
 pedals: ${pedalsArray.length > 0 ? '\n' + pedalsArray.map(p => `  - "${escapeYml(p)}"`).join('\n') : '[]'}
 amp: "${escapeYml(fm.amp)}"
 ${equipmentYaml.trimEnd()}
+${tankGYaml}
 aiComment: |
 ${formattedComment}
 ---`;
@@ -423,6 +456,16 @@ ${formattedComment}
                             }
                           }
                         }
+                      },
+                      tank_g_settings: {
+                        type: Type.OBJECT,
+                        properties: {
+                          amp_cab: { type: Type.OBJECT, properties: { amp_type: { type: Type.STRING }, ir_cab: { type: Type.STRING } }, required: ["amp_type", "ir_cab"] },
+                          eq: { type: Type.OBJECT, properties: { bass: { type: Type.NUMBER }, middle: { type: Type.NUMBER }, treble: { type: Type.NUMBER }, gain: { type: Type.NUMBER } }, required: ["bass", "middle", "treble", "gain"] },
+                          effects: { type: Type.OBJECT, properties: { rvb_decay_type: { type: Type.STRING }, rvb_mix: { type: Type.NUMBER }, dly_mix_type: { type: Type.STRING }, dly_time: { type: Type.NUMBER }, mod_fx_type: { type: Type.STRING }, mod_speed: { type: Type.NUMBER } }, required: ["rvb_decay_type", "rvb_mix", "dly_mix_type", "dly_time", "mod_fx_type", "mod_speed"] },
+                          noise_gate: { type: Type.NUMBER }
+                        },
+                        required: ["amp_cab", "eq", "effects", "noise_gate"]
                       }
                     }
                   },
@@ -447,7 +490,7 @@ Sua missão é criar o setup de áudio perfeito para a música/artista solicitad
 IMPORTANTE: Você DEVE retornar EXATAMENTE a estrutura JSON requerida no schema. Preencha os slots da "signal_chain" com os pedais adequados. Deixe vazio os slots que não for usar.
 
 REGRA CRÍTICA 1: Os valores de guitar, pickup, amp, equipment e signal_chain DEVEM ser uma cópia EXATA de algum item do inventário geral.
-REGRA CRÍTICA 2: Se a pedaleira "Pedaleira Multi Efeitos M-Vave Tank-G" for selecionada, você OBRIGATORIAMENTE deve usar um AMP e um IR CAB da lista exclusiva do Tank-G e incluí-los na chave 'list' dentro de 'equipment' (ex: "<strong class='text-white'>AMP:</strong> NOME DO AMP").
+REGRA CRÍTICA 2: Se a pedaleira "Pedaleira Multi Efeitos M-Vave Tank-G" for selecionada, você OBRIGATORIAMENTE deve usar um AMP e um IR CAB da lista exclusiva do Tank-G e incluí-los na chave 'list' dentro de 'equipment' (ex: "<strong class='text-white'>AMP:</strong> NOME DO AMP"). Sempre que o M-Vave Tank-G for incluído na signal chain, você DEVE preencher obrigatoriamente o objeto tank_g_settings com os parâmetros ideais extraídos do manual para o timbre solicitado.
 REGRA CRÍTICA 3: O campo pickup (Braço, Ponte ou Ambos) é OBRIGATÓRIO.
 
 REGRA CRÍTICA 4 (A Regra de Ouro do Cabeamento Físico e Conexão): O sinal de áudio sai da Guitarra e ENTRA EXCLUSIVAMENTE no "Input" do pedal do Slot 1. Sob nenhuma hipótese conecte a guitarra na "saída" de um pedal. O fluxo é sempre Input -> Output para o próximo pedal. 
@@ -561,6 +604,28 @@ Sua Tarefa: Você deve reconstruir o array de pedais do zero. Analise TODOS os e
               const formattedComment = sugestoes.split('\n').map(line => `  ${line}`).join('\n');
               const escapeYml = (str) => (str || '').replace(/"/g, '\\"');
               
+              let tankGYaml = '';
+              if (fm.tank_g_settings) {
+                const ts = fm.tank_g_settings;
+                tankGYaml = `tank_g_settings:
+  amp_cab:
+    amp_type: "${escapeYml(ts.amp_cab?.amp_type)}"
+    ir_cab: "${escapeYml(ts.amp_cab?.ir_cab)}"
+  eq:
+    bass: ${ts.eq?.bass ?? 0}
+    middle: ${ts.eq?.middle ?? 0}
+    treble: ${ts.eq?.treble ?? 0}
+    gain: ${ts.eq?.gain ?? 0}
+  effects:
+    rvb_decay_type: "${escapeYml(ts.effects?.rvb_decay_type)}"
+    rvb_mix: ${ts.effects?.rvb_mix ?? 0}
+    dly_mix_type: "${escapeYml(ts.effects?.dly_mix_type)}"
+    dly_time: ${ts.effects?.dly_time ?? 0}
+    mod_fx_type: "${escapeYml(ts.effects?.mod_fx_type)}"
+    mod_speed: ${ts.effects?.mod_speed ?? 0}
+  noise_gate: ${ts.noise_gate ?? 0}`;
+              }
+              
               let generatedContent = `---
 title: "${escapeYml(fm.title)}"
 artist: "${escapeYml(fm.artist)}"
@@ -570,6 +635,7 @@ pickup: "${escapeYml(fm.pickup)}"
 pedals: ${pedalsArray.length > 0 ? '\n' + pedalsArray.map(p => `  - "${escapeYml(p)}"`).join('\n') : '[]'}
 amp: "${escapeYml(fm.amp)}"
 ${equipmentYaml.trimEnd()}
+${tankGYaml}
 aiComment: |
 ${formattedComment}
 ---`;

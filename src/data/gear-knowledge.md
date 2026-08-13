@@ -25,30 +25,30 @@ Esta base de conhecimento contém o resumo técnico de funcionamento e os contro
 - **NOISE GATE:** Threshold do gate.
 - **AMP TYPE:** APENAS o número correspondente (1 a 9).
 - **AMP:** APENAS o nome correspondente da lista abaixo:
-  - 1 - VOX AC30HW Normal
-  - 2 - Fender 65 Twin Reverb
-  - 3 - Bogner Shiva
-  - 4 - Marshall JTM45 OD
-  - 5 - Plexi 100
-  - 6 - Marshal JCM800
-  - 7 - EVH 5150 LEAD
-  - 8 - ENGL Powerball E645/2
-  - 9 - Mesa Boogie Dual Rectifier
+  - 1  VOX AC30HW Normal
+  - 2  Fender 65 Twin Reverb
+  - 3  Bogner Shiva
+  - 4  Marshall JTM45 OD
+  - 5  Plexi 100
+  - 6  Marshal JCM800
+  - 7  EVH 5150 LEAD
+  - 8  ENGL Powerball E645/2
+  - 9  Mesa Boogie Dual Rectifier
 - **AMP GAIN / TREBLE / MIDDLE / BASS / VOLUME:** Ajuste de 0 a 10.
 - **MOD FX:** Escolha entre (1-Chorus, 2-Phaser, 3-Tremolo) e o nível de mistura.
 - **DLY MIX / DLY TIME:** Escolha o tipo (1-Analog, 2-Tape, 3-Dual) e o tempo/mistura.
 - **RVB MIX / RVB DECAY:** Escolha o tipo (1-Room, 2-Spring, 3-Cloud) e o nível/tempo.
 - **IR CAB:** APENAS o número correspondente (0 a 8).
 - **CAB:** APENAS o nome correspondente da lista abaixo:
-  - 0 - IR CAB turn off (None)
-  - 1 - VHT Deliverance (4x12)
-  - 2 - Sperimental (4x12)
-  - 3 - Electrovoice (2x10)
-  - 4 - Mesa Boogie (4x12)
-  - 5 - Fender Champ (1x8)
-  - 6 - Fender Pr Junior (1x10)
-  - 7 - Marshall 1960V30 (4x12)
-  - 8 - Diezel V30 (4x12)
+  - 0  IR CAB turn off (None)
+  - 1  VHT Deliverance (4x12)
+  - 2  Sperimental (4x12)
+  - 3  Electrovoice (2x10)
+  - 4  Mesa Boogie (4x12)
+  - 5  Fender Champ (1x8)
+  - 6  Fender Pr Junior (1x10)
+  - 7  Marshall 1960V30 (4x12)
+  - 8  Diezel V30 (4x12)
 
 ## 5. M-Vave Mini Universe (Reverb Digital)
 **Chaves OBRIGATÓRIAS na 'list':**
