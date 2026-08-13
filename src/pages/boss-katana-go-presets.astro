@@ -1,5 +1,8 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+
+const katanaSetups = await getCollection('katana');
 ---
 
 <Layout title="Boss Katana GO - Presets">
@@ -26,6 +29,34 @@ import Layout from '../layouts/Layout.astro';
 
             <!-- BOTTOM DARK PANEL -->
             <div class="p-5 sm:p-8 space-y-12">
+
+                <!-- Fast Setups Gerados -->
+                {katanaSetups.length > 0 && (
+                <div>
+                    <h2 class="m-0 mb-1 text-accentOrange text-2xl font-bold font-slab uppercase tracking-wider">⚡ Setups Gerados (Fast Katana)</h2>
+                    <p class="text-silver mb-4 font-mono text-sm">Configurações rápidas recomendadas pela IA.</p>
+                    <div class="w-full overflow-x-auto bg-black/40 p-1 rounded-md border border-accentOrange/30 shadow-inner">
+                        <table class="w-full border-collapse text-sm font-mono min-w-max">
+                            <thead>
+                                <tr>
+                                    <th class="border border-black p-3 text-left bg-[#111] text-accentOrange uppercase tracking-wider">Música / Artista</th>
+                                    <th class="border border-black p-3 text-center bg-[#111] text-accentOrange uppercase tracking-wider">Preset</th>
+                                    <th class="border border-black p-3 text-left bg-[#111] text-accentOrange uppercase tracking-wider">Por que usar?</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {katanaSetups.map((setup, i) => (
+                                    <tr class={i % 2 === 0 ? 'bg-black/20' : 'bg-black/5'}>
+                                        <td class="border border-black/40 p-3 text-left text-silver font-bold">{setup.data.title}</td>
+                                        <td class="border border-black/40 p-3 text-center text-mustard font-bold whitespace-nowrap">{setup.data.preset}</td>
+                                        <td class="border border-black/40 p-3 text-left text-[#aaa] text-xs max-w-sm leading-relaxed">{setup.body}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                )}
 
                 <!-- Channel A -->
                 <div>
