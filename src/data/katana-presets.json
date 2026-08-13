@@ -1,0 +1,182 @@
+[
+  {
+    "slot": "1-A",
+    "name": "BROWN LEAD",
+    "category": "High-Gain / Lead",
+    "description": "Distorção signature BOSS (Brown Sound), excelente para solos ricos em harmônicos e riffs modernos."
+  },
+  {
+    "slot": "2-A",
+    "name": "MODERN BROWN",
+    "category": "High-Gain / Lead",
+    "description": "Uma variação do Brown Sound mais pesada e moderna, ideal para drop tuning e metal atual."
+  },
+  {
+    "slot": "3-A",
+    "name": "METAL RIFF",
+    "category": "High-Gain / Lead",
+    "description": "Focado nos médios escavados (scooped), perfeito para thrash metal e riffs rápidos abafados na ponte."
+  },
+  {
+    "slot": "4-A",
+    "name": "STADIUM SOLO",
+    "category": "High-Gain / Lead",
+    "description": "Timbre de solo massivo com delay e reverb integrados, feito para grandes arenas."
+  },
+  {
+    "slot": "5-A",
+    "name": "80s ROCK LEAD",
+    "category": "High-Gain / Lead",
+    "description": "Distorção clássica de Hard Rock dos anos 80, brilhante e cortante."
+  },
+  {
+    "slot": "6-A",
+    "name": "PUNK RIFF",
+    "category": "High-Gain / Lead",
+    "description": "Distorção crua, rápida e enérgica, ideal para acordes cheios (power chords)."
+  },
+  {
+    "slot": "7-A",
+    "name": "Major HARMONY",
+    "category": "High-Gain / Lead",
+    "description": "Efeito de pitch shifter/harmonizer já configurado em escala maior sobre o drive."
+  },
+  {
+    "slot": "8-A",
+    "name": "PHASER LEAD",
+    "category": "High-Gain / Lead",
+    "description": "Som de chumbo (lead) quente com Phaser intenso (estilo Van Halen - Eruption)."
+  },
+  {
+    "slot": "9-A",
+    "name": "RING DRIVE",
+    "category": "High-Gain / Lead",
+    "description": "Distorção experimental misturada com efeito Ring Modulator."
+  },
+  {
+    "slot": "10-A",
+    "name": "FIXED WAH LEAD",
+    "category": "High-Gain / Lead",
+    "description": "Som estridente imitando um pedal de Wah-Wah parado no meio (Sweet Child O Mine intro vibe)."
+  },
+  {
+    "slot": "1-B",
+    "name": "NATURAL DRIVE",
+    "category": "Crunch / Classic",
+    "description": "Overdrive orgânico e dinâmico, responde bem ao ataque da palheta."
+  },
+  {
+    "slot": "2-B",
+    "name": "WARM TONE",
+    "category": "Crunch / Classic",
+    "description": "Drive quente e macio, enfatizando graves e médios, estilo classic blues."
+  },
+  {
+    "slot": "3-B",
+    "name": "STACK CRUNCH",
+    "category": "Crunch / Classic",
+    "description": "Som de parede de amplificadores (Stack 4x12) clássico britânico (Marshall Plexi/JCM800)."
+  },
+  {
+    "slot": "4-B",
+    "name": "CRUNCH TREMOLO",
+    "category": "Crunch / Classic",
+    "description": "Drive sujo de surf rock ou indie com Tremolo pronunciado no fundo."
+  },
+  {
+    "slot": "5-B",
+    "name": "MIDSCOOP LEAD",
+    "category": "Crunch / Classic",
+    "description": "Som solista com médios reduzidos, abrindo espaço para ritmos pesados de classic rock."
+  },
+  {
+    "slot": "6-B",
+    "name": "UK CRUNCH",
+    "category": "Crunch / Classic",
+    "description": "Saturação rasgada estilo Vox AC30 ou Laney, perfeito para britpop e indie rock."
+  },
+  {
+    "slot": "7-B",
+    "name": "AMERICAN CRUNCH",
+    "category": "Crunch / Classic",
+    "description": "Saturação gorda e cheia (Fender Bassman / Tweed), ideal para Southern Rock."
+  },
+  {
+    "slot": "8-B",
+    "name": "BASIC BLUES",
+    "category": "Crunch / Classic",
+    "description": "O clássico 'Tube Screamer em amp limpo', perfeito para SRV e blues em geral."
+  },
+  {
+    "slot": "9-B",
+    "name": "ROTARY OCTAVE",
+    "category": "Crunch / Classic",
+    "description": "Som psicodélico clássico com simulação de caixa Leslie (rotary) + oitavador."
+  },
+  {
+    "slot": "10-B",
+    "name": "FUZZ LEAD",
+    "category": "Crunch / Classic",
+    "description": "Distorção felpuda e massiva estilo Fuzz Face / Big Muff (Hendrix, Smashing Pumpkins)."
+  },
+  {
+    "slot": "1-C",
+    "name": "CLEAN CHORUS",
+    "category": "Clean / Modulations",
+    "description": "Som limpo estéreo com Chorus, lendário timbre de baladas dos anos 80."
+  },
+  {
+    "slot": "2-C",
+    "name": "FAT CLEAN",
+    "category": "Clean / Modulations",
+    "description": "Som limpo quente, encorpado e com bastante grave, ótimo para Jazz e Soul."
+  },
+  {
+    "slot": "3-C",
+    "name": "AMB CLEAN",
+    "category": "Clean / Modulations",
+    "description": "Som limpo envolto em muito Reverb e Delay espaçoso (Ambient/Worship)."
+  },
+  {
+    "slot": "4-C",
+    "name": "RETRO PHASE",
+    "category": "Clean / Modulations",
+    "description": "Limpo funk/disco com Phaser sutil balançando o som."
+  },
+  {
+    "slot": "5-C",
+    "name": "NEO CLEAN",
+    "category": "Clean / Modulations",
+    "description": "Timbre cristalino moderno super definido, estilo Polyphia ou R&B atual."
+  },
+  {
+    "slot": "6-C",
+    "name": "UK CLEAN",
+    "category": "Clean / Modulations",
+    "description": "Som limpo com leve estalo de válvula no ataque, estilo Beatles ou Arctic Monkeys."
+  },
+  {
+    "slot": "7-C",
+    "name": "SLAPBACK ECHO",
+    "category": "Clean / Modulations",
+    "description": "Som clássico Country / Rockabilly (anos 50) com delay curtíssimo (Slapback)."
+  },
+  {
+    "slot": "8-C",
+    "name": "CHILL TREM",
+    "category": "Clean / Modulations",
+    "description": "Timbre melancólico e relaxante com Tremolo hipnótico (estilo Twin Peaks)."
+  },
+  {
+    "slot": "9-C",
+    "name": "T-WAH CLEAN",
+    "category": "Clean / Modulations",
+    "description": "Auto-Wah acionado pela dinâmica da palheta, clássico funk americano."
+  },
+  {
+    "slot": "10-C",
+    "name": "FOR ACOUSTIC",
+    "category": "Clean / Modulations",
+    "description": "Simulador de violão acústico projetado para soar bem com captadores de guitarra."
+  }
+]
