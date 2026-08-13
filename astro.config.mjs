@@ -54,7 +54,7 @@ function localAdminPlugin() {
                   sugestoes: { type: Type.STRING },
                   markdown_frontmatter: {
                     type: Type.OBJECT,
-                    required: ["title", "artist", "targetTone", "guitar", "pickup", "amp", "equipment"],
+                    required: ["title", "artist", "targetTone", "guitar", "pickup", "amp", "equipment", "tank_g_settings", "study_links"],
                     properties: {
                       title: { type: Type.STRING, description: "Short title (max 40 chars)" },
                       artist: { type: Type.STRING },
@@ -443,7 +443,7 @@ ${formattedComment}
                   sugestoes: { type: Type.STRING },
                   markdown_frontmatter: {
                     type: Type.OBJECT,
-                    required: ["title", "artist", "targetTone", "guitar", "pickup", "amp", "equipment"],
+                    required: ["title", "artist", "targetTone", "guitar", "pickup", "amp", "equipment", "tank_g_settings", "study_links"],
                     properties: {
                       title: { type: Type.STRING, description: "Short title (max 40 chars)" },
                       artist: { type: Type.STRING },

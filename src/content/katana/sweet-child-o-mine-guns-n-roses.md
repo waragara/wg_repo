@@ -1,6 +1,6 @@
 ---
 title: "Sweet Child O' Mine - Guns N' Roses"
-preset: "JCM800 80s Metal"
+preset: "10-A - FIXED WAH LEAD"
 ---
 
-O timbre icônico do Slash foi construído com amplificadores Marshall modificados da época. O preset JCM800 80s Metal entrega a distorção rica em médios e o sustain ideal para o famoso riff de abertura e os solos da música.
+Este preset simula perfeitamente o efeito de um pedal de wah-wah estacionado no meio do curso, recriando o timbre anasalado e icônico usado por Slash no riff de introdução da música.
