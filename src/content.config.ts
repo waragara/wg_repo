@@ -30,10 +30,23 @@ const setupsCollection = defineCollection({
       eq: z.object({ bass: z.number(), middle: z.number(), treble: z.number(), gain: z.number() }),
       effects: z.object({ rvb_decay_type: z.string(), rvb_mix: z.number(), dly_mix_type: z.string(), dly_time: z.number(), mod_fx_type: z.string(), mod_speed: z.number() }),
       noise_gate: z.number()
+    }).optional(),
+    study_links: z.object({
+      songsterr: z.string(),
+      cifraclub: z.string()
     }).optional()
+  })
+});
+
+const katanaCollection = defineCollection({
+  loader: glob({ pattern: "[^_]*.md", base: "./src/content/katana" }),
+  schema: z.object({
+    title: z.string(),
+    preset: z.string()
   })
 });
 
 export const collections = {
   'setups': setupsCollection,
+  'katana': katanaCollection,
 };

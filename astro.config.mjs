@@ -97,6 +97,14 @@ function localAdminPlugin() {
                           noise_gate: { type: Type.NUMBER }
                         },
                         required: ["amp_cab", "eq", "effects", "noise_gate"]
+                      },
+                      study_links: {
+                        type: Type.OBJECT,
+                        properties: {
+                          songsterr: { type: Type.STRING },
+                          cifraclub: { type: Type.STRING }
+                        },
+                        required: ["songsterr", "cifraclub"]
                       }
                     }
                   },
@@ -122,6 +130,10 @@ IMPORTANTE: Você DEVE retornar EXATAMENTE a estrutura JSON requerida no schema.
 REGRA CRÍTICA 1: Os valores de guitar, pickup, amp, equipment e signal_chain DEVEM ser uma cópia EXATA de algum item do inventário geral.
 REGRA CRÍTICA 2: Se a pedaleira "Pedaleira Multi Efeitos M-Vave Tank-G" for selecionada, você OBRIGATORIAMENTE deve usar um AMP e um IR CAB da lista exclusiva do Tank-G e incluí-los na chave 'list' dentro de 'equipment' (ex: "<strong class='text-white'>AMP:</strong> NOME DO AMP"). Sempre que o M-Vave Tank-G for incluído na signal chain, você DEVE preencher obrigatoriamente o objeto tank_g_settings com os parâmetros ideais extraídos do manual para o timbre solicitado.
 REGRA CRÍTICA 3: O campo pickup (Braço, Ponte ou Ambos) é OBRIGATÓRIO.
+REGRA CRÍTICA 3.5: Sempre que uma música for solicitada, gere as URLs de busca para estudo. O formato OBRIGATÓRIO deve ser:
+Songsterr: https://www.songsterr.com/?pattern=[NOME DO ARTISTA]+[NOME DA MUSICA] (substitua os espaços por +).
+Cifra Club: https://www.cifraclub.com.br/?q=[NOME DO ARTISTA]+[NOME DA MUSICA] (substitua os espaços por +).
+Coloque essas URLs geradas dentro das respectivas chaves do objeto study_links.
 
 REGRA CRÍTICA 4 (A Regra de Ouro do Cabeamento Físico e Conexão): O sinal de áudio sai da Guitarra e ENTRA EXCLUSIVAMENTE no "Input" do pedal do Slot 1. Sob nenhuma hipótese conecte a guitarra na "saída" de um pedal. O fluxo é sempre Input -> Output para o próximo pedal. 
 Ordem Lógica Obrigatória de Efeitos (Inviolável): Preencha os slots do JSON estritamente nesta arquitetura:
@@ -264,6 +276,13 @@ No entanto, aja com VISÃO HOLÍSTICA: assuma que TODOS os equipamentos do inven
   noise_gate: ${ts.noise_gate ?? 0}`;
               }
               
+              let studyLinksYaml = '';
+              if (fm.study_links) {
+                studyLinksYaml = `study_links:
+  songsterr: "${escapeYml(fm.study_links.songsterr)}"
+  cifraclub: "${escapeYml(fm.study_links.cifraclub)}"`;
+              }
+              
               let generatedContent = `---
 title: "${escapeYml(fm.title)}"
 artist: "${escapeYml(fm.artist)}"
@@ -274,6 +293,7 @@ pedals: ${pedalsArray.length > 0 ? '\n' + pedalsArray.map(p => `  - "${escapeYml
 amp: "${escapeYml(fm.amp)}"
 ${equipmentYaml.trimEnd()}
 ${tankGYaml}
+${studyLinksYaml}
 aiComment: |
 ${formattedComment}
 ---`;
@@ -466,6 +486,14 @@ ${formattedComment}
                           noise_gate: { type: Type.NUMBER }
                         },
                         required: ["amp_cab", "eq", "effects", "noise_gate"]
+                      },
+                      study_links: {
+                        type: Type.OBJECT,
+                        properties: {
+                          songsterr: { type: Type.STRING },
+                          cifraclub: { type: Type.STRING }
+                        },
+                        required: ["songsterr", "cifraclub"]
                       }
                     }
                   },
@@ -492,6 +520,10 @@ IMPORTANTE: Você DEVE retornar EXATAMENTE a estrutura JSON requerida no schema.
 REGRA CRÍTICA 1: Os valores de guitar, pickup, amp, equipment e signal_chain DEVEM ser uma cópia EXATA de algum item do inventário geral.
 REGRA CRÍTICA 2: Se a pedaleira "Pedaleira Multi Efeitos M-Vave Tank-G" for selecionada, você OBRIGATORIAMENTE deve usar um AMP e um IR CAB da lista exclusiva do Tank-G e incluí-los na chave 'list' dentro de 'equipment' (ex: "<strong class='text-white'>AMP:</strong> NOME DO AMP"). Sempre que o M-Vave Tank-G for incluído na signal chain, você DEVE preencher obrigatoriamente o objeto tank_g_settings com os parâmetros ideais extraídos do manual para o timbre solicitado.
 REGRA CRÍTICA 3: O campo pickup (Braço, Ponte ou Ambos) é OBRIGATÓRIO.
+REGRA CRÍTICA 3.5: Sempre que uma música for solicitada, gere as URLs de busca para estudo. O formato OBRIGATÓRIO deve ser:
+Songsterr: https://www.songsterr.com/?pattern=[NOME DO ARTISTA]+[NOME DA MUSICA] (substitua os espaços por +).
+Cifra Club: https://www.cifraclub.com.br/?q=[NOME DO ARTISTA]+[NOME DA MUSICA] (substitua os espaços por +).
+Coloque essas URLs geradas dentro das respectivas chaves do objeto study_links.
 
 REGRA CRÍTICA 4 (A Regra de Ouro do Cabeamento Físico e Conexão): O sinal de áudio sai da Guitarra e ENTRA EXCLUSIVAMENTE no "Input" do pedal do Slot 1. Sob nenhuma hipótese conecte a guitarra na "saída" de um pedal. O fluxo é sempre Input -> Output para o próximo pedal. 
 Ordem Lógica Obrigatória de Efeitos (Inviolável): Preencha os slots do JSON estritamente nesta arquitetura:
@@ -626,6 +658,13 @@ Sua Tarefa: Você deve reconstruir o array de pedais do zero. Analise TODOS os e
   noise_gate: ${ts.noise_gate ?? 0}`;
               }
               
+              let studyLinksYaml = '';
+              if (fm.study_links) {
+                studyLinksYaml = `study_links:
+  songsterr: "${escapeYml(fm.study_links.songsterr)}"
+  cifraclub: "${escapeYml(fm.study_links.cifraclub)}"`;
+              }
+              
               let generatedContent = `---
 title: "${escapeYml(fm.title)}"
 artist: "${escapeYml(fm.artist)}"
@@ -636,6 +675,7 @@ pedals: ${pedalsArray.length > 0 ? '\n' + pedalsArray.map(p => `  - "${escapeYml
 amp: "${escapeYml(fm.amp)}"
 ${equipmentYaml.trimEnd()}
 ${tankGYaml}
+${studyLinksYaml}
 aiComment: |
 ${formattedComment}
 ---`;
