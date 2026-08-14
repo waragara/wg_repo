@@ -2,7 +2,7 @@
 import { defineConfig } from 'astro/config';
 
 import tailwindcss from '@tailwindcss/vite';
-
+import tailwind from '@astrojs/tailwind ';
 import mdx from '@astrojs/mdx';
 
 import fs from 'fs';
@@ -710,7 +710,7 @@ export default defineConfig({
     plugins: [tailwindcss(), localAdminPlugin()]
   },
 
-  integrations: [mdx()],
+  integrations: [mdx()],[tailwindcss()],[tailwind()],
   output: 'static',
   //adapter: vercel()
 });
