@@ -11,7 +11,7 @@ import path from 'path';
 import { GoogleGenAI, Type } from '@google/genai';
 import { loadEnv } from 'vite';
 
-import vercel from '@astrojs/vercel';
+// import vercel from '@astrojs/vercel';
 
 function localAdminPlugin() {
   return {
@@ -712,5 +712,5 @@ export default defineConfig({
 
   integrations: [mdx()],
   output: 'server',
-  adapter: vercel()
+  //adapter: vercel()
 });
