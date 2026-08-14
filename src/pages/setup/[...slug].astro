@@ -16,7 +16,7 @@ const { setup } = Astro.props;
 
 <Layout title={`${setup.data.title} - Tussi RigCraft Labs`}>
     <div class="mb-6">
-        <a href={`${import.meta.env.BASE_URL}/`} class="inline-block bg-[#111] text-silver border border-silver/30 py-2 px-6 rounded-md text-sm font-bold no-underline transition-all duration-200 hover:bg-mustard hover:text-black uppercase tracking-wide">
+        <a href={`${import.meta.env.BASE_URL === '/' ? '' : import.meta.env.BASE_URL}/`} class="inline-block bg-[#111] text-silver border border-silver/30 py-2 px-6 rounded-md text-sm font-bold no-underline transition-all duration-200 hover:bg-mustard hover:text-black uppercase tracking-wide">
             ⬅ Voltar para o Início
         </a>
     </div>

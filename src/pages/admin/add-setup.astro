@@ -6,7 +6,7 @@ import gearList from '../../data/gear.json';
 <Layout title="Admin: Gerador de Setup IA">
     <div class="max-w-4xl mx-auto">
         <div class="mb-8">
-            <a href={`${import.meta.env.BASE_URL}/`} class="inline-block bg-mustard text-tolexDark py-2 px-6 rounded-md text-sm font-bold no-underline transition-all duration-200 hover:bg-mustardDark hover:shadow-[0_0_15px_rgba(234,179,8,0.5)] border-b-4 border-mustardDark active:translate-y-1 active:border-b-0 uppercase tracking-wide">
+            <a href={`${import.meta.env.BASE_URL === '/' ? '' : import.meta.env.BASE_URL}/`} class="inline-block bg-mustard text-tolexDark py-2 px-6 rounded-md text-sm font-bold no-underline transition-all duration-200 hover:bg-mustardDark hover:shadow-[0_0_15px_rgba(234,179,8,0.5)] border-b-4 border-mustardDark active:translate-y-1 active:border-b-0 uppercase tracking-wide">
                 ⬅ Voltar para a Home
             </a>
         </div>
@@ -170,7 +170,7 @@ import gearList from '../../data/gear.json';
                 if (statusMsgGen) statusMsgGen.classList.add('hidden');
                 
                 try {
-                    const response = await fetch(`${import.meta.env.BASE_URL}/api/generate-setup`, {
+                    const response = await fetch(`${import.meta.env.BASE_URL === '/' ? '' : import.meta.env.BASE_URL}/api/generate-setup`, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ prompt, selectedGear })
@@ -241,7 +241,7 @@ import gearList from '../../data/gear.json';
                 }
                 
                 try {
-                    const response = await fetch(`${import.meta.env.BASE_URL}/api/save-file`, {
+                    const response = await fetch(`${import.meta.env.BASE_URL === '/' ? '' : import.meta.env.BASE_URL}/api/save-file`, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ filename, content })

@@ -16,11 +16,11 @@ if (fs.existsSync(setupsDir)) {
 <Layout title="Admin: Painel de Controle">
     <div class="max-w-4xl mx-auto">
         <div class="flex flex-col sm:flex-row justify-between items-center gap-4 mb-8">
-            <a href={`${import.meta.env.BASE_URL}/`} class="inline-block bg-[#111] text-silver py-2 px-6 rounded-md text-sm font-bold no-underline hover:bg-[#222] border-b-4 border-black active:translate-y-1 active:border-b-0 uppercase tracking-wide">
+            <a href={`${import.meta.env.BASE_URL === '/' ? '' : import.meta.env.BASE_URL}/`} class="inline-block bg-[#111] text-silver py-2 px-6 rounded-md text-sm font-bold no-underline hover:bg-[#222] border-b-4 border-black active:translate-y-1 active:border-b-0 uppercase tracking-wide">
                 ⬅ Voltar para o Site
             </a>
             
-            <a href={`${import.meta.env.BASE_URL}/admin/add-setup`} class="inline-block bg-mustard text-tolexDark py-2 px-6 rounded-md text-sm font-bold no-underline transition-all duration-200 hover:bg-mustardDark hover:shadow-[0_0_15px_rgba(234,179,8,0.5)] border-b-4 border-mustardDark active:translate-y-1 active:border-b-0 uppercase tracking-wide flex items-center gap-2">
+            <a href={`${import.meta.env.BASE_URL === '/' ? '' : import.meta.env.BASE_URL}/admin/add-setup`} class="inline-block bg-mustard text-tolexDark py-2 px-6 rounded-md text-sm font-bold no-underline transition-all duration-200 hover:bg-mustardDark hover:shadow-[0_0_15px_rgba(234,179,8,0.5)] border-b-4 border-mustardDark active:translate-y-1 active:border-b-0 uppercase tracking-wide flex items-center gap-2">
                 <span>➕ Criar Novo Setup (IA)</span>
             </a>
         </div>
@@ -52,7 +52,7 @@ if (fs.existsSync(setupsDir)) {
                                     <button class="reload-setup-btn inline-block bg-[#111] text-accentOrange border border-accentOrange/30 py-2 px-4 rounded text-xs font-bold uppercase hover:bg-accentOrange hover:text-[#111] transition-colors flex items-center justify-center min-w-[120px]" data-file={file}>
                                         <span class="btn-text">Reload 🔄</span>
                                     </button>
-                                    <a href={`${import.meta.env.BASE_URL}/admin/edit?file=${file}`} class="inline-block bg-tolexDark text-mustard border border-mustard/30 py-2 px-5 rounded text-xs font-bold uppercase hover:bg-mustard hover:text-black transition-colors">
+                                    <a href={`${import.meta.env.BASE_URL === '/' ? '' : import.meta.env.BASE_URL}/admin/edit?file=${file}`} class="inline-block bg-tolexDark text-mustard border border-mustard/30 py-2 px-5 rounded text-xs font-bold uppercase hover:bg-mustard hover:text-black transition-colors">
                                         Editar ✏️
                                     </a>
                                 </td>
@@ -89,7 +89,7 @@ if (fs.existsSync(setupsDir)) {
                 target.classList.add('opacity-70', 'cursor-not-allowed');
 
                 try {
-                    const response = await fetch(`${import.meta.env.BASE_URL}/api/reload-setup`, {
+                    const response = await fetch(`${import.meta.env.BASE_URL === '/' ? '' : import.meta.env.BASE_URL}/api/reload-setup`, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'

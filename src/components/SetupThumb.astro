@@ -10,7 +10,7 @@ export interface Props {
 const { slug, title, artist, guitar, pedalsCount } = Astro.props;
 ---
 
-<a href={`${import.meta.env.BASE_URL}/setup/${slug}`} class="setup-thumb block relative bg-tolexDark border-4 border-silver rounded-xl shadow-[0_8px_15px_rgba(0,0,0,0.8)] overflow-hidden transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_15px_25px_rgba(0,0,0,0.9)] hover:border-mustard group cursor-pointer no-underline text-silver" data-title={title.toLowerCase()} data-artist={artist.toLowerCase()}>
+<a href={`${import.meta.env.BASE_URL === '/' ? '' : import.meta.env.BASE_URL}/setup/${slug}`} class="setup-thumb block relative bg-tolexDark border-4 border-silver rounded-xl shadow-[0_8px_15px_rgba(0,0,0,0.8)] overflow-hidden transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_15px_25px_rgba(0,0,0,0.9)] hover:border-mustard group cursor-pointer no-underline text-silver" data-title={title.toLowerCase()} data-artist={artist.toLowerCase()}>
     
     <!-- Screws -->
     <div class="absolute top-1.5 left-1.5 w-2 h-2 rounded-full bg-black/80 shadow-inner"></div>
