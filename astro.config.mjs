@@ -711,6 +711,6 @@ export default defineConfig({
   },
 
   integrations: [mdx()],
-  output: 'server',
+  output: 'static',
   //adapter: vercel()
 });
