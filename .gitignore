@@ -25,3 +25,4 @@ pnpm-debug.log*
 
 # GitHub Tokens
 src/github_tokens
+.vercel

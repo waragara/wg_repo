@@ -11,6 +11,8 @@ import path from 'path';
 import { GoogleGenAI, Type } from '@google/genai';
 import { loadEnv } from 'vite';
 
+import vercel from '@astrojs/vercel';
+
 function localAdminPlugin() {
   return {
     name: 'local-admin-api',
@@ -703,8 +705,12 @@ ${formattedComment}
 export default defineConfig({
   site: 'https://waragara.github.io',
   base: '/wg_repo',
+
   vite: {
     plugins: [tailwindcss(), localAdminPlugin()]
   },
-  integrations: [mdx()]
+
+  integrations: [mdx()],
+  output: 'server',
+  adapter: vercel()
 });
