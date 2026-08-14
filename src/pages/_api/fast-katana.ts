@@ -3,7 +3,7 @@ import fs from 'fs';
 import path from 'path';
 import { GoogleGenAI, Type } from '@google/genai';
 
-export const prerender = false;
+
 
 export const POST: APIRoute = async ({ request }) => {
     try {
