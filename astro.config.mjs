@@ -703,7 +703,7 @@ ${formattedComment}
 // https://astro.build/config
 export default defineConfig({
   site: 'https://waragara.github.io',
-  base: '/wg_repo',
+  // base: '/wg_repo',
 
   vite: {
     plugins: [tailwindcss(), localAdminPlugin()]
