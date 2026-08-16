@@ -46,7 +46,7 @@ ${JSON.stringify(presets, null, 2)}
 
         const ai = new GoogleGenAI({ apiKey });
         const aiResponse = await ai.models.generateContent({
-            model: 'gemini-3.5-flash',
+            model: 'gemini-2.0-flash',
             contents: `Recomende um preset para a música: ${song}`,
             config: { 
                 systemInstruction: systemPrompt,
