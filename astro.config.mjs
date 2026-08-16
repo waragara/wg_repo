@@ -16,6 +16,93 @@ function localAdminPlugin() {
   return {
     name: 'local-admin-api',
     configureServer(server) {
+      // Rota: Fast Katana IA
+      server.middlewares.use('/api/fast-katana', (req, res, next) => {
+        if (req.method === 'POST') {
+          let body = '';
+          req.on('data', chunk => body += chunk.toString());
+          req.on('end', async () => {
+            try {
+              const { song } = JSON.parse(body);
+              if (!song) {
+                res.statusCode = 400;
+                res.setHeader('Content-Type', 'application/json');
+                res.end(JSON.stringify({ error: 'Música não fornecida' }));
+                return;
+              }
+              const env = loadEnv(server.config.mode, process.cwd(), '');
+              const apiKey = env.GEMINI_API_KEY || process.env.GEMINI_API_KEY;
+              if (!apiKey) {
+                res.statusCode = 500;
+                res.setHeader('Content-Type', 'application/json');
+                res.end(JSON.stringify({ error: 'Chave da API do Gemini ausente' }));
+                return;
+              }
+              const presetsPath = path.join(process.cwd(), 'src', 'data', 'katana-presets.json');
+              let presets = [];
+              if (fs.existsSync(presetsPath)) {
+                  presets = JSON.parse(fs.readFileSync(presetsPath, 'utf-8'));
+              }
+              const systemPrompt = `Você é um especialista em timbres. O usuário quer tocar a música solicitada usando apenas um Boss Katana:GO. \nAnalise a lista de presets fornecida e escolha O ÚNICO preset que melhor se encaixa no timbre original da música. \nRetorne um JSON com: song (nome da música e artista), recommended_preset (formato "Slot - Nome", ex: "1-A BROWN LEAD") e explanation (uma breve explicação de 1 ou 2 frases do motivo da escolha).\n\nLISTA DE PRESETS DISPONÍVEIS:\n${JSON.stringify(presets, null, 2)}`;
+              
+              const responseSchema = {
+                  type: Type.OBJECT,
+                  properties: {
+                      song: { type: Type.STRING },
+                      recommended_preset: { type: Type.STRING },
+                      explanation: { type: Type.STRING }
+                  },
+                  required: ["song", "recommended_preset", "explanation"]
+              };
+              const ai = new GoogleGenAI({ apiKey });
+              const aiResponse = await ai.models.generateContent({
+                  model: 'gemini-2.0-flash',
+                  contents: `Recomende um preset para a música: ${song}`,
+                  config: { 
+                      systemInstruction: systemPrompt,
+                      responseMimeType: "application/json",
+                      responseSchema: responseSchema,
+                      temperature: 0.4
+                  }
+              });
+              const textResponse = aiResponse.text;
+              if (!textResponse) {
+                  res.statusCode = 500;
+                  res.setHeader('Content-Type', 'application/json');
+                  res.end(JSON.stringify({ error: 'Sem resposta da IA' }));
+                  return;
+              }
+              const parsed = JSON.parse(textResponse);
+              const slug = parsed.song.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+              const katanaDir = path.join(process.cwd(), 'src', 'content', 'katana');
+              if (!fs.existsSync(katanaDir)) {
+                  fs.mkdirSync(katanaDir, { recursive: true });
+              }
+              const escapeYml = (str) => (str || '').replace(/"/g, '\\\"');
+              const markdownContent = `---
+title: "${escapeYml(parsed.song)}"
+preset: "${escapeYml(parsed.recommended_preset)}"
+---
+
+${parsed.explanation}
+`;
+              const filePath = path.join(katanaDir, `${slug}.md`);
+              fs.writeFileSync(filePath, markdownContent, 'utf-8');
+              res.statusCode = 200;
+              res.setHeader('Content-Type', 'application/json');
+              res.end(JSON.stringify({ success: true, data: parsed }));
+            } catch (error) {
+              console.error('Error generating fast katana setup:', error);
+              res.statusCode = 500;
+              res.setHeader('Content-Type', 'application/json');
+              res.end(JSON.stringify({ error: error.message || 'Erro interno do servidor' }));
+            }
+          });
+        } else {
+          next();
+        }
+      });
+
       // Rota 1: Gerar Setup com IA (Não salva no disco)
       server.middlewares.use('/api/generate-setup', (req, res, next) => {
         if (req.method === 'POST') {
