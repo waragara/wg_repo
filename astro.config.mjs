@@ -56,7 +56,7 @@ function localAdminPlugin() {
               };
               const ai = new GoogleGenAI({ apiKey });
               const aiResponse = await ai.models.generateContent({
-                  model: 'gemini-2.0-flash',
+                  model: 'gemini-2.5-flash',
                   contents: `Recomende um preset para a música: ${song}`,
                   config: { 
                       systemInstruction: systemPrompt,
@@ -265,7 +265,7 @@ No entanto, aja com VISÃO HOLÍSTICA: assuma que TODOS os equipamentos do inven
 
               const ai = new GoogleGenAI({ apiKey });
               const aiResponse = await ai.models.generateContent({
-                model: 'gemini-2.0-flash',
+                model: 'gemini-2.5-flash',
                 contents: prompt,
                 config: { 
                   systemInstruction: systemPrompt,
@@ -646,7 +646,7 @@ Sua Tarefa: Você deve reconstruir o array de pedais do zero. Analise TODOS os e
               const prompt = `Refaça o setup ideal para a música ${title} do artista ${artist} usando APENAS os equipamentos da lista.`;
               
               const aiResponse = await ai.models.generateContent({
-                model: 'gemini-2.0-flash',
+                model: 'gemini-2.5-flash',
                 contents: prompt,
                 config: { 
                   systemInstruction: systemPrompt,
