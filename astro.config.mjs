@@ -789,6 +789,7 @@ ${formattedComment}
 
 // https://astro.build/config
 export default defineConfig({
+  server: { host: true },
   site: 'https://waragara.github.io',
   ...(process.env.VERCEL ? {} : { base: '/wg_repo' }),
 
