@@ -66,3 +66,10 @@ Esta base de conhecimento contém o resumo técnico de funcionamento e os contro
 - **DRUM TYPE:** Escolha um preset de bateria (ex: d01 a d30).
 - **BPM:** Ritmo do Tap Tempo (40 a 240).
 - **DRUM VOL / LOOP VOL:** Volume (0 a 10).
+
+## 7. m:fuzz - Caline - Classic Fuzz
+**Chaves OBRIGATÓRIAS na 'list':**
+- **VOLUME:** Controla o volume geral (0 a 10).
+- **SUSTAIN:** Controla a quantidade de saturação fuzz (0 a 10).
+- **TONE:** Ajusta as frequências/brilho (0 a 10).
+**Descrição:** The Caline CP-504 M:Fuzz is a fuzz effect pedal offering a classic violin-like saturated fuzz tone. Massive wall of fuzz with beautiful string separation for chords, and rich harmonically complex distortion for solos.
